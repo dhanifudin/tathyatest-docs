@@ -1,0 +1,51 @@
+\chapter{TINJAUAN PUSTAKA}\label{bab-ii-tinjauan-pustaka}
+
+\section{Dasar Teori}\label{dasar-teori}
+
+Pengujian perangkat lunak adalah aktivitas yang digunakan untuk memverifikasi dan memvalidasi fungsionalitas aplikasi perangkat lunak, memastikan bahwa aplikasi berfungsi sesuai dengan spesifikasi yang telah ditentukan dan bebas dari kesalahan. Pengujian perangkat lunak bertujuan untuk memastikan bahwa sistem dapat beroperasi dengan baik dalam berbagai kondisi dan memenuhi kebutuhan pengguna. Dalam pengujian aplikasi berbasis web, proses pengujian biasanya dilakukan dengan menguji berbagai fungsionalitas.
+
+Automation testing telah menjadi metode yang sangat penting dalam pengujian perangkat lunak modern. Seperti yang dijelaskan oleh \cite{shaukat2015} dalam artikel \textit{The Role of Automation in Software Testing}, pengujian otomatis mengurangi waktu yang dibutuhkan untuk menjalankan tes berulang dan meningkatkan akurasi pengujian. Dalam konteks aplikasi berbasis web, alat seperti Selenium, Cypress, dan Playwright sering digunakan untuk mengotomatisasi pengujian aplikasi secara end-to-end, memastikan bahwa fungsionalitas aplikasi berjalan dengan baik.
+
+Test case generation adalah inti dari automation testing, yang mengharuskan alat pengujian untuk dapat menghasilkan langkah-langkah pengujian yang relevan berdasarkan elemen-elemen aplikasi. Penelitian oleh \cite{kassie2020} menunjukkan bahwa otomatisasi pembuatan test case dapat meningkatkan kualitas pengujian dengan meningkatkan cakupan pengujian dan memastikan bahwa lebih banyak skenario pengujian diuji, termasuk pengujian yang mungkin terlewatkan dalam pengujian manual. Pendekatan ini akan membantu memastikan kualitas aplikasi yang lebih baik.
+
+Crawling URL adalah proses untuk menjelajahi halaman aplikasi berbasis web dengan tujuan untuk mengakses dan mengumpulkan data yang relevan. \cite{mishra2020} dalam penelitian mereka \textit{A Survey of Web Crawling and Scraping Techniques} menjelaskan bahwa crawling digunakan untuk mengambil informasi dari halaman web secara otomatis. Dengan crawling, sistem dapat menavigasi aplikasi berbasis web dan mengidentifikasi elemen-elemen penting yang akan diuji, seperti formulir input, tombol, dan tabel data.
+
+Setelah melakukan crawling halaman web, langkah berikutnya adalah ekstraksi elemen HTML yang ditemukan pada halaman-halaman yang telah di-crawl. Ekstraksi elemen HTML adalah langkah krusial untuk memperoleh elemen-elemen seperti formulir input, tombol, tabel, dan tautan yang digunakan untuk menguji fungsionalitas aplikasi. Goquery, pustaka Go yang digunakan dalam penelitian ini, memungkinkan ekstraksi elemen HTML dengan menggunakan selektor CSS, mirip dengan jQuery, dan memberikan cara yang efisien untuk mengekstrak elemen-elemen dari halaman web.
+
+Playwright adalah alat pengujian otomatis berbasis JavaScript yang digunakan untuk menguji aplikasi web secara end-to-end. \cite{othayoth2022} mengungkapkan bahwa Playwright memungkinkan pengujian dilakukan pada berbagai browser, termasuk Chrome, Firefox, dan WebKit. Dengan Playwright, aplikasi berbasis web dapat diuji dengan cepat, memastikan bahwa semua fungsionalitas aplikasi berfungsi dengan baik. Dalam konteks penelitian ini, Playwright akan digunakan untuk mengeksekusi test case otomatis yang dihasilkan.
+
+\section{State of the Art}\label{state-of-the-art}
+
+Pengujian perangkat lunak, terutama pada aplikasi berbasis web, adalah aspek penting dalam memastikan kualitas dan keandalan perangkat lunak. Seiring dengan meningkatnya kompleksitas aplikasi, otomatisasi pengujian menjadi semakin penting. Automation testing memungkinkan pengujian dilakukan secara berulang tanpa memerlukan intervensi manual, sehingga meningkatkan efisiensi, mengurangi kemungkinan kesalahan, dan memastikan pengujian yang lebih konsisten. Penelitian mengenai otomatisasi pengujian perangkat lunak telah berkembang pesat dalam beberapa tahun terakhir.
+
+Test case generation adalah inti dari automation testing, yang mengharuskan alat pengujian untuk dapat menghasilkan langkah-langkah pengujian yang relevan berdasarkan elemen-elemen aplikasi. Penelitian oleh \cite{kassie2020} menunjukkan bahwa otomatisasi pembuatan test case dapat meningkatkan kualitas pengujian dengan meningkatkan cakupan pengujian dan memastikan bahwa lebih banyak skenario pengujian diuji, termasuk pengujian yang mungkin terlewatkan dalam pengujian manual. Salah satu pendekatan yang efektif adalah dengan menggunakan crawling dan ekstraksi elemen HTML.
+
+Setelah URL di-crawl, langkah berikutnya adalah ekstraksi elemen HTML. Goquery, yang digunakan dalam penelitian ini, adalah pustaka Go yang memungkinkan ekstraksi elemen HTML dengan menggunakan selektor CSS, mirip dengan jQuery, dan memberikan cara yang efisien untuk mengekstrak elemen-elemen penting dari halaman aplikasi berbasis web. \cite{deng2019} dalam artikel mereka \textit{HTML Parsing and Extraction Techniques for Web Data Mining} menjelaskan berbagai teknik ekstraksi elemen HTML, termasuk penggunaan selektor CSS dan XPath.
+
+Playwright adalah alat pengujian otomatis berbasis JavaScript yang dirancang untuk menguji aplikasi web secara end-to-end. \cite{othayoth2022} dalam penelitian mereka \textit{Modern Web Automation with Playwright} menjelaskan fitur-fitur Playwright yang membuatnya lebih unggul dibandingkan alat pengujian lainnya seperti Selenium. Salah satu keunggulan utama Playwright adalah dukungannya untuk cross-browser testing dan real-time testing, memungkinkan pengujian aplikasi dilakukan secara lebih cepat dan dengan akurasi yang lebih tinggi.
+
+Secara keseluruhan, penelitian-penelitian sebelumnya menunjukkan bahwa penggunaan alat seperti Selenium, Cypress, dan Playwright sangat efektif dalam meningkatkan efisiensi dan efektivitas pengujian perangkat lunak. TathyaTest dirancang untuk menggabungkan teknik-teknik ini, dengan fokus pada crawling URL dan ekstraksi elemen HTML untuk menghasilkan test case otomatis. Pendekatan ini tidak hanya meningkatkan cakupan pengujian tetapi juga memastikan bahwa aplikasi diuji secara menyeluruh dengan memanfaatkan dataset internal yang tersedia.
+
+\section{Roadmap Penelitian}\label{roadmap-penelitian}
+
+Pengembangan penelitian TathyaTest dirancang secara berkelanjutan selama lima tahun untuk memperkuat kontribusi keilmuan di bidang pengujian perangkat lunak otomatis, khususnya pada aplikasi berbasis web. Roadmap ini menggambarkan arah riset strategis yang saling berkelanjutan dan berjenjang sebagai berikut:
+
+\textbf{2025 -- Pondasi Testing: Pengembangan TathyaTest untuk Test Case Otomatis}
+
+Pada tahun pertama, penelitian ini berfokus pada pembuatan TathyaTest sebagai alat test case generator otomatis yang menggunakan dataset internal. Proyek ini bertujuan untuk mengembangkan pondasi sistem pengujian otomatis yang dapat mengidentifikasi elemen-elemen aplikasi berbasis web dan menghasilkan test case yang relevan. Penelitian ini akan mengoptimalkan proses crawling URL dan ekstraksi elemen HTML menggunakan Golang dan pustaka terkait seperti Colly dan Goquery.
+
+\textbf{2026 -- Pengembangan TathyaTest dan Penyempurnaan Cakupan Pengujian}
+
+Tahun kedua akan berfokus pada pengembangan lebih lanjut dari TathyaTest, dengan tujuan untuk memperluas cakupan pengujian yang dihasilkan oleh alat ini. Penelitian ini akan mengintegrasikan Playwright untuk pengujian lintas browser dan memperkenalkan kemampuan pengujian elemen dinamis seperti input form yang bergantung pada JavaScript, serta pengujian modul-modul interaktif dalam aplikasi berbasis web.
+
+\textbf{2027 -- Integrasi dengan Alat Pengujian Lain dan Analitik Pengujian}
+
+Pada tahun ketiga, fokus penelitian akan beralih ke integrasi TathyaTest dengan alat pengujian lainnya, serta pengembangan fitur analitik pengujian. Penelitian ini akan mengeksplorasi integrasi dengan sistem CI/CD (Continuous Integration/Continuous Deployment) untuk mempercepat pengujian berkelanjutan. Fitur analitik pengujian akan membantu mengukur efektivitas test case yang dihasilkan dan memetakan cakupan pengujian.
+
+\textbf{2028 -- Penerapan TathyaTest dalam Lingkungan Akademik dan Industri}
+
+Pada tahun keempat, penelitian ini akan fokus pada penerapan TathyaTest pada aplikasi berbasis web dalam lingkungan akademik yang lebih luas dan industri. Pada tahap ini, TathyaTest akan diuji di lebih banyak aplikasi berbasis web yang digunakan oleh institusi pendidikan dan perusahaan perangkat lunak. Pengujian ini akan memberikan umpan balik untuk meningkatkan fleksibilitas dan kemudahan penggunaan TathyaTest di berbagai konteks.
+
+\textbf{2029 -- Integrasi AI untuk Optimalisasi Test Case dan Pengujian Berkelanjutan}
+
+Pada tahun kelima, fokus penelitian akan melibatkan pengintegrasian kecerdasan buatan (AI) dan machine learning (ML) dalam TathyaTest. Tujuan utama adalah untuk meningkatkan optimalisasi test case generation, dengan menggunakan teknik-teknik AI untuk menganalisis pola dan karakteristik aplikasi. Penelitian ini juga akan memperkenalkan fitur untuk pengujian berkelanjutan melalui integrasi dengan sistem CI/CD, yang memungkinkan TathyaTest untuk secara otomatis menyesuaikan dan memperbarui test case berdasarkan perubahan aplikasi.
