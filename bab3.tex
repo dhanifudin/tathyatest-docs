@@ -2,7 +2,7 @@
 
 \section{Metode Penelitian}\label{metode-penelitian}
 
-Penelitian ini menggunakan metode Prototyping untuk mengembangkan TathyaTest: Test Case Generator Otomatis. Pendekatan Prototyping dipilih karena sifatnya yang iteratif, memungkinkan pengujian dan perbaikan berkelanjutan berdasarkan umpan balik pengguna. Pada tahap awal, prototipe TathyaTest akan dibuat dengan fitur dasar yang mengarah pada pengujian CRUD sederhana (Create, Read, Update, Delete) untuk menguji kemampuan dasar sistem dalam menghasilkan test case otomatis, sebelum akhirnya beralih ke aplikasi yang lebih kompleks.
+Penelitian ini menggunakan metode Prototyping untuk mengembangkan TathyaTest: Test Case Generator Otomatis. Pendekatan Prototyping dipilih karena sifatnya yang iteratif, memungkinkan pengujian dan perbaikan berkelanjutan berdasarkan umpan balik pengguna \parencite{garousi2018}. Pada tahap awal, prototipe TathyaTest akan dibuat dengan fitur dasar yang mengarah pada pengujian CRUD sederhana (Create, Read, Update, Delete) untuk menguji kemampuan dasar sistem dalam menghasilkan test case otomatis, sebelum akhirnya beralih ke aplikasi yang lebih kompleks.
 
 Metode Prototyping memungkinkan pengembangan alat dilakukan secara bertahap, dengan setiap prototipe diuji dan disempurnakan berdasarkan temuan dari pengujian dan umpan balik pengguna. Dalam konteks TathyaTest, prototipe awal akan difokuskan pada pembuatan test case otomatis yang dapat menguji operasi dasar pada aplikasi CRUD, yang mencakup pengujian fungsionalitas seperti penambahan data, pembacaan data, pembaruan data, dan penghapusan data. Alur lengkap metode prototyping yang digunakan dalam penelitian ini ditunjukkan pada Gambar \ref{fig:prototyping-flow}.
 
@@ -13,35 +13,41 @@ Desain penelitian ini adalah eksperimen dengan pendekatan deskriptif-analitik. P
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
-    node distance=1.5cm,
-    startstop/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=red!30, font=\small},
-    process/.style={rectangle, minimum width=3.5cm, minimum height=1cm, text centered, draw=black, fill=blue!30, font=\small},
-    decision/.style={diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30, font=\small, aspect=2},
-    arrow/.style={thick,->,>=Stealth}
+    scale=0.55,
+    node distance=1.7cm,
+    startstop/.style={rectangle, rounded corners, minimum width=2.8cm, minimum height=0.8cm, text centered, draw=black, line width=1.2pt, fill=red!30, font=\footnotesize},
+    process/.style={rectangle, minimum width=3.2cm, minimum height=0.8cm, text centered, draw=black, line width=1.2pt, fill=blue!30, font=\footnotesize},
+    decision/.style={diamond, minimum width=2.8cm, minimum height=0.8cm, text centered, draw=black, line width=1.2pt, fill=green!30, font=\footnotesize, aspect=2},
+    arrow/.style={line width=1.5pt,->,>=Stealth,draw=black}
 ]
 
 % Nodes
 \node (start) [startstop] {Mulai};
-\node (proto1) [process, below of=start] {Pembuatan Prototipe\\Awal (CRUD)};
-\node (test1) [process, below of=proto1] {Uji Coba dan\\Umpan Balik};
-\node (decision1) [decision, below of=test1, yshift=-0.5cm] {Perlu\\Perbaikan?};
-\node (improve) [process, below of=decision1, yshift=-0.5cm] {Perbaikan dan\\Pengembangan Fitur};
-\node (playwright) [process, below of=improve] {Pengembangan Fitur\\Lintas Browser};
-\node (dataset) [process, below of=playwright] {Pengujian dengan\\Dataset Internal};
-\node (decision2) [decision, below of=dataset, yshift=-0.5cm] {Prototipe\\Memenuhi\\Syarat?};
-\node (stop) [startstop, below of=decision2, yshift=-0.5cm] {Selesai};
+\node (proto1) [process, below of=start] {Pembuatan Prototipe Awal (CRUD)};
+\node (test1) [process, below of=proto1] {Uji Coba dan Umpan Balik};
+\node (decision1) [decision, below of=test1, yshift=-0.5cm] {Perlu Perbaikan?};
+\node (improve) [process, below of=decision1, yshift=-0.5cm] {Perbaikan dan Pengembangan Fitur};
+\node (playwright) [process, below of=improve] {Pengembangan Fitur Lintas Browser};
+\node (testsmall) [process, below of=playwright] {Pengujian Skala Kecil (CRUD Dasar)};
+\node (decision2) [decision, below of=testsmall, yshift=-0.5cm] {Prototipe Dasar OK?};
+\node (dataset) [process, below of=decision2, yshift=-0.5cm] {Pengujian dengan Dataset Internal};
+\node (decision3) [decision, below of=dataset, yshift=-0.5cm] {Prototipe Memenuhi Syarat?};
+\node (stop) [startstop, below of=decision3, yshift=-0.5cm] {Selesai};
 
 % Arrows
 \draw [arrow] (start) -- (proto1);
 \draw [arrow] (proto1) -- (test1);
 \draw [arrow] (test1) -- (decision1);
-\draw [arrow] (decision1) -- node[anchor=east] {Ya} (improve);
-\draw [arrow] (decision1.east) -- ++(2,0) node[anchor=south] {Tidak} |- (playwright);
+\draw [arrow] (decision1) -- node[anchor=east,font=\footnotesize] {Ya} (improve);
+\draw [arrow] (decision1.east) -- ++(3,0) node[anchor=south,font=\footnotesize] {Tidak} |- (playwright);
 \draw [arrow] (improve) -- (playwright);
-\draw [arrow] (playwright) -- (dataset);
-\draw [arrow] (dataset) -- (decision2);
-\draw [arrow] (decision2) -- node[anchor=east] {Ya} (stop);
-\draw [arrow] (decision2.west) -- ++(-2,0) node[anchor=south] {Tidak} |- (proto1);
+\draw [arrow] (playwright) -- (testsmall);
+\draw [arrow] (testsmall) -- (decision2);
+\draw [arrow] (decision2) -- node[anchor=east,font=\footnotesize] {Ya} (dataset);
+\draw [arrow] (decision2.west) -- ++(-2,0) node[anchor=south,font=\footnotesize] {Tidak} |- (improve);
+\draw [arrow] (dataset) -- (decision3);
+\draw [arrow] (decision3) -- node[anchor=east,font=\footnotesize] {Ya} (stop);
+\draw [arrow] (decision3.west) -- ++(-2,0) node[anchor=south,font=\footnotesize] {Tidak} |- (proto1);
 
 \end{tikzpicture}
 \caption{Alur Metode Prototyping dalam Pengembangan TathyaTest}
@@ -50,7 +56,7 @@ Desain penelitian ini adalah eksperimen dengan pendekatan deskriptif-analitik. P
 
 Tahap awal penelitian akan fokus pada pembuatan prototipe TathyaTest yang dapat menghasilkan test case otomatis untuk aplikasi berbasis web dengan operasi CRUD sederhana. CRUD adalah fungsi dasar yang sering digunakan dalam aplikasi web, yang mencakup Create (menambahkan data baru), Read (membaca atau mengambil data), Update (memperbarui data yang ada), dan Delete (menghapus data). Prototipe awal TathyaTest akan diuji dengan aplikasi CRUD sederhana (misalnya, sistem manajemen data atau aplikasi form input) yang dapat mencakup operasi-operasi ini untuk memvalidasi bahwa TathyaTest dapat menghasilkan test case otomatis yang menguji skenario-skenario dasar aplikasi berbasis web.
 
-Setelah prototipe awal dikembangkan, uji coba dilakukan dengan aplikasi berbasis web sederhana yang hanya mencakup operasi CRUD. Pengguna seperti tim QA atau pengembang aplikasi akan memberikan umpan balik mengenai fungsionalitas, kegunaan, dan efektivitas TathyaTest dalam menghasilkan test case otomatis. Umpan balik ini akan digunakan untuk menyempurnakan alat. Berdasarkan hasil uji coba dan umpan balik pengguna, TathyaTest akan disempurnakan untuk mendukung pengujian aplikasi yang lebih kompleks dengan fitur tambahan seperti pengujian untuk form dinamis dan modul interaktif.
+Setelah prototipe awal dikembangkan, uji coba dilakukan dengan aplikasi berbasis web sederhana yang hanya mencakup operasi CRUD. Pengguna seperti tim QA atau pengembang aplikasi akan memberikan umpan balik mengenai fungsionalitas, kegunaan, dan efektivitas TathyaTest dalam menghasilkan test case otomatis. Pendekatan iteratif ini sejalan dengan praktik terbaik dalam pengembangan alat pengujian \parencite{shah2021}. Umpan balik ini akan digunakan untuk menyempurnakan alat. Berdasarkan hasil uji coba dan umpan balik pengguna, TathyaTest akan disempurnakan untuk mendukung pengujian aplikasi yang lebih kompleks dengan fitur tambahan seperti pengujian untuk form dinamis dan modul interaktif.
 
 Setelah pengujian CRUD sederhana selesai, TathyaTest akan diperluas untuk mendukung pengujian lintas browser menggunakan Playwright. Playwright akan digunakan untuk mengeksekusi test case otomatis yang dihasilkan oleh TathyaTest, yang memungkinkan pengujian aplikasi berbasis web di berbagai platform (Chrome, Firefox, dan WebKit). Setelah memastikan bahwa prototipe dasar dapat menangani operasi CRUD dengan baik, TathyaTest akan diuji dengan aplikasi yang lebih kompleks seperti Kompen, Jayanti, dan Whistleblower. Dataset internal aplikasi ini akan digunakan untuk menguji kemampuan TathyaTest dalam menghasilkan test case otomatis yang mencakup fungsionalitas aplikasi yang lebih kompleks.
 
@@ -67,12 +73,13 @@ Pengembangan TathyaTest mengikuti pendekatan Prototyping dengan alur kerja yang 
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
-    node distance=1.3cm,
-    startstop/.style={rectangle, rounded corners, minimum width=3.5cm, minimum height=0.9cm, text centered, draw=black, fill=red!30, font=\small},
-    process/.style={rectangle, minimum width=3.5cm, minimum height=0.9cm, text centered, draw=black, fill=blue!30, font=\small},
-    data/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=0.8cm, text centered, draw=black, fill=yellow!30, font=\small},
-    decision/.style={diamond, minimum width=2.8cm, minimum height=0.9cm, text centered, draw=black, fill=green!30, font=\small, aspect=2},
-    arrow/.style={thick,->,>=Stealth}
+    scale=0.55,
+    node distance=1.5cm,
+    startstop/.style={rectangle, rounded corners, minimum width=3.2cm, minimum height=0.8cm, text centered, draw=black, line width=1pt, fill=red!30, font=\footnotesize},
+    process/.style={rectangle, minimum width=3.2cm, minimum height=0.8cm, text centered, draw=black, line width=1pt, fill=blue!30, font=\footnotesize},
+    data/.style={trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2.8cm, minimum height=0.7cm, text centered, draw=black, line width=1pt, fill=yellow!30, font=\footnotesize},
+    decision/.style={diamond, minimum width=2.5cm, minimum height=0.8cm, text centered, draw=black, line width=1pt, fill=green!30, font=\footnotesize, aspect=2},
+    arrow/.style={line width=1.2pt,->,>=Stealth,draw=black}
 ]
 
 % Nodes
@@ -94,47 +101,71 @@ Pengembangan TathyaTest mengikuti pendekatan Prototyping dengan alur kerja yang 
 \draw [arrow] (dataset) -- (mapping);
 \draw [arrow] (mapping) -- (generate);
 \draw [arrow] (generate) -- (validate);
-\draw [arrow] (validate) -- node[anchor=east] {Ya} (execute);
-\draw [arrow] (validate.east) -- ++(1.5,0) node[anchor=south] {Tidak} |- (mapping);
+\draw [arrow] (validate) -- node[anchor=east,font=\footnotesize] {Ya} (execute);
+\draw [arrow] (validate.east) -- ++(3.5,0) node[anchor=south,font=\footnotesize] {Tidak} |- (mapping);
 \draw [arrow] (execute) -- (result);
 \draw [arrow] (result) -- (stop);
 
 % Annotation
-\node[font=\scriptsize, text width=3cm, right of=crawl, xshift=1.5cm] (note1) {Menggunakan Colly untuk crawling URL};
-\node[font=\scriptsize, text width=3cm, right of=extract, xshift=1.5cm] (note2) {Menggunakan Goquery untuk parsing HTML};
-\node[font=\scriptsize, text width=3cm, right of=execute, xshift=1.5cm] (note3) {Cross-browser testing: Chrome, Firefox, WebKit};
+\node[font=\scriptsize, text width=2.5cm, right of=crawl, xshift=2cm] (note1) {Menggunakan Colly untuk crawling URL};
+\node[font=\scriptsize, text width=2.5cm, right of=extract, xshift=2cm] (note2) {Menggunakan Goquery untuk parsing HTML};
+\node[font=\scriptsize, text width=2.5cm, right of=execute, xshift=2cm] (note3) {Cross-browser testing: Chrome, Firefox, WebKit};
 
-\draw[dashed, gray] (crawl.east) -- (note1.west);
-\draw[dashed, gray] (extract.east) -- (note2.west);
-\draw[dashed, gray] (execute.east) -- (note3.west);
+\draw[dashed, line width=0.8pt, gray] (crawl.east) -- (note1.west);
+\draw[dashed, line width=0.8pt, gray] (extract.east) -- (note2.west);
+\draw[dashed, line width=0.8pt, gray] (execute.east) -- (note3.west);
 
 \end{tikzpicture}
 \caption{Alur Proses TathyaTest dari Input Domain hingga Test Case}
 \label{fig:tathyatest-flow}
 \end{figure}
 
-Proses dimulai dengan input domain atau URL aplikasi web yang akan diuji. TathyaTest kemudian melakukan crawling aplikasi web menggunakan pustaka Colly untuk Golang, yang memungkinkan sistem untuk menjelajahi seluruh halaman aplikasi dan mengidentifikasi struktur navigasi aplikasi. Setelah crawling selesai, TathyaTest melakukan ekstraksi elemen HTML menggunakan Goquery, sebuah pustaka Go yang menyediakan API mirip jQuery untuk parsing dan manipulasi dokumen HTML. Proses ekstraksi ini mengidentifikasi elemen-elemen penting seperti form input, tombol, link, tabel, dan elemen interaktif lainnya.
+Proses dimulai dengan input domain atau URL aplikasi web yang akan diuji. TathyaTest kemudian melakukan crawling aplikasi web menggunakan pustaka Colly untuk Golang, yang memungkinkan sistem untuk menjelajahi seluruh halaman aplikasi dan mengidentifikasi struktur navigasi aplikasi \parencite{mishra2020}. Setelah crawling selesai, TathyaTest melakukan ekstraksi elemen HTML menggunakan Goquery, sebuah pustaka Go yang menyediakan API mirip jQuery untuk parsing dan manipulasi dokumen HTML. Pendekatan ini mengikuti tren modern dalam web data extraction yang memanfaatkan tools dan teknik otomatis untuk ekstraksi data web yang lebih efisien \parencite{deng2019}. Proses ekstraksi ini mengidentifikasi elemen-elemen penting seperti form input, tombol, link, tabel, dan elemen interaktif lainnya.
 
 Dataset internal yang telah disiapkan sebelumnya kemudian diintegrasikan ke dalam proses pemetaan elemen. Dataset ini berisi informasi seperti kredensial pengguna untuk testing, data dummy untuk operasi CRUD, dan skenario penggunaan yang umum terjadi. Dengan memanfaatkan dataset ini, TathyaTest dapat memetakan elemen-elemen HTML yang telah diekstraksi ke dalam test case yang relevan dan kontekstual. Misalnya, form login akan dipetakan dengan kredensial pengguna dari dataset, sedangkan form input data akan dipetakan dengan data dummy yang sesuai.
 
 Proses generate test case menghasilkan kode pengujian dalam format yang dapat dieksekusi oleh Playwright. Setiap test case mencakup langkah-langkah pengujian seperti navigasi ke halaman tertentu, pengisian form, klik tombol, dan verifikasi hasil. Sebelum dieksekusi, test case akan melalui proses validasi untuk memastikan bahwa struktur kode benar dan tidak ada error sintaks. Jika validasi gagal, sistem akan kembali ke tahap pemetaan untuk memperbaiki test case yang bermasalah.
 
-Setelah validasi berhasil, test case dieksekusi menggunakan Playwright yang mendukung pengujian lintas browser pada Chrome, Firefox, dan WebKit. Hasil pengujian dicatat dan dikategorikan sebagai Pass (berhasil) atau Fail (gagal) dengan detail error jika terjadi kegagalan. Hasil pengujian ini kemudian dapat digunakan untuk analisis lebih lanjut dan perbaikan aplikasi yang diuji.
+Setelah validasi berhasil, test case dieksekusi menggunakan Playwright yang mendukung pengujian lintas browser pada Chrome, Firefox, dan WebKit. Pemilihan Playwright didasarkan pada hasil analisis komparatif yang menunjukkan keunggulan tool ini dalam efisiensi eksekusi dan penggunaan resource sistem \parencite{othayoth2022}. Hasil pengujian dicatat dan dikategorikan sebagai Pass (berhasil) atau Fail (gagal) dengan detail error jika terjadi kegagalan. Hasil pengujian ini kemudian dapat digunakan untuk analisis lebih lanjut dan perbaikan aplikasi yang diuji.
 
 \section{Teknik Analisis Data}\label{teknik-analisis-data}
 
-Analisis data dalam penelitian ini dilakukan dengan pendekatan kualitatif dan kuantitatif untuk memperoleh pemahaman menyeluruh mengenai efektivitas TathyaTest. Analisis kualitatif dilakukan melalui pengumpulan umpan balik dari pengguna dan tim QA yang menggunakan TathyaTest. Umpan balik ini mencakup evaluasi terhadap kemudahan penggunaan (usability), efektivitas dalam menghasilkan test case yang relevan, dan kemampuan alat dalam mendeteksi bug atau error pada aplikasi yang diuji. Wawancara dan observasi juga dilakukan untuk memahami pengalaman pengguna dalam menggunakan TathyaTest dan mengidentifikasi area yang perlu diperbaiki.
+Analisis data dalam penelitian ini difokuskan pada pendekatan kuantitatif untuk mengukur efektivitas dan kinerja TathyaTest secara objektif. Beberapa metrik kinerja utama yang digunakan adalah sebagai berikut:
 
-Analisis kuantitatif dilakukan dengan mengukur beberapa metrik kinerja TathyaTest. Pertama, cakupan pengujian (test coverage) diukur dengan membandingkan jumlah elemen aplikasi yang diuji dengan total elemen yang ada pada aplikasi. Metrik ini memberikan indikasi seberapa menyeluruh pengujian yang dilakukan oleh TathyaTest. Kedua, efisiensi waktu diukur dengan membandingkan waktu yang dibutuhkan untuk menghasilkan dan menjalankan test case otomatis dengan waktu yang dibutuhkan untuk pengujian manual. Ketiga, tingkat akurasi diukur dari persentase test case yang berhasil mendeteksi bug atau error yang ada pada aplikasi dibandingkan dengan total test case yang dijalankan.
+\textbf{Cakupan Pengujian (Test Coverage)}
 
-Selain itu, analisis juga dilakukan terhadap jumlah dan jenis bug yang terdeteksi oleh TathyaTest, serta perbandingan dengan hasil pengujian manual untuk validasi. Data-data kuantitatif ini akan dianalisis menggunakan statistik deskriptif dan disajikan dalam bentuk tabel dan grafik untuk memudahkan interpretasi hasil penelitian.
+Cakupan pengujian diukur dengan menghitung persentase elemen aplikasi yang berhasil diuji oleh TathyaTest dibandingkan dengan total elemen yang ada pada aplikasi \parencite{romano2022}. Formula yang digunakan adalah:
+
+\begin{equation}
+\text{Test Coverage} = \frac{\text{Jumlah Elemen Teruji}}{\text{Total Elemen Aplikasi}} \times 100\%
+\end{equation}
+
+Elemen yang dihitung mencakup form input, tombol, link, tabel, dan komponen interaktif lainnya. Target minimal test coverage yang diharapkan adalah 80\% untuk memastikan pengujian yang komprehensif.
+
+\textbf{Tingkat Akurasi (Accuracy Rate)}
+
+Tingkat akurasi mengukur kemampuan TathyaTest dalam mendeteksi bug atau error yang ada pada aplikasi, dihitung dari persentase test case yang berhasil mendeteksi bug dibandingkan dengan total test case yang dijalankan:
+
+\begin{equation}
+\text{Accuracy Rate} = \frac{\text{Test Case yang Mendeteksi Bug}}{\text{Total Test Case}} \times 100\%
+\end{equation}
+
+Target akurasi minimal adalah 85\% untuk memastikan reliabilitas TathyaTest dalam identifikasi masalah.
+
+\textbf{Jumlah dan Kategori Bug}
+
+Analisis dilakukan terhadap jumlah bug yang terdeteksi dan kategorinya (functional bug, UI bug, validation error, dll.). Data ini dikategorikan berdasarkan tingkat severity (critical, major, minor) untuk memahami distribusi jenis masalah yang ditemukan oleh TathyaTest.
+
+\textbf{Analisis Statistik}
+
+Semua data kuantitatif akan dianalisis menggunakan statistik deskriptif (mean, median, standar deviasi) dan disajikan dalam bentuk tabel dan grafik untuk memudahkan interpretasi hasil penelitian. Visualisasi data mencakup diagram batang untuk distribusi kategori bug, grafik persentase untuk test coverage, dan tabel komparasi untuk accuracy rate di berbagai jenis aplikasi yang diuji.
 
 \section{Validitas dan Keandalan}\label{validitas-dan-keandalan}
 
 Untuk memastikan validitas dan keandalan hasil penelitian, beberapa langkah berikut akan diambil. Pertama, pengujian ulang (retest) dilakukan dengan menjalankan test case otomatis yang sama beberapa kali untuk memastikan bahwa TathyaTest menghasilkan hasil yang konsisten dan dapat diandalkan. Konsistensi hasil ini penting untuk memvalidasi bahwa alat tidak menghasilkan false positive atau false negative secara acak.
 
-Kedua, uji perbandingan (comparative testing) dilakukan dengan membandingkan hasil pengujian otomatis yang dihasilkan TathyaTest dengan hasil pengujian manual yang dilakukan oleh tim QA berpengalaman. Perbandingan ini mencakup jumlah bug yang terdeteksi, jenis bug, dan waktu yang dibutuhkan untuk pengujian. Hasil perbandingan ini akan menunjukkan apakah TathyaTest dapat memberikan hasil yang setara atau lebih baik dalam hal cakupan dan efisiensi pengujian.
+Kedua, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidang software testing dan quality assurance untuk mengevaluasi test case yang dihasilkan oleh TathyaTest. Pakar akan menilai relevansi test case, kelengkapan skenario pengujian, dan kualitas kode test yang dihasilkan \parencite{wang2023}. Umpan balik dari pakar ini akan digunakan untuk meningkatkan kualitas TathyaTest.
 
-Ketiga, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidang software testing dan quality assurance untuk mengevaluasi test case yang dihasilkan oleh TathyaTest. Pakar akan menilai relevansi test case, kelengkapan skenario pengujian, dan kualitas kode test yang dihasilkan. Umpan balik dari pakar ini akan digunakan untuk meningkatkan kualitas TathyaTest.
+Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi kompleks dengan dataset internal seperti Kompen, Jayanti, dan Whistleblower. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
 
-Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources dan metode pengumpulan data yang berbeda untuk memvalidasi temuan penelitian. Data dari pengujian otomatis, pengujian manual, umpan balik pengguna, dan evaluasi pakar akan dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian dapat menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.
+Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources untuk memvalidasi temuan penelitian. Data dari pengujian pada berbagai aplikasi, dan hasil pengujian ulang akan dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian dapat menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.

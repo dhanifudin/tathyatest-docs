@@ -15,12 +15,13 @@
 \usepackage{graphicx}
 
 % Package untuk bahasa Indonesia
-\usepackage[indonesian,english]{babel}
+\usepackage[english,indonesian]{babel}
 
 % Package untuk tabel
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{multirow}
+\usepackage[table]{xcolor}
 
 % Package untuk enumerate kustom
 \usepackage{enumitem}
@@ -28,9 +29,31 @@
 % Package untuk csquotes (dibutuhkan oleh biblatex)
 \usepackage{csquotes}
 
-% Package untuk daftar pustaka
-\usepackage[style=authoryear,backend=biber,sorting=nyt,maxcitenames=2,maxbibnames=99]{biblatex}
+% Package untuk daftar pustaka (APA style)
+\usepackage[style=authoryear,backend=biber,maxcitenames=2,maxbibnames=99,uniquelist=false,dashed=false,autolang=other,language=english]{biblatex}
 \addbibresource{references.bib}
+
+% Konfigurasi untuk format APA
+\DeclareNameAlias{sortname}{family-given}
+\DeclareFieldFormat{apacase}{#1}
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+\DeclareFieldFormat[article]{title}{#1}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+
+% Custom strings untuk et al. dan lainnya
+\DefineBibliographyStrings{english}{%
+  andothers = {\em et\addabbrvspace al\adddot},
+  and = {and},
+  in = {In},
+  page = {p\adddot},
+  pages = {pp\adddot}
+}
+
+% Pengaturan tambahan untuk format nama
+\renewcommand*{\finalnamedelim}{\addspace\&\space}
+\AtEveryBibitem{%
+  \clearlist{language}%
+}
 
 % Package untuk hyperlink (optional, untuk navigasi PDF)
 \usepackage[hidelinks]{hyperref}
@@ -45,12 +68,18 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc}
 
+% Package untuk equation
+\usepackage{amsmath}
+
 % Format chapter
 \titleformat{\chapter}[display]
   {\normalfont\fontsize{14}{16}\bfseries\centering}
   {\MakeUppercase{\chaptertitlename} \thechapter}
   {0pt}
   {\MakeUppercase}
+
+% Spacing untuk chapter (before, after)
+\titlespacing*{\chapter}{0pt}{20pt}{20pt}
 
 % Format section
 \titleformat{\section}
@@ -99,11 +128,12 @@
 
 % Ketua Peneliti
 \newcommand{\ketuaNama}{Dian Hanifudin Subhi, S.Kom., M.Kom.}
+\newcommand{\ketuaNIP}{198806102019031018}
 \newcommand{\ketuaNIDN}{0010068807}
 \newcommand{\ketuaJabatan}{Asisten Ahli}
 \newcommand{\ketuaProdi}{Program Studi}
-\newcommand{\ketuaHP}{081234567890}
-\newcommand{\ketuaEmail}{ketua@polinema.ac.id}
+\newcommand{\ketuaHP}{085163736894}
+\newcommand{\ketuaEmail}{dhanifudin@polinema.ac.id}
 
 % Anggota Peneliti 1
 \newcommand{\anggotaSatuNama}{Dika Rizki Yunianto, S.Kom., M.Kom.}
@@ -115,26 +145,26 @@
 
 % Anggota Peneliti 3
 \newcommand{\anggotaTigaNama}{Usman Nurhasan, S.Kom., M.Kom.}
-\newcommand{\anggotaTigaNIDN}{0000000000}
+\newcommand{\anggotaTigaNIDN}{0023098604}
 
 % Mahasiswa yang terlibat
 \newcommand{\jumlahMahasiswa}{4}
 
 % Mahasiswa 1
-\newcommand{\mahasiswaSatuNama}{Nama Mahasiswa 1}
-\newcommand{\mahasiswaSatuNIM}{2341760000}
+\newcommand{\mahasiswaSatuNama}{Mochamad Imam Hanafi}
+\newcommand{\mahasiswaSatuNIM}{2241720151}
 
 % Mahasiswa 2
-\newcommand{\mahasiswaDuaNama}{Nama Mahasiswa 2}
-\newcommand{\mahasiswaDuaNIM}{2341760000}
+\newcommand{\mahasiswaDuaNama}{Regita Delya Putri}
+\newcommand{\mahasiswaDuaNIM}{2241720137}
 
 % Mahasiswa 3
-\newcommand{\mahasiswaTigaNama}{Nama Mahasiswa 3}
-\newcommand{\mahasiswaTigaNIM}{2341760000}
+\newcommand{\mahasiswaTigaNama}{Putri Ayu Aliciawati}
+\newcommand{\mahasiswaTigaNIM}{2241720132}
 
 % Mahasiswa 4
-\newcommand{\mahasiswaEmpatNama}{Nama Mahasiswa 4}
-\newcommand{\mahasiswaEmpatNIM}{2341760000}
+\newcommand{\mahasiswaEmpatNama}{Elis Nurhidayati}
+\newcommand{\mahasiswaEmpatNIM}{2241720035}
 
 % Pejabat Pengesah
 \newcommand{\kajurNama}{Nama Kajur/Kaprodi}
@@ -142,10 +172,16 @@
 \newcommand{\kajurJabatan}{Ketua Program Studi}
 \newcommand{\kajurProdi}{Nama Program Studi}
 
-\newcommand{\ketuaPTMNama}{Nama Ketua P3M}
-\newcommand{\ketuaPTMNIP}{000000000000000000}
+\newcommand{\ketuaPPMNama}{Prof. Dr. Ratna Ika Putri, S.T., M.T.}
+\newcommand{\ketuaPPMNIDN}{197710222000122001}
 
-\newcommand{\tanggalPengesahan}{01 Januari 2026}
+\newcommand{\direkturNama}{Ir. Supriatna Adhisuwignjo, S.T., M.T.}
+\newcommand{\direkturNIDN}{197101081999031001}
+
+\newcommand{\ppkNama}{Tjandra Dewi Wulandari, S.E., M.M.}
+\newcommand{\ppkNIDN}{197509162003122002}
+
+\newcommand{\tanggalPengesahan}{10 Maret 2026}
 
 % ========================================
 % AKHIR KONFIGURASI

@@ -2,7 +2,7 @@
 
 \section{Anggaran Biaya}
 
-Anggaran biaya penelitian ini berjumlah Rp 9.000.000,- yang sudah termasuk pajak 15\% sebesar Rp 1.350.000,-. Sehingga dana yang dapat digunakan untuk kegiatan penelitian adalah Rp 7.650.000,-. Rincian anggaran biaya penelitian ini adalah sebagai berikut:
+Anggaran biaya penelitian ini berjumlah Rp 9.000.000,- dengan rincian anggaran biaya penelitian ini adalah sebagai berikut:
 
 \begin{table}[htbp]
 \centering
@@ -29,71 +29,41 @@ Anggaran biaya penelitian ini berjumlah Rp 9.000.000,- yang sudah termasuk pajak
 \end{tabular}
 \end{table}
 
-\noindent
-\textbf{Keterangan Persentase:}
-\begin{itemize}
-    \item Biaya Sewa Alat: 15\% dari sub total (maksimal 15\%)
-    \item Biaya Bahan: 40\% dari sub total (minimal 40\%)
-    \item Biaya Perjalanan: 20\% dari sub total (maksimal 20\%)
-    \item Biaya Lain-lain: 25\% dari sub total (publikasi, komunikasi, dokumentasi, pelaporan, honorarium pembantu peneliti)
-\end{itemize}
-
-\vspace{0.5cm}
-
-\noindent
-\textit{Keterangan: Justifikasi lengkap anggaran biaya dapat dilihat pada Lampiran A.}
-
 \section{Jadwal Penelitian}
 
-Penelitian ini dilaksanakan selama 8 bulan dari bulan Maret sampai Oktober 2026. Jadwal pelaksanaan penelitian ini adalah sebagai berikut:
+Penelitian ini dilaksanakan selama 8 bulan dari bulan Maret sampai Oktober 2026. Jadwal pelaksanaan penelitian ini dijelaskan dalam Tabel~\ref{tab:jadwal-penelitian} sebagai berikut:
 
 \begin{table}[htbp]
 \centering
 \caption{Jadwal Pelaksanaan Penelitian}
 \label{tab:jadwal-penelitian}
-\begin{tabular}{|c|p{5cm}|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|p{7cm}|c|c|c|c|c|c|c|c|}
 \hline
 \multirow{2}{*}{\textbf{No}} & \multirow{2}{*}{\textbf{Kegiatan}} & \multicolumn{8}{c|}{\textbf{Bulan ke-}} \\
 \cline{3-10}
 & & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} \\
 \hline
-1 & Persiapan dan Studi Literatur & X & X & & & & & & \\
+1 & Persiapan dan Studi Literatur & \cellcolor{blue!20} & \cellcolor{blue!20} & & & & & & \\
 \hline
-2 & Desain Sistem TathyaTest & X & X & & & & & & \\
+2 & Desain Sistem TathyaTest & \cellcolor{blue!20} & \cellcolor{blue!20} & & & & & & \\
 \hline
-3 & Pengembangan Prototipe CRUD & & X & X & & & & & \\
+3 & Pengembangan Prototipe CRUD & & \cellcolor{blue!20} & \cellcolor{blue!20} & & & & & \\
 \hline
-4 & Pengujian Prototipe Awal & & & X & X & & & & \\
+4 & Pengujian Prototipe Awal & & & \cellcolor{blue!20} & \cellcolor{blue!20} & & & & \\
 \hline
-5 & Pengembangan Fitur Lanjutan & & & & X & X & & & \\
+5 & Pengembangan Fitur Lanjutan & & & & \cellcolor{blue!20} & \cellcolor{blue!20} & & & \\
 \hline
-6 & Integrasi Playwright & & & & & X & X & & \\
+6 & Integrasi Playwright & & & & & \cellcolor{blue!20} & \cellcolor{blue!20} & & \\
 \hline
-7 & Pengujian dengan Dataset Internal & & & & & & X & X & \\
+7 & Pengujian dengan Dataset Internal & & & & & & \cellcolor{blue!20} & \cellcolor{blue!20} & \\
 \hline
-8 & Analisis Data dan Evaluasi & & & & & & & X & X \\
+8 & Analisis Data dan Evaluasi & & & & & & & \cellcolor{blue!20} & \cellcolor{blue!20} \\
 \hline
-9 & Penyusunan Laporan & & & & & & & X & X \\
+9 & Penyusunan Laporan & & & & & & & \cellcolor{blue!20} & \cellcolor{blue!20} \\
 \hline
-10 & Publikasi Artikel & & & & & & & & X \\
+10 & Publikasi Artikel & & & & & & & & \cellcolor{blue!20} \\
 \hline
-11 & Pendaftaran HKI & & & & & & & & X \\
+11 & Pendaftaran HKI & & & & & & & & \cellcolor{blue!20} \\
 \hline
 \end{tabular}
 \end{table}
-
-\noindent
-\textbf{Penjelasan Kegiatan:}
-\begin{enumerate}
-    \item \textbf{Persiapan dan Studi Literatur:} Pengumpulan referensi, kajian penelitian terdahulu, dan persiapan tools yang dibutuhkan.
-    \item \textbf{Desain Sistem TathyaTest:} Perancangan arsitektur sistem, desain database, dan alur kerja TathyaTest.
-    \item \textbf{Pengembangan Prototipe CRUD:} Implementasi fitur dasar untuk crawling dan test case generation aplikasi CRUD sederhana.
-    \item \textbf{Pengujian Prototipe Awal:} Testing dan debugging prototipe awal, pengumpulan umpan balik pengguna.
-    \item \textbf{Pengembangan Fitur Lanjutan:} Penambahan fitur untuk form dinamis, modul interaktif, dan penyempurnaan algoritma.
-    \item \textbf{Integrasi Playwright:} Implementasi eksekusi test case otomatis dengan Playwright untuk cross-browser testing.
-    \item \textbf{Pengujian dengan Dataset Internal:} Testing TathyaTest dengan aplikasi Kompen, Jayanti, dan Whistleblower.
-    \item \textbf{Analisis Data dan Evaluasi:} Analisis hasil pengujian, evaluasi metrik kinerja, dan validasi dengan pakar.
-    \item \textbf{Penyusunan Laporan:} Penulisan laporan akhir penelitian dan dokumentasi lengkap TathyaTest.
-    \item \textbf{Publikasi Artikel:} Penulisan dan pengiriman artikel ke jurnal terakreditasi Sinta 3.
-    \item \textbf{Pendaftaran HKI:} Pendaftaran Hak Cipta TathyaTest ke DJKI Kementerian Hukum dan HAM RI.
-\end{enumerate}

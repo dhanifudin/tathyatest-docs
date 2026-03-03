@@ -6,18 +6,18 @@ Perkembangan pesat dalam teknologi informasi telah memberikan dampak besar pada 
 
 Gangguan dalam ketersediaan aplikasi atau kesalahan dalam fungsionalitas dapat menurunkan kualitas layanan dan berdampak pada pengalaman pengguna. Sebagai contoh, downtime pada aplikasi akademik seperti Kompen dapat menghambat akses mahasiswa dan dosen untuk mengelola informasi akademik mereka. Selain itu, kesalahan dalam pengolahan data yang terjadi pada aplikasi seperti Jayanti atau Whistleblower dapat merugikan pihak terkait dan mempengaruhi operasional kampus secara keseluruhan. Oleh karena itu, penting bagi aplikasi-aplikasi berbasis web di Jurusan Teknologi Informasi untuk selalu diuji secara berkala guna memastikan bahwa mereka berfungsi sesuai dengan yang diharapkan dan siap digunakan setiap saat.
 
-Salah satu metode yang paling efektif untuk memastikan kualitas aplikasi perangkat lunak adalah dengan menggunakan automation testing. Automation testing mengacu pada penggunaan alat dan skrip otomatis untuk menjalankan pengujian perangkat lunak tanpa intervensi manual. Menurut \cite{santhosh2023automation}, automation testing menawarkan berbagai keuntungan, termasuk penghematan waktu, pengurangan kesalahan manusia, dan kemampuan untuk menjalankan pengujian secara berulang tanpa menambah biaya yang signifikan. Dalam konteks pengujian aplikasi berbasis web, penggunaan alat automation testing sangat berguna untuk menguji berbagai skenario pengguna dan fungsionalitas aplikasi secara cepat dan akurat.
+Salah satu metode yang paling efektif untuk memastikan kualitas aplikasi perangkat lunak adalah dengan menggunakan automation testing. Dalam pengembangan perangkat lunak modern, automated testing telah menjadi praktik penting yang menawarkan berbagai peluang sekaligus tantangan yang perlu dinavigasi dengan baik \parencite{santhosh2023automation}. Automation testing menawarkan berbagai keuntungan, termasuk penghematan waktu, pengurangan kesalahan manusia, dan kemampuan untuk menjalankan pengujian secara berulang tanpa menambah biaya yang signifikan. Systematic mapping study menunjukkan bahwa automated testing untuk aplikasi web telah menjadi area penelitian yang berkembang pesat dengan berbagai pendekatan dan teknik yang terus diperbarui \parencite{wang2023}. Dalam konteks pengujian aplikasi berbasis web, penggunaan alat automation testing sangat berguna untuk menguji berbagai skenario pengguna dan fungsionalitas aplikasi secara cepat dan akurat.
 
-Namun, meskipun terdapat berbagai alat untuk automation testing seperti Selenium, Cypress, dan Playwright, tantangan terbesar adalah bagaimana mengotomatisasi pembuatan test case yang relevan dengan fungsionalitas aplikasi yang diuji. \cite{alsaeedi2020} dalam penelitiannya mengungkapkan bahwa meskipun berbagai alat pengujian otomatis ada, kebanyakan dari alat ini masih memerlukan input manual untuk mendefinisikan skenario pengujian, yang pada gilirannya menambah waktu dan beban kerja pengujian. Oleh karena itu, diperlukan sebuah solusi yang dapat mengotomatisasi test case generation secara efisien untuk memastikan bahwa pengujian dilakukan secara lebih cepat dan lebih menyeluruh.
+Namun, meskipun terdapat berbagai alat untuk automation testing seperti Selenium, Cypress, dan Playwright, tantangan terbesar adalah bagaimana mengotomatisasi pembuatan test case yang relevan dengan fungsionalitas aplikasi yang diuji. Software testability yang tinggi memfasilitasi proses pengujian yang lebih efektif, namun banyak aplikasi web yang masih memiliki testability yang rendah \parencite{alsaeedi2020}. Meskipun berbagai alat pengujian otomatis ada, kebanyakan dari alat ini masih memerlukan input manual untuk mendefinisikan skenario pengujian, yang pada gilirannya menambah waktu dan beban kerja pengujian. Beberapa penelitian juga menekankan pentingnya otomatisasi dalam test case generation untuk aplikasi web, di mana pendekatan otomatis dapat secara signifikan mengurangi effort manual dan meningkatkan coverage pengujian \parencite{leotta2021,romano2022}. Oleh karena itu, diperlukan sebuah solusi yang dapat mengotomatisasi test case generation secara efisien untuk memastikan bahwa pengujian dilakukan secara lebih cepat dan lebih menyeluruh.
 
-TathyaTest: Test Case Generator Otomatis merupakan solusi yang dikembangkan untuk mengatasi masalah ini. TathyaTest dirancang untuk menghasilkan test case otomatis berdasarkan crawling aplikasi dan elemen-elemen yang ada pada halaman web aplikasi. Dengan memanfaatkan dataset internal aplikasi seperti Kompen, Jayanti, dan Whistleblower, TathyaTest dapat disesuaikan untuk menghasilkan test case yang relevan dengan masing-masing aplikasi, sehingga pengujian dapat dilakukan dengan lebih cepat dan lebih komprehensif. Penelitian yang dilakukan oleh \cite{kassie2020} menunjukkan bahwa otomatisasi pembuatan test case membantu mengidentifikasi bug lebih cepat dan meningkatkan cakupan pengujian. Hal ini sejalan dengan tujuan pengembangan TathyaTest, yang tidak hanya mengotomatiskan pembuatan test case tetapi juga meningkatkan efisiensi pengujian di Jurusan Teknologi Informasi.
+TathyaTest: Test Case Generator Otomatis merupakan solusi yang dikembangkan untuk mengatasi masalah ini. TathyaTest dirancang untuk menghasilkan test case otomatis berdasarkan crawling aplikasi dan elemen-elemen yang ada pada halaman web aplikasi. Dengan memanfaatkan dataset internal aplikasi seperti Kompen, Jayanti, dan Whistleblower, TathyaTest dapat disesuaikan untuk menghasilkan test case yang relevan dengan masing-masing aplikasi, sehingga pengujian dapat dilakukan dengan lebih cepat dan lebih komprehensif. Literature review mengenai pendekatan test case generation menunjukkan berbagai teknik yang dapat digunakan untuk mengotomatisasi pembuatan test case, yang membantu mengidentifikasi bug lebih cepat dan meningkatkan cakupan pengujian \parencite{kassie2020,sahoo2021}. Pengalaman deployment automation testing di skala industri, seperti implementasi search-based software engineering dengan Sapienz di Facebook, membuktikan bahwa automated testing dapat memberikan nilai praktis yang signifikan dalam lingkungan produksi \parencite{alshahwan2021}. Hal ini sejalan dengan tujuan pengembangan TathyaTest, yang tidak hanya mengotomatiskan pembuatan test case tetapi juga meningkatkan efisiensi pengujian di Jurusan Teknologi Informasi.
 
 Dengan adanya TathyaTest, proses pengujian dapat dilakukan secara lebih efisien, mengurangi ketergantungan pada pengujian manual yang memakan waktu dan sering kali tidak lengkap. Selain itu, TathyaTest akan memberikan manfaat yang signifikan dalam mempermudah pengujian aplikasi berbasis web, khususnya di lingkungan pendidikan tinggi, dengan memfokuskan pada pengujian fungsional aplikasi yang digunakan oleh mahasiswa dan dosen di Jurusan Teknologi Informasi. Penelitian ini diharapkan dapat memberikan kontribusi besar dalam meningkatkan kualitas aplikasi yang digunakan di perguruan tinggi dan memberikan dasar yang kuat bagi pengembangan alat pengujian perangkat lunak otomatis di masa depan.
 
 \section{Rumusan Masalah}\label{rumusan-masalah}
 
 \begin{enumerate}
-    \item Bagaimana efektivitas TathyaTest dalam menghasilkan test case otomatis untuk pengujian aplikasi berbasis web,  berdasarkan dataset internal aplikasi yang ada?
+    \item Bagaimana efektivitas TathyaTest dalam menghasilkan test case otomatis untuk pengujian aplikasi berbasis web, berdasarkan dataset internal aplikasi yang ada?
     \item Sejauh mana TathyaTest dapat meningkatkan cakupan pengujian aplikasi berbasis web dengan menghasilkan test case pengujian fungsional?
     \item Bagaimana TathyaTest dapat memvalidasi ekspektasi fungsional aplikasi berbasis web berdasarkan dataset internal yang ada, seperti memastikan login berhasil, data dapat disimpan, dan modul dapat diakses dengan benar?
 \end{enumerate}
@@ -29,6 +29,7 @@ Untuk memfokuskan penelitian dan memastikan hasil yang optimal, batasan masalah 
 \begin{enumerate}
     \item Penelitian ini terbatas pada aplikasi berbasis web dengan arsitektur MVC (Model-View-Controller).
     \item Pengujian difokuskan pada fungsionalitas aplikasi yang mencakup operasi CRUD (Create, Read, Update, Delete), autentikasi pengguna, dan akses modul.
+    \item Fitur halaman login tidak menerapkan mekanisme CAPTCHA atau autentikasi multi-faktor (MFA) yang dapat menghambat proses otomatisasi pengujian.
     \item Dataset yang digunakan untuk pengujian berasal dari aplikasi internal Jurusan Teknologi Informasi, yaitu Kompen, Jayanti, dan Whistleblower.
     \item TathyaTest hanya menghasilkan test case untuk pengujian fungsional berbasis UI (User Interface) dan tidak mencakup pengujian non-fungsional seperti performance testing, security testing, atau load testing.
     \item Pengujian dilakukan pada browser modern (Chrome, Firefox, dan WebKit) menggunakan Playwright sebagai automation testing framework.
@@ -43,27 +44,36 @@ Untuk memfokuskan penelitian dan memastikan hasil yang optimal, batasan masalah 
     \item Mengevaluasi apakah TathyaTest dapat memvalidasi ekspektasi fungsional aplikasi berbasis web berdasarkan dataset internal yang ada, seperti memastikan login berhasil, data dapat disimpan, dan modul dapat diakses dengan benar.
 \end{enumerate}
 
+\section{Manfaat Penelitian}\label{manfaat-penelitian}
+
+\begin{enumerate}
+    \item Meningkatkan efisiensi pengujian perangkat lunak melalui otomatisasi pembuatan test case yang mengurangi ketergantungan pada pengujian manual.
+    \item Meningkatkan cakupan pengujian dengan memastikan lebih banyak skenario diuji, termasuk yang mungkin terlewat dalam pengujian manual.
+    \item Memberikan kontribusi pada pengembangan alat pengujian perangkat lunak otomatis di lingkungan perguruan tinggi yang dapat diadaptasi untuk aplikasi berbasis web lainnya.
+    \item Meningkatkan kualitas aplikasi berbasis web yang digunakan dalam kegiatan akademik dan administrasi di perguruan tinggi.
+\end{enumerate}
+
 \section{Luaran Penelitian}\label{luaran-penelitian}
 
-Sesuai dengan skema penelitian produk vokasi, maka luaran yang diharapkan dari penelitian ini adalah sebagai berikut:
+Pada Tabel \ref{tab:luaran-penelitian} disajikan luaran yang diharapkan dari penelitian ini. Luaran tersebut dibagi menjadi dua kategori, yaitu luaran wajib dan luaran tambahan. Luaran wajib mencakup produk IPTEKSB berupa prototipe TathyaTest dan artikel ilmiah yang dipublikasikan pada jurnal terakreditasi Sinta 3 Sisfokom. Sedangkan luaran tambahan berupa Kekayaan Intelektual (KI) dalam bentuk Hak Cipta untuk prototipe TathyaTest.
 
 \begin{table}[htbp]
 \centering
 \caption{Luaran Penelitian}
 \label{tab:luaran-penelitian}
-\begin{tabular}{|c|p{5cm}|p{6cm}|}
+\begin{tabular}{|c|p{9cm}|p{5cm}|}
 \hline
 \textbf{No} & \textbf{Jenis Luaran} & \textbf{Indikator Capaian} \\
 \hline
-\multicolumn{3}{|c|}{\textbf{Luaran Wajib}} \\
+\multicolumn{3}{|l|}{\textbf{Luaran Wajib}} \\
 \hline
-1 & IPTEKSB berupa prototipe & Prototipe TathyaTest dengan TKT 4 (validasi komponen dalam lingkungan laboratorium yang siap diimplementasikan) \\
+1 & IPTEKSB berupa \textit{prototipe} atau rancangan model atau teknologi tepat guna atau naskah kebijakan & Ada \\
 \hline
-2 & Artikel pada jurnal ilmiah terakreditasi & Artikel diterbitkan pada jurnal nasional terakreditasi Sinta 3 atau lebih tinggi \\
+2 & Artikel pada jurnal ilmiah terakreditasi Sinta 3 Sisfokom & Published \\
 \hline
-\multicolumn{3}{|c|}{\textbf{Luaran Tambahan}} \\
+\multicolumn{3}{|l|}{\textbf{Luaran Tambahan}} \\
 \hline
-3 & Kekayaan Intelektual (KI) berupa Hak Cipta & Sertifikat Hak Cipta dari DJKI Kementerian Hukum dan HAM RI \\
+3 & Kekayaan Intelektual (KI) berupa Hak Cipta & Granted \\
 \hline
 \end{tabular}
 \end{table}
