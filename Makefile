@@ -9,10 +9,12 @@ PDF = $(BUILD_DIR)/$(MAIN).pdf
 .PHONY: all
 all: $(PDF)
 
-# Build PDF using latexmk
-$(PDF): $(MAIN).tex
+# Build PDF using latexmk with manual biber orchestration
+$(PDF): $(MAIN).tex | $(BUILD_DIR)
 	@echo "Building PDF..."
-	latexmk -pdf -outdir=$(BUILD_DIR) $(MAIN).tex
+	latexmk -pdf -outdir=$(BUILD_DIR) $(MAIN).tex -f || true
+	biber $(BUILD_DIR)/$(MAIN)
+	latexmk -pdf -g -outdir=$(BUILD_DIR) $(MAIN).tex
 	@echo "PDF built successfully: $(PDF)"
 
 # Build and open PDF
