@@ -1,0 +1,10 @@
+docs/
+images/
+build/
+cv/
+contents/
+supplement/assets/
+*.pptx
+*.zip
+*.pdf
+graphify-out/

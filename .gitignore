@@ -46,3 +46,6 @@ Thumbs.db
 
 # Scratchpad directory
 /tmp/
+
+# Graphify audit tool output (generated, not source content)
+graphify-out/

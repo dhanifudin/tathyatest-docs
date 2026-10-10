@@ -2,13 +2,13 @@
 
 \section{Metode Penelitian}\label{metode-penelitian}
 
-Penelitian ini menggunakan metode Prototyping untuk mengembangkan TathyaTest: Test Case Generator Otomatis. Pendekatan Prototyping dipilih karena sifatnya yang iteratif, memungkinkan pengujian dan perbaikan berkelanjutan berdasarkan umpan balik pengguna \parencite{garousi2018}. Pada tahap awal, prototipe TathyaTest akan dibuat dengan fitur dasar yang mengarah pada pengujian CRUD sederhana (Create, Read, Update, Delete) untuk menguji kemampuan dasar sistem dalam menghasilkan test case otomatis, sebelum akhirnya beralih ke aplikasi yang lebih kompleks.
+Penelitian ini menggunakan metode Prototyping untuk mengembangkan TathyaTest: Test Case Generator Otomatis. Pendekatan Prototyping dipilih karena sifatnya yang iteratif, memungkinkan pengujian dan perbaikan berkelanjutan berdasarkan umpan balik pengguna \parencite{garousi2019greylit}. Pada tahap awal, prototipe TathyaTest akan dibuat dengan fitur dasar yang mengarah pada pengujian CRUD sederhana (Create, Read, Update, Delete) untuk menguji kemampuan dasar sistem dalam menghasilkan test case otomatis, sebelum akhirnya beralih ke aplikasi yang lebih kompleks.
 
 Metode Prototyping memungkinkan pengembangan alat dilakukan secara bertahap, dengan setiap prototipe diuji dan disempurnakan berdasarkan temuan dari pengujian dan umpan balik pengguna. Dalam konteks TathyaTest, prototipe awal akan difokuskan pada pembuatan test case otomatis yang dapat menguji operasi dasar pada aplikasi CRUD, yang mencakup pengujian fungsionalitas seperti penambahan data, pembacaan data, pembaruan data, dan penghapusan data. Alur lengkap metode prototyping yang digunakan dalam penelitian ini ditunjukkan pada Gambar \ref{fig:prototyping-flow}.
 
 \section{Desain Penelitian}\label{desain-penelitian}
 
-Desain penelitian ini adalah eksperimen dengan pendekatan deskriptif-analitik. Penelitian ini bertujuan untuk mengembangkan dan menguji TathyaTest secara bertahap melalui serangkaian iterasi Prototyping. Seperti yang digambarkan pada Gambar \ref{fig:prototyping-flow}, proses pengembangan dimulai dari pembuatan prototipe awal dengan fitur CRUD sederhana, kemudian dilanjutkan dengan uji coba dan pengumpulan umpan balik pengguna. Jika diperlukan perbaikan, prototipe akan disempurnakan sebelum dilanjutkan ke tahap berikutnya. Setelah prototipe dasar stabil, pengembangan akan diperluas untuk mendukung pengujian lintas browser menggunakan Playwright dan diuji dengan dataset internal dari aplikasi-aplikasi di Jurusan Teknologi Informasi.
+Desain penelitian ini adalah eksperimen dengan pendekatan deskriptif-analitik. Penelitian ini bertujuan untuk mengembangkan dan menguji TathyaTest secara bertahap melalui serangkaian iterasi Prototyping. Seperti yang digambarkan pada Gambar \ref{fig:prototyping-flow}, proses pengembangan dimulai dari pembuatan prototipe awal dengan fitur CRUD sederhana, kemudian dilanjutkan dengan uji coba dan pengumpulan umpan balik pengguna. Jika diperlukan perbaikan, prototipe akan disempurnakan sebelum dilanjutkan ke tahap berikutnya. Setelah prototipe dasar stabil, pengembangan akan diperluas untuk mendukung pengujian lintas browser menggunakan Playwright dan dievaluasi pada aplikasi studi kasus yang memiliki arsitektur MVC dan RBAC.
 
 \begin{figure}[htbp]
 \centering
@@ -58,13 +58,13 @@ Tahap awal penelitian akan fokus pada pembuatan prototipe TathyaTest yang dapat 
 
 Setelah prototipe awal dikembangkan, uji coba dilakukan dengan aplikasi berbasis web sederhana yang hanya mencakup operasi CRUD. Pengguna seperti tim QA atau pengembang aplikasi akan memberikan umpan balik mengenai fungsionalitas, kegunaan, dan efektivitas TathyaTest dalam menghasilkan test case otomatis. Pendekatan iteratif ini sejalan dengan praktik terbaik dalam pengembangan alat pengujian \parencite{shah2021}. Umpan balik ini akan digunakan untuk menyempurnakan alat. Berdasarkan hasil uji coba dan umpan balik pengguna, TathyaTest akan disempurnakan untuk mendukung pengujian aplikasi yang lebih kompleks dengan fitur tambahan seperti pengujian untuk form dinamis dan modul interaktif.
 
-Setelah pengujian CRUD sederhana selesai, TathyaTest akan diperluas untuk mendukung pengujian lintas browser menggunakan Playwright. Playwright akan digunakan untuk mengeksekusi test case otomatis yang dihasilkan oleh TathyaTest, yang memungkinkan pengujian aplikasi berbasis web di berbagai platform (Chrome, Firefox, dan WebKit). Setelah memastikan bahwa prototipe dasar dapat menangani operasi CRUD dengan baik, TathyaTest akan diuji dengan aplikasi yang lebih kompleks seperti Kompen, Jayanti, dan Whistleblower. Dataset internal aplikasi ini akan digunakan untuk menguji kemampuan TathyaTest dalam menghasilkan test case otomatis yang mencakup fungsionalitas aplikasi yang lebih kompleks.
+Setelah pengujian CRUD sederhana selesai, TathyaTest akan diperluas untuk mendukung pengujian lintas browser menggunakan Playwright. Playwright akan digunakan untuk mengeksekusi test case otomatis yang dihasilkan oleh TathyaTest, yang memungkinkan pengujian aplikasi berbasis web di berbagai platform (Chrome, Firefox, dan WebKit). Setelah memastikan bahwa prototipe dasar dapat menangani operasi CRUD dengan baik, TathyaTest akan dievaluasi pada aplikasi studi kasus yang lebih kompleks dengan arsitektur MVC dan RBAC (aplikasi Laravel berbasis Blade dan Inertia-React), serta satu aplikasi eksternal (SauceDemo) sebagai pembanding. Evaluasi pada aplikasi internal Jurusan Teknologi Informasi (Kompen, Jayanti, Whistleblower) direncanakan sebagai tahap penelitian lanjutan.
 
 \section{Metode Pengumpulan Data}\label{metode-pengumpulan-data}
 
-Data yang digunakan dalam penelitian ini berasal dari dua sumber utama. Pertama, dataset CRUD sederhana yang akan digunakan untuk pengujian awal, yang mencakup data aplikasi berbasis web dengan operasi CRUD dasar. Data ini akan digunakan untuk menguji kemampuan awal TathyaTest dalam menghasilkan test case otomatis untuk pengujian fungsi-fungsi dasar aplikasi berbasis web. Kedua, dataset internal aplikasi seperti Kompen, Jayanti, dan Whistleblower akan digunakan setelah prototipe awal disempurnakan. Dataset ini akan menyediakan data pengguna dan elemen-elemen aplikasi yang akan diuji untuk memvalidasi pengujian otomatis yang dilakukan oleh TathyaTest.
+Data yang digunakan dalam penelitian ini berasal dari dua sumber utama. Pertama, dataset CRUD sederhana yang akan digunakan untuk pengujian awal, yang mencakup data aplikasi berbasis web dengan operasi CRUD dasar. Data ini akan digunakan untuk menguji kemampuan awal TathyaTest dalam menghasilkan test case otomatis untuk pengujian fungsi-fungsi dasar aplikasi berbasis web. Kedua, aplikasi studi kasus berarsitektur MVC dan RBAC (Laravel Blade dan Laravel Inertia-React) beserta satu aplikasi eksternal (SauceDemo) akan digunakan setelah prototipe awal disempurnakan, dengan data pengguna dan data uji dibangkitkan secara terkontrol menggunakan faker (seeded) untuk menjamin reproduktibilitas.
 
-Dataset internal aplikasi mencakup struktur database, data pengguna dummy yang aman untuk pengujian, dan berbagai skenario penggunaan yang umum terjadi pada setiap aplikasi. Dataset ini akan digunakan untuk memastikan bahwa test case yang dihasilkan oleh TathyaTest relevan dengan konteks penggunaan sebenarnya dan dapat mendeteksi potensi error atau bug yang mungkin terjadi dalam operasional aplikasi.
+Konfigurasi peran dan data uji pada aplikasi studi kasus mencakup struktur peran akses (RBAC), data pengguna dummy yang aman untuk pengujian, dan berbagai skenario penggunaan yang umum terjadi pada setiap aplikasi. Konfigurasi ini akan digunakan untuk memastikan bahwa test case yang dihasilkan oleh TathyaTest relevan dengan konteks penggunaan sebenarnya dan dapat mendeteksi potensi error atau bug yang mungkin terjadi dalam operasional aplikasi.
 
 \section{Arsitektur dan Alur Kerja TathyaTest}\label{arsitektur-tathyatest}
 
@@ -84,9 +84,9 @@ Pengembangan TathyaTest mengikuti pendekatan Prototyping dengan alur kerja yang 
 
 % Nodes
 \node (start) [startstop] {Input Domain/URL};
-\node (crawl) [process, below of=start] {Crawling\\Aplikasi Web};
+\node (crawl) [process, below of=start] {Crawling\\DOM Ter-render};
 \node (extract) [process, below of=crawl] {Ekstraksi\\Elemen HTML};
-\node (dataset) [data, below of=extract] {Dataset Internal\\(User, Data)};
+\node (dataset) [data, below of=extract] {Konfigurasi Peran \&\\Dataset (YAML, Faker)};
 \node (mapping) [process, below of=dataset] {Pemetaan Elemen\\ke Test Case};
 \node (generate) [process, below of=mapping] {Generate\\Test Case};
 \node (validate) [decision, below of=generate, yshift=-0.3cm] {Valid?};
@@ -107,8 +107,8 @@ Pengembangan TathyaTest mengikuti pendekatan Prototyping dengan alur kerja yang 
 \draw [arrow] (result) -- (stop);
 
 % Annotation
-\node[font=\scriptsize, text width=2.5cm, right of=crawl, xshift=2cm] (note1) {Menggunakan Colly untuk crawling URL};
-\node[font=\scriptsize, text width=2.5cm, right of=extract, xshift=2cm] (note2) {Menggunakan Goquery untuk parsing HTML};
+\node[font=\scriptsize, text width=2.5cm, right of=crawl, xshift=2cm] (note1) {Playwright (Chromium): crawling per peran pengguna};
+\node[font=\scriptsize, text width=2.5cm, right of=extract, xshift=2cm] (note2) {Ekstraksi via page.evaluate() pada konteks browser};
 \node[font=\scriptsize, text width=2.5cm, right of=execute, xshift=2cm] (note3) {Cross-browser testing: Chrome, Firefox, WebKit};
 
 \draw[dashed, line width=0.8pt, gray] (crawl.east) -- (note1.west);
@@ -120,13 +120,20 @@ Pengembangan TathyaTest mengikuti pendekatan Prototyping dengan alur kerja yang 
 \label{fig:tathyatest-flow}
 \end{figure}
 
-Proses dimulai dengan input domain atau URL aplikasi web yang akan diuji. TathyaTest kemudian melakukan crawling aplikasi web menggunakan pustaka Colly untuk Golang, yang memungkinkan sistem untuk menjelajahi seluruh halaman aplikasi dan mengidentifikasi struktur navigasi aplikasi \parencite{mishra2020}. Setelah crawling selesai, TathyaTest melakukan ekstraksi elemen HTML menggunakan Goquery, sebuah pustaka Go yang menyediakan API mirip jQuery untuk parsing dan manipulasi dokumen HTML. Pendekatan ini mengikuti tren modern dalam web data extraction yang memanfaatkan tools dan teknik otomatis untuk ekstraksi data web yang lebih efisien \parencite{deng2019}. Proses ekstraksi ini mengidentifikasi elemen-elemen penting seperti form input, tombol, link, tabel, dan elemen interaktif lainnya.
+Proses dimulai dengan input domain atau URL aplikasi web yang akan diuji beserta konfigurasi peran pengguna dan kredensial login. TathyaTest kemudian direncanakan melakukan crawling menggunakan Playwright (Chromium): untuk setiap peran pengguna, sistem melakukan login secara terotentikasi satu kali, lalu menjelajahi (breadth-first) seluruh URL satu-origin yang dapat dijangkau dari DOM yang telah ter-render sepenuhnya, termasuk aplikasi dengan rendering sisi klien (SPA) \parencite{mishra2020,mesbah2012crawljax}. Setelah crawling selesai, TathyaTest melakukan ekstraksi elemen HTML langsung pada konteks browser menggunakan skrip evaluasi DOM, yang mengikuti tren modern dalam web data extraction yang memanfaatkan tools dan teknik otomatis untuk ekstraksi data web yang lebih efisien \parencite{patnaik2021}. Proses ekstraksi ini mengidentifikasi elemen-elemen penting seperti form input, tombol, link, tabel, dan elemen interaktif lainnya. Rancangan rinci alur crawling per peran pengguna, dari peluncuran sesi dan login hingga perulangan dequeue-ekstraksi-discover sampai antrean URL habis, ditunjukkan pada Gambar \ref{fig:crawl-pipeline-design}.
 
-Dataset internal yang telah disiapkan sebelumnya kemudian diintegrasikan ke dalam proses pemetaan elemen. Dataset ini berisi informasi seperti kredensial pengguna untuk testing, data dummy untuk operasi CRUD, dan skenario penggunaan yang umum terjadi. Dengan memanfaatkan dataset ini, TathyaTest dapat memetakan elemen-elemen HTML yang telah diekstraksi ke dalam test case yang relevan dan kontekstual. Misalnya, form login akan dipetakan dengan kredensial pengguna dari dataset, sedangkan form input data akan dipetakan dengan data dummy yang sesuai.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{images/diagrams/crawl-pipeline.pdf}
+\caption{Rancangan Rinci Alur Crawling per Peran Pengguna}
+\label{fig:crawl-pipeline-design}
+\end{figure}
+
+Konfigurasi peran dan dataset yang telah disiapkan sebelumnya (berbasis YAML, dengan data dummy yang dibangkitkan menggunakan faker) kemudian diintegrasikan ke dalam proses pemetaan elemen. Konfigurasi ini berisi informasi seperti kredensial pengguna untuk testing, data dummy untuk operasi CRUD, dan skenario penggunaan yang umum terjadi. Dengan memanfaatkan konfigurasi ini, TathyaTest dapat memetakan elemen-elemen HTML yang telah diekstraksi ke dalam test case yang relevan dan kontekstual. Misalnya, form login akan dipetakan dengan kredensial pengguna dari konfigurasi, sedangkan form input data akan dipetakan dengan data dummy yang sesuai.
 
 Proses generate test case menghasilkan kode pengujian dalam format yang dapat dieksekusi oleh Playwright. Setiap test case mencakup langkah-langkah pengujian seperti navigasi ke halaman tertentu, pengisian form, klik tombol, dan verifikasi hasil. Sebelum dieksekusi, test case akan melalui proses validasi untuk memastikan bahwa struktur kode benar dan tidak ada error sintaks. Jika validasi gagal, sistem akan kembali ke tahap pemetaan untuk memperbaiki test case yang bermasalah.
 
-Setelah validasi berhasil, test case dieksekusi menggunakan Playwright yang mendukung pengujian lintas browser pada Chrome, Firefox, dan WebKit. Pemilihan Playwright didasarkan pada hasil analisis komparatif yang menunjukkan keunggulan tool ini dalam efisiensi eksekusi dan penggunaan resource sistem \parencite{othayoth2022}. Hasil pengujian dicatat dan dikategorikan sebagai Pass (berhasil) atau Fail (gagal) dengan detail error jika terjadi kegagalan. Hasil pengujian ini kemudian dapat digunakan untuk analisis lebih lanjut dan perbaikan aplikasi yang diuji.
+Setelah validasi berhasil, test case dieksekusi menggunakan Playwright yang mendukung pengujian lintas browser pada Chrome, Firefox, dan WebKit. Pemilihan Playwright didasarkan pada hasil analisis komparatif yang menunjukkan keunggulan tool ini dalam efisiensi eksekusi dan penggunaan resource sistem \parencite{mon2025}. Hasil pengujian dicatat dan dikategorikan sebagai Pass (berhasil) atau Fail (gagal) dengan detail error jika terjadi kegagalan. Hasil pengujian ini kemudian dapat digunakan untuk analisis lebih lanjut dan perbaikan aplikasi yang diuji.
 
 \section{Teknik Analisis Data}\label{teknik-analisis-data}
 
@@ -166,6 +173,6 @@ Untuk memastikan validitas dan keandalan hasil penelitian, beberapa langkah beri
 
 Kedua, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidang software testing dan quality assurance untuk mengevaluasi test case yang dihasilkan oleh TathyaTest. Pakar akan menilai relevansi test case, kelengkapan skenario pengujian, dan kualitas kode test yang dihasilkan \parencite{wang2023}. Umpan balik dari pakar ini akan digunakan untuk meningkatkan kualitas TathyaTest.
 
-Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi kompleks dengan dataset internal seperti Kompen, Jayanti, dan Whistleblower. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
+Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi studi kasus berarsitektur MVC dan RBAC (Laravel Blade, Laravel Inertia-React) serta aplikasi eksternal SauceDemo sebagai pembanding. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
 
 Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources untuk memvalidasi temuan penelitian. Data dari pengujian pada berbagai aplikasi, dan hasil pengujian ulang akan dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian dapat menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.
