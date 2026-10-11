@@ -366,10 +366,12 @@ These figures are completeness figures against the crawl model that TathyaTest i
 
 == EQ2: SUT code coverage <sec-eq2>
 
-At the code level, the same suite reaches #evBladeRouteExecCov of application routes (both Blade and Inertia React) with function coverage of #evBladeFuncCov and #evInertiaFuncCov and line coverage of #evBladeLineCov and #evInertiaLineCov (@tab-results-eq2; branch coverage is reported as a control-flow-line-based proxy, per the limitation noted under threats to validity). The gap between high route coverage and moderate line coverage is characteristic of interface-driven E2E testing: every controller, form request, and main validation path is exercised, while condition-handling branches not exposed through the DOM go untouched. SauceDemo is excluded because its external server cannot be instrumented. Together with EQ1, this finding completes the answer to RQ1: full surface coverage translates into substantial, though not exhaustive, server-side code reach.
+Code coverage measures how much of the target application's own server code runs while the generated suite executes, and each cell of @tab-results-eq2 reads as a share followed by executed over total units in parentheses, for example lines executed over executable lines. The units are counted over the application's PHP code only, so the evaluation harness itself (the coverage collector, the fault registry, and the coverage middleware) is excluded from both numerator and denominator, and scaffolding such as the layout components and the login request class remains in the denominator. The suite reaches #evBladeRouteExecCov of application routes on both Blade and Inertia React, with function coverage of #evBladeFuncCov and #evInertiaFuncCov and line coverage of #evBladeLineCov and #evInertiaLineCov, and branch coverage is reported as a control-flow-line-based proxy, per the limitation noted under threats to validity.
+
+Route and function coverage are the clearest indicators, because they say whether each endpoint and each routine was reached at all, while line coverage is lower by nature of interface-driven E2E testing. Every controller, form request, and main validation path is exercised, whereas condition-handling lines that no DOM interaction can trigger, such as rarely taken error branches and framework glue, stay untouched. SauceDemo is excluded because its external server cannot be instrumented. Together with EQ1, this finding completes the answer to RQ1: full surface coverage translates into substantial, though not exhaustive, server-side code reach.
 
 #figure(
-  caption: [EQ2 results: SUT code coverage (PCOV).],
+  caption: [EQ2 results: SUT code coverage (PCOV), share and executed over total units in the application's own code.],
   table(
     columns: (1.3fr, 1fr, 1fr),
     table.header(
@@ -377,10 +379,10 @@ At the code level, the same suite reaches #evBladeRouteExecCov of application ro
       [*Metric*], [*Blade*], [*Inertia*],
       table.hline(),
     ),
+    [Reached-route coverage], [#evBladeRouteExecCov], [#evInertiaRouteExecCov],
+    [Function coverage], [#evBladeFuncCov], [#evInertiaFuncCov],
     [Line coverage], [#evBladeLineCov], [#evInertiaLineCov],
     [Branch coverage (proxy)], [#evBladeBranchCov], [#evInertiaBranchCov],
-    [Function coverage], [#evBladeFuncCov], [#evInertiaFuncCov],
-    [Reached-route coverage], [#evBladeRouteExecCov], [#evInertiaRouteExecCov],
     table.hline(),
   ),
 ) <tab-results-eq2>
