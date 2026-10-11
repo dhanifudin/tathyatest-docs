@@ -188,7 +188,8 @@ for (const [prefix, name] of subjects) {
   const rel = s?.reliability;
   const eff = s?.efficiency;
   def(`ev${prefix}Flake`, pctOnly(rel?.flakeRate), `stacks[${name}].reliability.flakeRate`);
-  def(`ev${prefix}Kappa`, opt(rel?.crossBrowserKappa, (v) => en(v, 2)), `stacks[${name}].reliability.crossBrowserKappa`);
+  // Normalize negative zero: a kappa of -0.003 would otherwise print as "-0.00".
+  def(`ev${prefix}Kappa`, opt(rel?.crossBrowserKappa, (v) => en(Math.abs(v) < 0.005 ? 0 : v, 2)), `stacks[${name}].reliability.crossBrowserKappa`);
   def(`ev${prefix}PassRate`, pctOnly(rel?.passRate), `stacks[${name}].reliability.passRate`);
   def(
     `ev${prefix}Unstable`,
