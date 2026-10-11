@@ -1,7 +1,6 @@
 #import "@preview/juti:0.1.1"
 #import "setup.typ": *
 #import "eval-numbers.typ": *
-#import "diagram.typ": tt-flow-diagram
 
 /**
  * Contribution References
@@ -195,11 +194,11 @@ This study uses a prototype-engineering approach with a design-science orientati
 
 === Crawl and generate flow
 
-The TathyaTest pipeline is designed as a layered transformation from a running application into executable test artifacts. As shown in @fig-tt-flow, the user supplies the target application, role configuration, credentials, coverage setting, and data hints. The crawl stage opens a Playwright session for each role, logs in, verifies that the login form is no longer active on the login page, and then treats the post-login landing page as the first seed. The crawler expands its queue with same-origin URLs discovered from `a[href]`, `form[action]`, `formaction`, and data attributes such as `data-href`, `data-url`, `data-route`, and `data-to`. Explicit seeds in the configuration remain supported, but are treated as tester input rather than a hidden default. The loop runs once per role and ends when the queue is empty or the page limit is reached.
+The TathyaTest pipeline is a layered transformation from a running application into executable test artifacts, shown end to end in @fig-tt-flow. Configuration and an authenticated per-role crawl produce a crawl contract; the generator turns that contract into Playwright specifications through target selection and oracle mapping; and the resulting execution evidence feeds into the next evaluation run. Within that outline, the crawl stage works as follows. The user supplies the target application, role configuration, credentials, coverage setting, and data hints. The crawl stage opens a Playwright session for each role, logs in, verifies that the login form is no longer active on the login page, and then treats the post-login landing page as the first seed. The crawler expands its queue with same-origin URLs discovered from `a[href]`, `form[action]`, `formaction`, and data attributes such as `data-href`, `data-url`, `data-route`, and `data-to`. Explicit seeds in the configuration remain supported, but are treated as tester input rather than a hidden default. The loop runs once per role and ends when the queue is empty or the page limit is reached.
 
 #figure(
-  tt-flow-diagram,
-  caption: [TathyaTest's technical flow: the crawler discovers the authenticated DOM surface, the crawl contract stores the observation results, and the generator selects test targets before producing Playwright specifications.],
+  image("/diagrams/pipeline-overview.svg", width: 100%),
+  caption: [The TathyaTest pipeline, from configuration to executed test evidence.],
 ) <fig-tt-flow>
 
 Every successfully visited page is extracted into an element model. Forms store `action`, `method`, a CRUD-operation indicator, `novalidate` status, fields, HTML constraints, input options, name hints, and the submit-control locator. The CRUD indicator is derived from raw form signals by framework-neutral keyword rules applied in a fixed precedence: a session-ending form is classified as logout, then an explicit verb (a hidden `_method` input, `data-turbo-method`, or `hx-put`, `hx-patch`, and `hx-delete` attributes), then a `GET` form is treated as a search or filter, then keywords in the action path (`delete`, `update`, `create`, and their common synonyms), then keywords in the submit text, and finally any other `POST` form counts as a create. Links and buttons are stored with their locators, while tables store headers and row counts. Locators are selected using a semantic priority order in which the first matching strategy wins: `data-testid`, accessible role and name, label, placeholder, a stable id, the `name` attribute, and CSS as a last resort. This ordering makes generated tests traceable back to the observed DOM and also underlies the locator-strategy-distribution and brittle-locator-ratio metrics in the suite-quality evaluation.
@@ -507,7 +506,7 @@ Both Laravel case studies, the metrics module, and the structured evaluation rep
 
 = Declaration of generative AI and AI-assisted technologies in the writing process
 
-During the preparation of this work, the authors used an AI coding assistant (Claude Code, Anthropic) to help draft, translate, and format this manuscript, and to assist with preparing tables, the pipeline diagram, and the reference list. The authors reviewed and edited the AI-assisted content and take full responsibility for the accuracy and integrity of the final publication.
+The authors used an AI coding assistant (Claude Code, Anthropic) to help draft and format this manuscript. All AI-assisted content was reviewed and edited by the authors, who take full responsibility for the accuracy and integrity of the final publication.
 
 = ORCID
 
