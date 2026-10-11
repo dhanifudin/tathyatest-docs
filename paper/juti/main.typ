@@ -300,7 +300,7 @@ One module orchestrates the evaluation so that every number in a results table c
 
 === Statistical method and baseline
 
-Every time and flakiness measurement is repeated $R$ times and reported as a mean with a 95% confidence interval drawn from Student's $t$ distribution. Cross-browser agreement, how often Chromium, Firefox, and WebKit agree on pass or fail for the same test, is measured with Fleiss $kappa$ @fleiss1971kappa, where 1 means identical verdicts in all three browsers. The generated suite is compared with a baseline through the non-parametric Mann--Whitney $U$ test @mann1947whitney and the rank-biserial effect size, following guidance on testing randomized algorithms in software engineering @arcuri2014statistical. The time-savings ratio is measured against an explicitly assumed manual per-case cost and is reported with its sensitivity range, so that an assumption is not mistaken for an empirical finding.
+Every time and flakiness measurement is repeated $R$ times and reported as a mean with a 95% confidence interval drawn from Student's $t$ distribution. Flakiness, how often the same test's pass/fail status changes across those $R$ repetitions in the same browser, is reported as a flake rate. Cross-browser agreement, how often Chromium, Firefox, and WebKit agree on pass or fail for the same test, is measured with Fleiss $kappa$ @fleiss1971kappa, where 1 means identical verdicts in all three browsers. The generated suite is compared with a baseline through the non-parametric Mann--Whitney $U$ test @mann1947whitney and the rank-biserial effect size, following guidance on testing randomized algorithms in software engineering @arcuri2014statistical. The time-savings ratio is measured against an explicitly assumed manual per-case cost and is reported with its sensitivity range, so that an assumption is not mistaken for an empirical finding.
 
 Numbers alone do not tell the whole quality story, so a *static quality analysis* of the specification source backs up the baseline comparison: test count, assertion density, brittle-locator ratio, and locator-strategy distribution, computed from the generation manifest for TathyaTest's own suite and from the source directly for whatever it is being compared against. The two Laravel case studies get compared against the manual Playwright suite already sitting in the repository. SauceDemo is different again, its baseline is three independent GitHub suites (detailed in @tab-baseline-public), each MIT-licensed and pinned to a specific commit so the comparison stays replicable. None of those three suites were written by anyone involved in designing TathyaTest, which is exactly what makes them useful: an independent third-party baseline is what gives the EQ4 comparison real external validity.
 
@@ -412,21 +412,21 @@ The generated suite is less brittle than the public suites and stronger than the
 
 == EQ4: reliability, efficiency, and baseline comparison <sec-eq4>
 
-The generated suite is reliable across repetitions and browsers on both controlled subjects. The flake rate is #evBladeFlake on Blade and #evInertiaFlake on Inertia React, with cross-browser agreement of $kappa =$ #evBladeKappa on Blade (@tab-results-eq4). Flake rate is computed from status inconsistency across the $R = 5$ repetitions, while $kappa$ is computed over pass/fail status, and tests skipped because of role restrictions are counted in neither. The near-zero $kappa$ value on Inertia React reflects Fleiss' prevalence paradox and not disagreement between browsers, because when almost every test passes in every browser a single disagreeing run depresses $kappa$ disproportionately. On the external subject, a flake rate of #evSauceFlake is acceptable given public-server variability.
+The generated suite is reliable across repetitions and browsers on both controlled subjects (@tab-results-eq4). Two metrics capture this. *Flake rate* is the proportion of tests whose pass/fail status is inconsistent across the $R = 5$ repetitions of the same browser -- a low flake rate means a test gives the same verdict every time it runs, which is what a regression suite needs to be trustworthy. *Fleiss $kappa$* is the degree to which Chromium, Firefox, and WebKit agree on the same pass/fail verdict for the same test, where 1 means all three browsers always agree and 0 means their agreement is no better than chance. Tests skipped because of role restrictions are excluded from both calculations. On Blade, the flake rate is #evBladeFlake and $kappa =$ #evBladeKappa. On Inertia React, the flake rate is #evInertiaFlake, but $kappa$ is close to zero. This near-zero value does not mean the browsers disagree with each other -- it is an artifact of Fleiss' prevalence paradox, where almost every test passes in every browser and a single disagreeing run depresses $kappa$ disproportionately despite near-perfect practical agreement. On the external subject, a flake rate of #evSauceFlake is acceptable given public-server variability.
 
 The generated suite trades a higher per-test execution cost for far broader scenario coverage and far shorter authoring time. Its execution duration is higher than that of the concise baseline, and the difference is statistically significant (Blade: #evBladeMannWhitney). In exchange, the authoring time-savings ratio reaches #evBladeSavings against an explicitly stated assumed manual cost. The small hand-written baseline is faster and rarely fails because it exercises only a few scenarios, so the comparison is one of breadth against speed. Together with EQ3, this result completes the RQ2 answer.
 
 #figure(
   caption: [EQ4 results: reliability, efficiency, and baseline comparison.],
   table(
-    columns: (1.1fr, 1fr, 1fr, 1fr),
+    columns: (1.6fr, 1fr, 1fr, 1fr),
     table.header(
       table.hline(),
       [*Metric*], [*Blade*], [*Inertia*], [*SauceDemo*],
       table.hline(),
     ),
-    [Flake rate], [#evBladeFlake], [#evInertiaFlake], [#evSauceFlake],
-    [Fleiss $kappa$], [#evBladeKappa], [#evInertiaKappa], [#evSauceKappa],
+    [Flake rate (repetition inconsistency)], [#evBladeFlake], [#evInertiaFlake], [#evSauceFlake],
+    [Cross-browser agreement (Fleiss $kappa$)], [#evBladeKappa], [#evInertiaKappa], [#evSauceKappa],
     [Pass rate], [#evBladePassRate], [#evInertiaPassRate], [#evSaucePassRate],
     [Crawl time], [#evBladeCrawlSec], [#evInertiaCrawlSec], [#evSauceCrawlSec],
     [Generate time], [#evBladeGenMs], [#evInertiaGenMs], [#evSauceGenMs],
@@ -503,7 +503,7 @@ This research was funded by the DIPA (Daftar Isian Pelaksanaan Anggaran) interna
 
 = Data availability
 
-Both Laravel case studies, the metrics module, and the structured evaluation reports referenced throughout this paper are available in the project repository; the three SauceDemo baseline suites are included as pinned git submodules with recorded provenance (@tab-baseline-public).
+Both Laravel case studies, the metrics module, and the structured evaluation reports referenced throughout this paper are openly available in the project repository at #link("https://github.com/dhanifudin/tathyatest")[github.com/dhanifudin/tathyatest]. The three SauceDemo baseline suites are included as pinned git submodules with recorded provenance (@tab-baseline-public).
 
 = Declaration of generative AI and AI-assisted technologies in the writing process
 

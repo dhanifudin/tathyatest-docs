@@ -8,7 +8,7 @@ Naskah artikel ilmiah berjudul "TathyaTest: a generator for functional, regressi
 
 #todo("Perbarui status pada paragraf di atas dan tautan artikel setelah naskah disubmit/accepted/published.")
 
-#for p in range(1, 18) [
+#for p in range(1, 16) [
   #pagebreak(weak: true)
   #align(center)[
     #image("/supplement/assets/tathyatest-juti-manuscript.pdf", page: p, width: 100%)
