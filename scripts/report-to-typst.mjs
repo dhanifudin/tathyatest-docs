@@ -190,6 +190,11 @@ for (const [prefix, name] of subjects) {
   def(`ev${prefix}Flake`, pctOnly(rel?.flakeRate), `stacks[${name}].reliability.flakeRate`);
   def(`ev${prefix}Kappa`, opt(rel?.crossBrowserKappa, (v) => en(v, 2)), `stacks[${name}].reliability.crossBrowserKappa`);
   def(`ev${prefix}PassRate`, pctOnly(rel?.passRate), `stacks[${name}].reliability.passRate`);
+  def(
+    `ev${prefix}Unstable`,
+    opt(rel?.unstable, (v) => (v.length === 0 ? 'none' : String(v.length))),
+    `stacks[${name}].reliability.unstable (tests failing or flaky on the clean build; evalTBD for reports before this field existed)`,
+  );
   def(`ev${prefix}CrawlSec`, seconds(eff?.crawlMs), `stacks[${name}].efficiency.crawlMs`);
   def(`ev${prefix}GenMs`, opt(eff?.generateMs, (v) => `${Math.round(v)} ms`), `stacks[${name}].efficiency.generateMs`);
   def(`ev${prefix}ExecSec`, execCi(eff?.executeMs), `stacks[${name}].efficiency.executeMs (mean plus/minus CI95)`);
