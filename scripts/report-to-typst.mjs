@@ -133,6 +133,32 @@ for (const [prefix, name] of laravelSubjects) {
     def(`ev${prefix}Mut${label}`, scoreFrac(f?.byClass?.[cls]), `stacks[${name}].faults.byClass.${cls}`);
   }
   def(`ev${prefix}FaultLoc`, pctOnly(f?.localizationAccuracy), `stacks[${name}].faults.localizationAccuracy`);
+  def(`ev${prefix}FaultTotal`, opt(f, (v) => String(v.total)), `stacks[${name}].faults.total`);
+  def(
+    `ev${prefix}Detectable`,
+    opt(f?.detectable, (v) => `${en(v.score * 100, 1)}% (${v.killed}/${v.total})`),
+    `stacks[${name}].faults.detectable (killed/total of faults expected to be detected)`,
+  );
+  def(
+    `ev${prefix}Controls`,
+    opt(f?.controls, (v) => `${v.survived}/${v.total}`),
+    `stacks[${name}].faults.controls (negative controls that survived / total)`,
+  );
+  def(
+    `ev${prefix}Missed`,
+    opt(f?.perFault, (rows) => rows.filter((r) => r.expected === 'detected' && !r.killed).map((r) => r.id.replaceAll('_', '-')).join(', ') || 'none'),
+    `stacks[${name}].faults.perFault (detectable faults that survived)`,
+  );
+  def(
+    `ev${prefix}ControlHit`,
+    opt(f?.perFault, (rows) => rows.filter((r) => r.expected === 'survives' && r.killed).map((r) => r.id.replaceAll('_', '-')).join(', ') || 'none'),
+    `stacks[${name}].faults.perFault (negative controls that were detected)`,
+  );
+  def(
+    `ev${prefix}BaseDetectable`,
+    opt(byName.get(name)?.baseline?.baselineMutation?.detectable, (v) => `${en(v.score * 100, 1)}% (${v.killed}/${v.total})`),
+    `stacks[${name}].baseline.baselineMutation.detectable (hand-written baseline, detectable faults)`,
+  );
   emit('');
 }
 
