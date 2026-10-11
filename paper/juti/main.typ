@@ -99,7 +99,7 @@
   corresponding-email: none, // falls back to authors.at(corresponding-ref).email, i.e. Dian's address above -- single source of truth
   institutions: institutions,
   abstract: [
-    This study proposes TathyaTest, a functional test-case generation pipeline that transforms a running web application into a per-role element model, an RBAC access matrix, and executable Playwright specifications. The contribution addresses two practical problems at once: uptime monitoring cannot assess functional availability, because an endpoint that returns HTTP 200 does not guarantee that login, role authorization, form validation, and CRUD operations actually work, while hand-writing an end-to-end test suite demands high upfront cost and is brittle to DOM structure changes. The prototype performs authenticated crawling for each role, extracts a per-role crawl contract as an auditable interface, derives positive, negative, and edge data variants from HTML constraints, and then generates five categories of specifications (auth, forms, interactions, pagination, RBAC) with seedable runtime faker data. Prototype effectiveness is evaluated through an integrated evaluation module using five metric groups: model coverage, target application (system under test, SUT) code coverage (PCOV), fault detection through seeded-fault detection, suite quality, and reliability and efficiency. Every measurement is reported with 95% confidence intervals, the Mann--Whitney $U$ test, and Fleiss $kappa$ cross-browser agreement. The evaluation covers three subjects: two fully instrumented Laravel case studies (Blade and Inertia React) and SauceDemo as an external subject, whose baseline consists of three independent MIT-licensed Playwright suites. On both Laravel case studies, the generated suite detected #evBladeDetectable of the detectable seeded faults on both frameworks, while all #evBladeControls negative controls, faults the generator is not designed to find, survived as expected, against a hand-written baseline that detected #evBladeBaseDetectable. The suite also exposed two real defects in the case-study applications that were not part of the catalogue. These results show that the proposed pipeline, together with its replicable evaluation framework, is a viable foundation for regression testing and functional-availability checking of web applications.
+    This study proposes TathyaTest, a pipeline that turns a running web application into executable Playwright tests without hand-written test scripts. It addresses two practical problems: uptime monitoring cannot show that login, role authorization, form validation, and data entry actually work, while hand-written end-to-end suites are costly to write and break when page structure changes. The prototype logs in as each user role, records the pages, forms, and constraints it finds as an auditable crawl contract, derives valid, invalid, and boundary test data from that record, and generates five categories of specifications (authentication, forms, interactions, pagination, and role-based access control). The evaluation uses four groups of measurements, namely coverage of what the crawler observed, coverage of the application's own server code, suite quality, and reliability and efficiency, each reported with 95% confidence intervals and compared with hand-written suites through the Mann--Whitney $U$ test. On two instrumented Laravel applications (Blade and Inertia React) and one external site (SauceDemo), the suite reached full route, form, and field coverage of the observed model and #evBladeRouteExecCov of application routes at the code level, ran with a flake rate of no more than #evBladeFlake, and reached a time-savings ratio of #evBladeSavings against an assumed manual cost. It also exposed two real defects in the case-study applications. These results show that the pipeline is a viable foundation for regression testing and functional-availability checking of web applications.
   ],
   keywords: (
     "software testing",
@@ -126,18 +126,17 @@ Test-driven development (TDD) and unit tests remain important, but neither repla
 
 Based on this gap, this study proposes TathyaTest, a prototype that generates a baseline test suite directly from a running web application. Concretely, TathyaTest logs into the target application as each configured user role, records everything it finds on every page it can reach, and turns that record directly into runnable browser tests, without a human writing test scripts by hand. That record-to-test path is built as an auditable chain of artifacts: a per-role crawl contract, an RBAC access matrix, tiered test-data variants, and executable Playwright specifications; @tab-terms defines each of these terms before they are used in detail. Unlike approaches that rely on recorded scripts or natural-language descriptions, TathyaTest places the element-model contract as an explicit boundary between browser observation and test generation @sunman2022automated @alian2024autoe2e @junior2025genia. The pipeline design and the derivation of a per-role access matrix are presented as artifact contributions, while the effectiveness of those artifacts is measured through a metric-based empirical evaluation on three subjects.
 
-These measurements are formulated into three research questions, all of which are answered by the data in @sec-results.
+These measurements are formulated into two research questions, all of which are answered by the data in @sec-results.
 
 - *RQ1 (coverage):* To what extent does a test suite generated from authenticated DOM observation cover an application's functional surface (the set of functions exposed through the interface) at both the element-model level and the target application (system under test, SUT) code level?
-- *RQ2 (fault detection):* How effective is that suite, including RBAC tests derived from the per-role access matrix, at detecting seeded functional regressions?
-- *RQ3 (comparison):* How does the intrinsic quality, reliability, and efficiency of the generated suite compare with a manual baseline and independent public suites?
+- *RQ2 (comparison):* How do the intrinsic quality, reliability, and efficiency of the generated suite compare with a manual baseline and independent public suites?
 
 The contributions of this study are as follows.
 
 - Proposing the TathyaTest architecture as a pipeline of authenticated DOM observation, element modeling, test-target mapping, and Playwright specification writing for a functional regression baseline.
 - Formulating a per-role crawl contract as an auditable interface between the crawler and the generator, so that test cases are derived from observation artifacts rather than from a generator's implicit assumptions.
 - Designing test generation covering auth, form, interaction, pagination, and RBAC with a positive/negative/edge spectrum derived from HTML constraints and data configuration, using framework-neutral classification rules, scenario-style test titles, per-family state oracles, and a read-only mode for scheduled functional monitoring.
-- Constructing a five-metric-group empirical evaluation framework, covering model coverage, SUT code coverage, fault detection via seeded faults and negative controls, suite quality, and reliability and efficiency, together with empirical evidence from applying it to three cross-stack subjects and statistical tests against independent baselines.
+- Constructing a four-metric-group empirical evaluation framework, covering model coverage, SUT code coverage, suite quality, and reliability and efficiency, together with empirical evidence from applying it to three cross-stack subjects and statistical tests against independent baselines.
 
 The remainder of this paper is organized as follows. Section 2 reviews related work on automated web test generation, quality-assurance standards, RBAC, and crawler-based GUI test generators. Section 3 describes the research method, including the pipeline design, prototype implementation, and evaluation design. Section 4 presents the results for each evaluation question and discusses their implications, limitations, threats to validity, and artifact availability. Section 5 concludes the paper.
 
@@ -200,9 +199,9 @@ Each of these terms is introduced again, with a concrete example, at the point i
 
 == Research approach
 
-This study uses a prototype-engineering approach with a design-science orientation, because its main goal is to design and assess a software artifact. The artifact under study is the TathyaTest pipeline, from target configuration, authenticated crawling, the element-model contract, and test-case mapping, through to Playwright specification writing. This approach aligns with the focus of recent test-generation research that assesses artifacts based on their ability to produce tests, oracles, coverage, and execution evidence @sunman2022automated @yandrapally2023fragment @hossain2023structuralgaps @erni2024sbft. The evaluation is a metric-based empirical study that assesses artifact effectiveness through five metric groups and statistical tests, as detailed in @subsec-eval-design.
+This study uses a prototype-engineering approach with a design-science orientation, because its main goal is to design and assess a software artifact. The artifact under study is the TathyaTest pipeline, from target configuration, authenticated crawling, the element-model contract, and test-case mapping, through to Playwright specification writing. This approach aligns with the focus of recent test-generation research that assesses artifacts based on their ability to produce tests, oracles, coverage, and execution evidence @sunman2022automated @yandrapally2023fragment @hossain2023structuralgaps @erni2024sbft. The evaluation is a metric-based empirical study that assesses artifact effectiveness through four metric groups and statistical tests, as detailed in @subsec-eval-design.
 
-The research stages were arranged so that every design decision has a checkable, artifact-based foundation. First, system requirements were analyzed from the perspective of functional web-application testing: login, user roles, CRUD forms, validation, navigation, search/filter, pagination, and functional monitoring. Second, the architecture was designed by separating the crawling layer, the element-model contract, test-case mapping, and specification writing. Third, the prototype was implemented as a TypeScript CLI containing a Playwright crawler, a generator, and a test runner. Fourth, a metric-based empirical evaluation was carried out on all three subjects so that the three RQs are answered by measured, cross-stack data: model and code coverage for RQ1, fault detection for RQ2, and quality, reliability, and efficiency relative to a baseline for RQ3.
+The research stages were arranged so that every design decision has a checkable, artifact-based foundation. First, system requirements were analyzed from the perspective of functional web-application testing: login, user roles, CRUD forms, validation, navigation, search/filter, pagination, and functional monitoring. Second, the architecture was designed by separating the crawling layer, the element-model contract, test-case mapping, and specification writing. Third, the prototype was implemented as a TypeScript CLI containing a Playwright crawler, a generator, and a test runner. Fourth, a metric-based empirical evaluation was carried out on all three subjects so that the three RQs are answered by measured, cross-stack data: model and code coverage for RQ1, and quality, reliability, and efficiency relative to a baseline for RQ2.
 
 == Pipeline design
 
@@ -318,7 +317,7 @@ The same suite can also be generated in a read-only mode. Every generated test i
 
 Three subject applications were chosen specifically to vary rendering mechanism and access control. Laravel Breeze's Blade Todo App stands in for a server-rendered application; its Inertia React counterpart plays the JavaScript-rendered role. The two share essentially the same feature list, login, admin/user roles, Todo CRUD, done/undone toggling, search, filter, pagination, form validation, and an admin-only page, which is deliberate: when results differ between them, the difference can be pinned on the rendering mechanism or the pipeline itself, not on some unrelated quirk of application domain.
 
-The third subject sits outside that pair entirely. *SauceDemo* (`https://www.saucedemo.com`) is a public React-SPA e-commerce demo maintained by Sauce Labs, selected precisely because the researchers do not control it. That lack of control has a direct consequence: PCOV instrumentation and fault endpoints simply are not available, so SUT code coverage (EQ2) and fault detection (EQ3) cannot be measured on this subject. Its contribution is narrower by design, limited to model coverage (EQ1), suite quality (EQ4), and reliability/efficiency/baseline comparison (EQ5).
+The third subject sits outside that pair entirely. *SauceDemo* (`https://www.saucedemo.com`) is a public React-SPA e-commerce demo maintained by Sauce Labs, selected precisely because the researchers do not control it. That lack of control has a direct consequence: PCOV instrumentation is simply not available, so SUT code coverage (EQ2) cannot be measured on this subject. Its contribution is narrower by design, limited to model coverage (EQ1), suite quality (EQ3), and reliability/efficiency/baseline comparison (EQ4).
 
 What that external subject buys the study is a stronger generalizability claim. If every pipeline stage, from crawling and element modeling through to test generation and Playwright emission, works unmodified on a completely different stack (React SPA, client-side routing, public credentials), that is evidence the pipeline is not quietly tailored to Laravel's particular conventions.
 
@@ -326,45 +325,20 @@ What that external subject buys the study is a stronger generalizability claim. 
 
 === Evaluation questions and subjects
 
-Answering three broad research questions directly would leave too much room for hand-waving, so each one is broken down into evaluation questions (EQ) that map to a single, checkable metric group; @tab-metrics gives the full mapping. RQ1 splits into EQ1 and EQ2, RQ2 maps onto EQ3 alone, and RQ3 is answered jointly by EQ4 and EQ5. Concretely: EQ1 asks how broadly the pipeline tests the application's element model, EQ2 how much SUT code the generated suite actually reaches, EQ3 how effectively it detects seeded faults, including negative controls, EQ4 how good the generated tests' intrinsic quality is, and EQ5 how reliable and efficient the pipeline is next to a manual baseline. The evaluation module computes every one of these and writes the result as a structured JSON and Markdown report, so nothing here depends on a human reading a log file.
+Answering two broad research questions directly would leave too much room for hand-waving, so each one is broken down into evaluation questions (EQ) that map to a single, checkable metric group; @tab-metrics gives the full mapping. RQ1 splits into EQ1 and EQ2, and RQ2 is answered jointly by EQ3 and EQ4. Concretely, EQ1 asks how broadly the pipeline tests the application's element model, EQ2 how much SUT code the generated suite actually reaches, EQ3 how good the generated tests' intrinsic quality is, and EQ4 how reliable and efficient the pipeline is next to a manual baseline. The evaluation module computes every one of these and writes the result as a structured JSON and Markdown report, so nothing here depends on a human reading a log file.
 
-Three subjects carry this evaluation. Blade and Inertia React are the core pair: crawled with the same Playwright engine, built with parallel features, and fully instrumented down to PCOV and fault endpoints, their shared feature set is what makes a cross-rendering comparison possible without application domain quietly becoming a confound. SauceDemo plays a different role, testing generalizability on a stack the researchers do not control. Being external costs it two metric groups, EQ2 and EQ3 simply do not apply, but it still contributes to EQ1, EQ4, and EQ5. For the EQ5 comparison specifically, SauceDemo trades a self-authored manual baseline for three independent MIT-licensed Playwright suites pulled from GitHub, backed by a static quality analysis of the specification source so the comparison still holds even though those public suites are never executed.
+Three subjects carry this evaluation. Blade and Inertia React are the core pair: crawled with the same Playwright engine, built with parallel features, and fully instrumented down to PCOV, their shared feature set is what makes a cross-rendering comparison possible without application domain quietly becoming a confound. SauceDemo plays a different role, testing generalizability on a stack the researchers do not control. Being external costs it one metric group, since EQ2 does not apply, but it still contributes to EQ1, EQ3, and EQ4. For the EQ4 comparison specifically, SauceDemo trades a self-authored manual baseline for three independent MIT-licensed Playwright suites pulled from GitHub, backed by a static quality analysis of the specification source so the comparison still holds even though those public suites are never executed.
 
-=== Evaluation flow and scenarios
+=== Evaluation flow
 
-One module orchestrates the entire evaluation flow, and it does so with a specific goal: every number that ends up in a results table needs to be traceable back to a concrete artifact, not just trusted. For each stack, that module times the crawl and generate stages, runs the generated suite for $R$ repetitions to get confidence intervals and a flake rate, runs the case study's manual suite for comparison, collects SUT code coverage, and finally injects each fault in the catalogue one at a time. Along the way, the generate stage writes a manifest with one entry per test, which means coverage and quality metrics never need to parse specification source code to be computed. Keeping these phases separate pays off directly: when something fails, the failure can be pinned on the target application, the crawler, or the generator, which sharpens how each EQ gets interpreted. Playwright's own built-in JSON reporter supplies the per-test outcome data; everything past that, the metrics and the statistics, runs in a pure module kept deliberately apart from execution orchestration.
+One module orchestrates the evaluation so that every number in a results table can be traced to a concrete artifact. For each stack it times the crawl and generate stages, runs the generated suite $R$ times to obtain confidence intervals and a flake rate, runs the case study's manual suite for comparison, and collects SUT code coverage. The generate stage writes a manifest with one entry per test, so coverage and quality metrics never need to parse specification source code, and the metrics and statistics run in a pure module kept apart from execution.
 
-The scenarios chosen for evaluation had to pass one test: do real users actually experience this? @tab-scenarios lays out the resulting set, covering login, RBAC, CRUD, validation, search/filter, pagination, and state-change behavior. Think of it as a checklist of functional targets the generated suite is expected to hit; wherever a scenario does not show up in the generated output, that gap points straight back to either the crawl model or the mapping rules, not to some unexplained black box.
+=== Metric groups
 
-#figure(
-  caption: [Functional evaluation scenarios.],
-  table(
-    columns: (auto, 1.5fr, 1fr),
-    table.header(
-      table.hline(),
-      [*ID*], [*Scenario*], [*Purpose*],
-      table.hline(),
-    ),
-    [S1], [Admin and user login], [Validate the authentication flow],
-    [S2], [Admin opens the admin page], [Positive RBAC],
-    [S3], [User opens the admin page], [Negative RBAC],
-    [S4], [Create and update a todo], [Positive CRUD],
-    [S5], [Submit an invalid form], [Negative validation],
-    [S6], [Long input, Unicode, whitespace], [Edge behavior],
-    [S7], [Search and filter todos], [GET-form interaction],
-    [S8], [Todo pagination], [Data navigation],
-    [S9], [Toggle done/undone], [State-change action],
-    [S10], [Delete a todo], [Destructive action],
-    table.hline(),
-  ),
-) <tab-scenarios>
-
-=== Metric groups and fault injection
-
-@tab-metrics summarizes how the five metric groups line up with the five EQs, but they do not all work the same way under the hood. The model-coverage group for EQ1 and the suite-quality group for EQ4 are both static: everything they need comes straight from the generation manifest and the crawl contract, no instrumentation required. The SUT-code-coverage group for EQ2 is the one that needs PHP-side help, a PCOV-based middleware accumulates executed lines while the suite runs, and that gets reconciled against a token-based static analysis to produce line, function, branch-proxy, and exact-route coverage. EQ3, fault detection, carries the most weight of the five; it is the primary metric this study is built around. The reliability/efficiency/baseline group for EQ5 relies on controlled repetition with a fixed faker seed, specifically so data variation cannot masquerade as flakiness.
+@tab-metrics summarizes how the four metric groups line up with the four EQs, but they do not all work the same way under the hood. The model-coverage group for EQ1 and the suite-quality group for EQ3 are both static: everything they need comes straight from the generation manifest and the crawl contract, no instrumentation required. The SUT-code-coverage group for EQ2 is the one that needs PHP-side help, a PCOV-based middleware accumulates executed lines while the suite runs, and that gets reconciled against a token-based static analysis to produce line, function, branch-proxy, and exact-route coverage. The reliability/efficiency/baseline group for EQ4 relies on controlled repetition with a fixed faker seed, specifically so data variation cannot masquerade as flakiness.
 
 #figure(
-  caption: [TathyaTest's five evaluation metric groups.],
+  caption: [TathyaTest's four evaluation metric groups.],
   table(
     columns: (auto, auto, 0.9fr, 2.2fr),
     table.header(
@@ -374,54 +348,17 @@ The scenarios chosen for evaluation had to pass one test: do real users actually
     ),
     [EQ1], [RQ1], [Model coverage], [element, route, CRUD-operation, RBAC-matrix-cell, constraint-kind, and tier-distribution coverage],
     [EQ2], [RQ1], [SUT code coverage], [line, function, branch-proxy (PCOV), and reached-route coverage],
-    [EQ3], [RQ2], [Fault detection], [detection rate of seeded faults per class, negative controls, and fault-localization accuracy],
-    [EQ4], [RQ3], [Test-suite quality], [assertion density, locator-strategy distribution, brittle-locator ratio, robustness score],
-    [EQ5], [RQ3], [Reliability/efficiency], [flake rate, cross-browser agreement (Fleiss $kappa$), phase time, throughput, savings ratio, baseline comparison],
+    [EQ3], [RQ2], [Test-suite quality], [assertion density, locator-strategy distribution, brittle-locator ratio, robustness score],
+    [EQ4], [RQ2], [Reliability/efficiency], [flake rate, cross-browser agreement (Fleiss $kappa$), phase time, throughput, savings ratio, baseline comparison],
     table.hline(),
   ),
 ) <tab-metrics>
 
-Fault detection is measured by fault seeding, in the spirit of mutation testing @jia2011mutation @papadakis2019mutation but without claiming its operator-based mutant generation. The fault catalogue in @tab-faults lists faults that a server-side registry can switch on and off deterministically, with no code patching involved. The evaluator works through the catalogue fault by fault: activate it via a dedicated control endpoint, run whichever tests the manifest flags as relevant, and call it *detected* the moment one of those tests fails. The *detection rate* is the share of detectable faults that were detected, computed overall and per class. Localization accuracy answers a sharper question: of the faults that got detected, how many were caught by a test actually aimed at that fault class, as opposed to some other test failing for unrelated reasons.
-
-A catalogue built only from faults the generator targets would score 100% by construction, so the catalogue was assembled differently. Fourteen faults were derived from the case-study code itself, one for each validation rule, middleware check, controller outcome, and authentication path that the code contains, rather than from the generator's variant list. Four further faults are *negative controls*: regressions the generator is deliberately not expected to catch, because its oracles assert state and never message copy, because browsers sanitize malformed dates before submission, because a free-text field has no observable constraint, and because the search oracle checks the URL rather than the result rows. A control that survives confirms that the metric can fail; a control that is detected would reveal an oracle that is stronger than designed. The catalogue size is therefore always stated next to the rate.
-
-#figure(
-  caption: [Catalogue of 18 seeded faults: fourteen derived from the case-study code and four negative controls that are expected to survive.],
-  table(
-    columns: (0.55fr, 2.6fr, 0.7fr),
-    inset: (y: 2pt, x: 4pt),
-    table.header(
-      table.hline(),
-      [*Class*], [*Fault activated*], [*Expected*],
-      table.hline(),
-    ),
-    [validation], [drop the `required` rule on the title], [detected],
-    [validation], [drop the email-format rule on the contact email], [detected],
-    [validation], [drop the `unique` rule on the contact email], [detected],
-    [validation], [drop the `confirmed` rule on the contact email], [detected],
-    [validation], [drop the `max` rule on title and contact email], [detected],
-    [validation], [drop the `in:` rule on status], [detected],
-    [authz], [disable the role middleware so an admin route opens up], [detected],
-    [authz], [drop the ownership check so a user can open another user's todo], [detected],
-    [crud], [skip create/update persistence], [detected],
-    [crud], [report a successful delete without deleting], [detected],
-    [crud], [make the done/undone toggle do nothing], [detected],
-    [pagination], [fail requests beyond the first page], [detected],
-    [auth], [accept any password at login], [detected],
-    [auth], [leave the session alive after logout], [detected],
-    [validation], [drop the `date` rule on the due date (control)], [survives],
-    [validation], [drop the `string` rule on the free-text body (control)], [survives],
-    [validation], [reword every validation message (control)], [survives],
-    [crud], [ignore the search filter in the list (control)], [survives],
-    table.hline(),
-  ),
-) <tab-faults>
-
 === Statistical method and baseline
 
-A single run of anything proves very little, so every time and flakiness measurement here is repeated $R$ times and reported as a mean with a 95% confidence interval drawn from Student's $t$ distribution. For cross-browser agreement, how often Chromium, Firefox, and WebKit actually agree on pass or fail for the same test, Fleiss $kappa$ does the measuring @fleiss1971kappa, with 1 marking the case where all three browsers hand back identical verdicts. Comparing the generated suite against a baseline calls for the non-parametric Mann--Whitney $U$ test @mann1947whitney paired with the rank-biserial effect size, a choice that follows established guidance on testing randomized algorithms in software engineering @arcuri2014statistical. The time-savings ratio is a different kind of number: it is measured against an explicitly assumed manual per-case cost, reported with its sensitivity range attached so nobody mistakes an assumption for an empirical finding.
+Every time and flakiness measurement is repeated $R$ times and reported as a mean with a 95% confidence interval drawn from Student's $t$ distribution. Cross-browser agreement, how often Chromium, Firefox, and WebKit agree on pass or fail for the same test, is measured with Fleiss $kappa$ @fleiss1971kappa, where 1 means identical verdicts in all three browsers. The generated suite is compared with a baseline through the non-parametric Mann--Whitney $U$ test @mann1947whitney and the rank-biserial effect size, following guidance on testing randomized algorithms in software engineering @arcuri2014statistical. The time-savings ratio is measured against an explicitly assumed manual per-case cost and is reported with its sensitivity range, so that an assumption is not mistaken for an empirical finding.
 
-Numbers alone do not tell the whole quality story, so a *static quality analysis* of the specification source backs up the baseline comparison: test count, assertion density, brittle-locator ratio, and locator-strategy distribution, computed from the generation manifest for TathyaTest's own suite and from the source directly for whatever it is being compared against. The two Laravel case studies get compared against the manual Playwright suite already sitting in the repository. SauceDemo is different again, its baseline is three independent GitHub suites (detailed in @tab-baseline-public), each MIT-licensed and pinned to a specific commit so the comparison stays replicable. None of those three suites were written by anyone involved in designing TathyaTest, which is exactly what makes them useful: an independent third-party baseline is what gives the EQ5 comparison real external validity.
+Numbers alone do not tell the whole quality story, so a *static quality analysis* of the specification source backs up the baseline comparison: test count, assertion density, brittle-locator ratio, and locator-strategy distribution, computed from the generation manifest for TathyaTest's own suite and from the source directly for whatever it is being compared against. The two Laravel case studies get compared against the manual Playwright suite already sitting in the repository. SauceDemo is different again, its baseline is three independent GitHub suites (detailed in @tab-baseline-public), each MIT-licensed and pinned to a specific commit so the comparison stays replicable. None of those three suites were written by anyone involved in designing TathyaTest, which is exactly what makes them useful: an independent third-party baseline is what gives the EQ4 comparison real external validity.
 
 #figure(
   caption: [SauceDemo public baseline suites.],
@@ -450,39 +387,19 @@ All numeric values in @sec-results come directly from running the evaluation mod
 
 = Result and discussion <sec-results>
 
-This section reports evaluation results on all three subjects with $R = 5$ repetitions across three browsers (Chromium, Firefox, WebKit) and a fixed faker seed. The generated suite is unique per scenario: shape-based deduplication (route shape with numeric segments normalized, form shape, value-less query keys, and cross-role validation-variant deduplication) guarantees that no two tests represent the same scenario with different data. Consequently, all EQ1 coverage metrics are computed against the number of unique scenario shapes in the crawl model, not the number of DOM element instances. For both Laravel case studies, the generator produced #evBladeTestCount tests per stack with a tier distribution of #evBladeTiers across the five specification categories (auth, forms, interactions, pagination, RBAC).
+This section reports evaluation results on all three subjects with $R = 5$ repetitions across three browsers (Chromium, Firefox, WebKit) and a fixed faker seed. The generated suite is unique per scenario: shape-based deduplication (route shape with numeric segments normalized, form shape, value-less query keys, and cross-role validation-variant deduplication) guarantees that no two tests represent the same scenario with different data. Consequently, all EQ1 coverage metrics are computed against the number of unique scenario shapes in the crawl model, not the number of DOM element instances. For both Laravel case studies, the generator produced #evBladeTestCount tests per stack with a tier distribution of #evBladeTiers across the five specification categories (auth, forms, interactions, pagination, RBAC). In the tables, a percentage is followed by the covered and total counts as (covered/total), $plus.minus$ gives the half-width of a 95% confidence interval, and $kappa$, $U$, $r$, and $p$ are the agreement and test statistics defined in the method section.
 
 == Overview of results
 
-Before the metric-by-metric evidence, three headline numbers orient the discussion. For RQ1 (coverage), the generated suite reaches full route, form, field, and access-matrix coverage of the observed model on all three subjects (element coverage #evBladeElemCov on the Laravel subjects) and #evBladeRouteExecCov of application routes at the code level (@sec-eq1, @sec-eq2). These two coverage figures answer different questions: the model-coverage numbers (EQ1) is a completeness check against the tool's own crawl model, so it is largely guaranteed by construction, whereas the code-coverage figures (EQ2) measure how much of the target application's actual logic was exercised and are the harder, more informative evidence of depth. For RQ2 (fault detection), #evBladeDetectable of the detectable seeded faults are detected on both Laravel subjects, and all #evBladeControls negative controls survive, as designed (@sec-eq3); this is bounded to the 18-fault catalogue used in this study rather than a claim about arbitrary regressions. For RQ3 (comparison), the generated suite leads on fault detection, assertion density, and locator robustness but trails the manual baseline on per-test execution time and brittle-locator ratio on the Laravel subjects, with head-to-head verdicts of #evBladeVerdict on Blade, #evInertiaVerdict on Inertia React, and #evSauceVerdict on SauceDemo (@sec-eq4, @sec-eq5). The following subsections present the evidence behind each of these numbers, followed by a discussion of their implications, limitations, and threats to validity.
+Taken together, the results support one conclusion for RQ1: the generated suite covers the observed application broadly and reaches most of its routes at the code level. It reaches full route, form, field, and access-matrix coverage of the observed model on all three subjects, with element coverage of #evBladeElemCov on the Laravel subjects, and #evBladeRouteExecCov of application routes at the code level (@sec-eq1, @sec-eq2). These two figures answer different questions, because model coverage is a completeness check against the tool's own crawl model and is largely guaranteed by construction, whereas code coverage measures how much of the application's real logic was exercised and is therefore the more informative evidence of depth.
 
-#figure(
-  caption: [Notation used in the results tables and prose.],
-  table(
-    columns: (auto, 2.6fr),
-    table.header(
-      table.hline(),
-      [*Notation*], [*Meaning*],
-      table.hline(),
-    ),
-    [$R$], [number of repeated evaluation runs ($R = 5$ in this study)],
-    [X% (a/b)], [percentage X, with the covered count a and total count b in parentheses],
-    [a / b], [in EQ4, the generated suite's value followed by the baseline's value, in that order; for example, 1.20 / 1.00 means the generated suite averages 1.20 assertions per test versus 1.00 for the manual baseline],
-    [$kappa$], [Fleiss' $kappa$, cross-browser pass/fail agreement across Chromium, Firefox, and WebKit; 1 indicates identical verdicts on all three],
-    [$U$], [the Mann--Whitney $U$ test statistic comparing generated-suite and baseline execution durations],
-    [$r$], [the rank-biserial effect size for that same Mann--Whitney comparison],
-    [$p$], [the $p$-value from the Mann--Whitney test],
-    [$plus.minus$], [half-width of a 95% confidence interval around the preceding mean],
-    [$times$], [a multiplicative ratio (e.g. a time-savings ratio) or the RBAC role$times$route matrix product, depending on context],
-    table.hline(),
-  ),
-) <tab-notation>
+For RQ2, the generated suite is stronger on test quality than the baselines but slower per test. It leads on assertion density and locator robustness, trails the manual baseline on duration per test, and runs with a flake rate of no more than #evBladeFlake (@sec-eq3, @sec-eq4). The following subsections present the evidence behind each number, followed by the implications, limitations, and threats to validity.
 
 == EQ1: model coverage <sec-eq1>
 
-The generated suite covers the entire observed model surface: element coverage reaches #evBladeElemCov on Blade, #evInertiaElemCov on Inertia React, and #evSauceElemCov on SauceDemo, with route, form, field, access-matrix, and constraint-kind coverage all at 100% on the three subjects, and navigation coverage of #evBladeNavCov on both Laravel subjects, where two of the 19 navigation scenarios produced no test (@tab-results-eq1). This remaining gap has not been diagnosed further. As noted above, these figures are completeness figures against the crawl model TathyaTest itself builds, not against the application's entire functionality; concretely, it means that every unique path the crawler found is tested, every role$times$route cell in the access matrix has either a positive test (route reachable) or a negative test (route blocked), and every constraint kind that appears in the crawl contract (required, type, maxlength, option, confirmation, unique, robustness) is exercised by at least one variant.
+The generated suite covers nearly the entire observed model surface, with element coverage of #evBladeElemCov on Blade, #evInertiaElemCov on Inertia React, and #evSauceElemCov on SauceDemo (@tab-results-eq1). Route, form, field, access-matrix, and constraint-kind coverage are all at 100% on the three subjects, which means that every unique path the crawler found is tested, every role$times$route cell has either a positive test (route reachable) or a negative test (route blocked), and every constraint kind in the crawl contract is exercised by at least one variant. Navigation coverage is #evBladeNavCov on both Laravel subjects, where two of the 19 navigation scenarios produced no test, a gap that has not been diagnosed further.
 
-Full CRUD operations are tested on the `todos` resource in both Laravel case studies, while SauceDemo, consistent with its nature, only exposes read operations on the catalogue and checkout pages. The external measure of how much of the application this actually reaches is provided by the code-coverage results in EQ2, presented next. Within the crawl-model boundary, the first half of RQ1 is answered: no observed surface escapes generation.
+These figures are completeness figures against the crawl model that TathyaTest itself builds, not against the application's entire functionality. Full CRUD operations are tested on the `todos` resource in both Laravel case studies, while SauceDemo only exposes read operations on its catalogue and checkout pages. The external measure of how much of the application this actually reaches is the code-coverage result in EQ2, presented next.
 
 #figure(
   caption: [EQ1 results: model coverage per subject.],
@@ -526,43 +443,14 @@ At the code level, the same suite reaches #evBladeRouteExecCov of application ro
   ),
 ) <tab-results-eq2>
 
-== EQ3: fault-detection effectiveness <sec-eq3>
+== EQ3: suite quality <sec-eq3>
 
-Of the #evBladeFaultTotal catalogue faults, #evBladeDetectable of the detectable ones were detected on both Blade and Inertia React (missed detectable faults: #evBladeMissed), with a localization accuracy of #evBladeFaultLoc (@tab-results-eq3, from the catalogue in @tab-faults). The #evBladeControls negative controls, which the generator is deliberately not designed to find (a date rule, a body-string rule, a changed message text, and an ignored search filter), all survived, and none was detected unexpectedly (detected controls: #evBladeControlHit). The rate over the whole catalogue is therefore #evBladeMutScore, and the detection rate of the detectable faults is the figure that measures regression-detection ability. The hand-written baseline detected #evBladeBaseDetectable of the detectable faults.
+The intrinsic quality of the generated suite matches the manual baseline and is far better maintained than the public suites: assertion density of #evBladeAssertDensity versus #evBladeBaseAssertDensity on Blade, and a brittle-locator ratio of #evSauceBrittle versus #evSauceBaseBrittle against the combined three SauceDemo public suites (@tab-results-eq3; a "/" separates the generated suite's value from the baseline's). The stark difference in brittle-locator ratio on SauceDemo comes directly from the semantic locator priority chain: the generator picks role, label, and placeholder before falling back to CSS, while most public suites rely on CSS selectors.
 
-This localization-accuracy value shows that every detected fault was caught by a test that actually targets that fault class, not by an incidental failure, including the authorization fault, which was caught by RBAC tests derived from the per-role access matrix on both stacks. By contrast, the concise manual baseline detected only a small fraction of faults under the same configuration, consistent with its limited scenario coverage. Within the bounds of this 18-fault catalogue, RQ2 is answered affirmatively for all five classes of functional regression, and the surviving controls delimit what the suite cannot see: server-only rules and the exact wording of messages.
-
-#figure(
-  caption: [EQ3 results: seeded-fault detection per fault class, controls included.],
-  table(
-    columns: (1.3fr, 1fr, 1fr),
-    table.header(
-      table.hline(),
-      [*Fault class*], [*Blade*], [*Inertia*],
-      table.hline(),
-    ),
-    [validation ($n=9$, 3 controls)], [#evBladeMutValidation], [#evInertiaMutValidation],
-    [authz ($n=2$)], [#evBladeMutAuthz], [#evInertiaMutAuthz],
-    [crud ($n=4$, 1 control)], [#evBladeMutCrud], [#evInertiaMutCrud],
-    [pagination ($n=1$)], [#evBladeMutPagination], [#evInertiaMutPagination],
-    [auth ($n=2$)], [#evBladeMutAuth], [#evInertiaMutAuth],
-    table.hline(),
-    [*Overall rate, all faults*], [*#evBladeMutScore*], [*#evInertiaMutScore*],
-    [Detectable faults detected], [#evBladeDetectable], [#evInertiaDetectable],
-    [Negative controls surviving], [#evBladeControls], [#evInertiaControls],
-    [Localization accuracy], [#evBladeFaultLoc], [#evInertiaFaultLoc],
-    table.hline(),
-  ),
-) <tab-results-eq3>
-
-== EQ4: suite quality <sec-eq4>
-
-The intrinsic quality of the generated suite matches the manual baseline and is far better maintained than the public suites: assertion density of #evBladeAssertDensity versus #evBladeBaseAssertDensity on Blade, and a brittle-locator ratio of #evSauceBrittle versus #evSauceBaseBrittle against the combined three SauceDemo public suites (@tab-results-eq4; see @tab-notation for the "/" notation). The stark difference in brittle-locator ratio on SauceDemo comes directly from the semantic locator priority chain: the generator picks role, label, and placeholder before falling back to CSS, while most public suites rely on CSS selectors.
-
-Brittle-locator ratio is computed from the proportion of fallback CSS locators, and the robustness score summarizes locator-strategy position on the priority chain; the Blade/Inertia React baseline is the manual suite included in the repository, and the SauceDemo baseline is the three MIT-licensed public suites. This quality dimension is the first component of the RQ3 answer.
+Brittle-locator ratio is computed from the proportion of fallback CSS locators, and the robustness score summarizes locator-strategy position on the priority chain; the Blade/Inertia React baseline is the manual suite included in the repository, and the SauceDemo baseline is the three MIT-licensed public suites. This quality dimension is the first component of the RQ2 answer.
 
 #figure(
-  caption: [EQ4 results: suite quality, generated / baseline.],
+  caption: [EQ3 results: suite quality, generated / baseline.],
   table(
     columns: (1.1fr, 1fr, 1fr, 1fr),
     table.header(
@@ -578,18 +466,22 @@ Brittle-locator ratio is computed from the proportion of fallback CSS locators, 
     [Locator mix (baseline)], [#evBladeBaseLocMix], [#evInertiaBaseLocMix], [#evSauceBaseLocMix],
     table.hline(),
   ),
-) <tab-results-eq4>
+) <tab-results-eq3>
 
-== EQ5: reliability, efficiency, and baseline comparison <sec-eq5>
+== EQ4: reliability, efficiency, and baseline comparison <sec-eq4>
 
-Suite reliability is high on both controlled subjects: a flake rate of #evBladeFlake on Blade and #evInertiaFlake on Inertia React, with cross-browser agreement of $kappa =$ #evBladeKappa (@tab-results-eq5). On the external subject, a flake rate of #evSauceFlake is still acceptable given public-server variability.
+Suite reliability is high on both controlled subjects: a flake rate of #evBladeFlake on Blade and #evInertiaFlake on Inertia React, with cross-browser agreement of $kappa =$ #evBladeKappa (@tab-results-eq4). On the external subject, a flake rate of #evSauceFlake is still acceptable given public-server variability.
 
 Per-suite execution duration for the generated suite is higher than the concise baseline, and the difference is statistically significant (Blade: #evBladeMannWhitney). In exchange, the authoring time-savings ratio reaches #evBladeSavings against an explicitly stated assumed manual cost.
 
-Methodologically, flake rate is computed from status inconsistency across the $R = 5$ repetitions, while $kappa$ is computed over pass/fail status; tests skipped due to role restrictions are not counted in either. The verdict row summarizes a head-to-head tabulation across seven comparable dimensions on the Laravel subjects and six on SauceDemo, where no fault run exists. The near-zero $kappa$ value on Inertia React needs to be read in the context of Fleiss $kappa$'s prevalence paradox: under a highly skewed status distribution, a single disagreeing run disproportionately depress $kappa$. Together with EQ4, this result completes the RQ3 answer: a higher per-test execution cost is traded for far broader scenario coverage and far shorter authoring time. The verdict also moved against the generated suite on the Laravel subjects, because the small hand-written baseline never fails, so it wins on flake rate, pass rate, and brittle-locator ratio there; the generated suite leads on fault detection, assertion density, and locator robustness.
+Methodologically, flake rate is computed from status inconsistency across the $R = 5$ repetitions, while $kappa$ is computed over pass/fail status; tests skipped due to role restrictions are not counted in either.
+
+The near-zero $kappa$ value on Inertia React reflects Fleiss $kappa$'s prevalence paradox and not disagreement between browsers: when almost every test passes in every browser, a single disagreeing run depresses $kappa$ disproportionately.
+
+Together with EQ3, this result completes the RQ2 answer: the generated suite trades a higher per-test execution cost for far broader scenario coverage and far shorter authoring time, while the small hand-written baseline is faster and rarely fails because it exercises only a few scenarios.
 
 #figure(
-  caption: [EQ5 results: reliability, efficiency, and baseline comparison.],
+  caption: [EQ4 results: reliability, efficiency, and baseline comparison.],
   table(
     columns: (1.1fr, 1fr, 1fr, 1fr),
     table.header(
@@ -606,26 +498,23 @@ Methodologically, flake rate is computed from status inconsistency across the $R
     [Duration per test], [#evBladePerTestSec], [#evInertiaPerTestSec], [#evSaucePerTestSec],
     [Savings ratio], [#evBladeSavings], [#evInertiaSavings], [#evSauceSavings],
     [Mann--Whitney $U$], [#evBladeMannWhitney], [#evInertiaMannWhitney], [#evSauceMannWhitney],
-    [Head-to-head verdict], [#evBladeVerdict], [#evInertiaVerdict], [#evSauceVerdict],
     table.hline(),
   ),
-) <tab-results-eq5>
+) <tab-results-eq4>
 
 == Summary of findings
 
 *RQ1 (coverage).* The generated suite covers 100% of the observed routes, forms, fields, access-matrix cells, and constraint kinds on all three subjects, with element coverage of #evBladeElemCov and navigation coverage of #evBladeNavCov on the Laravel subjects (@tab-results-eq1). At the code level, the suite reaches #evBladeRouteExecCov of application routes with line coverage of #evBladeLineCov on Blade and #evInertiaLineCov on Inertia React (@tab-results-eq2). The limitation is clear: the coverage figures refer to the surface the crawler observed, so functions that never appear in the DOM are not generated.
 
-*RQ2 (fault detection).* The suite detected #evBladeDetectable of the detectable seeded faults on both Laravel subjects, with a localization accuracy of #evBladeFaultLoc, and all #evBladeControls negative controls survived (@tab-results-eq3). Authorization faults were caught by RBAC tests derived from the per-role access matrix. This result applies to this study's 18-fault catalogue and is not generalized to arbitrary regressions.
+*Real defects.* Beyond the coverage and quality figures, the suite exposed two real defects in the case-study applications, which shows that the generated checks find genuine problems. Laravel's stock Tailwind paginator escapes the arrow into its accessible name ("Next &raquo;"), so the visible label and the accessible name differ, and the runtime visibility guard revealed that the earlier crawl had silently skipped the next-page scenario. In addition, `Route::resource('todos')` declared a show route with no controller action, so `GET /todos/{id}` returned HTTP 500; the inferred-route check found it, and the route is now excluded with `except(['show'])`.
 
-Beyond the catalogue, the suite exposed two real defects in the case-study applications. Laravel's stock Tailwind paginator escapes the arrow into its accessible name ("Next &raquo;"), so the visible label and the accessible name differ; the earlier crawl silently skipped the next-page scenario, and the runtime visibility guard revealed it. And `Route::resource('todos')` declared a show route with no controller action, so `GET /todos/{id}` returned HTTP 500; the inferred-route check found it, and the route is now excluded with `except(['show'])`. Both were found outside the seeded catalogue, which partly answers the internal-completeness caveat discussed under construct validity.
-
-*RQ3 (comparison).* The generated suite leads on assertion density and locator robustness against every baseline, and on brittle-locator ratio against the public suites (#evSauceBrittle versus #evSauceBaseBrittle), with $kappa =$ #evBladeKappa on Blade and #evInertiaKappa on Inertia React. The manual baseline leads on duration per test, flake rate, and pass rate on the Laravel subjects. The head-to-head verdict was #evBladeVerdict on Blade, #evInertiaVerdict on Inertia React, and #evSauceVerdict on SauceDemo (@tab-results-eq4 and @tab-results-eq5).
+*RQ2 (comparison).* The generated suite leads on assertion density and locator robustness against every baseline, and on brittle-locator ratio against the public suites (#evSauceBrittle versus #evSauceBaseBrittle), with $kappa =$ #evBladeKappa on Blade and #evInertiaKappa on Inertia React. The manual baseline leads on duration per test, flake rate, and pass rate on the Laravel subjects. (@tab-results-eq3 and @tab-results-eq4).
 
 == Implications of the results
 
-These results place TathyaTest's main value in constructing a regression-testing baseline directly from a running application. The seeded-fault detection rate and localization accuracy shift the claim from artifact-based potential to measured fault-detection effectiveness, while reliability and efficiency metrics place that claim relative to a manual baseline through statistical testing. The head-to-head tabulation shows a complementary pattern: the generated suite leads on fault detection, assertion density, and locator robustness, while the concise manual baseline leads on duration per test, flake rate, pass rate, and brittle-locator ratio on the Laravel subjects. This pattern is consistent with TathyaTest's position as a provider of a broad-scale regression baseline, not a replacement for manual tests selectively written by a QA engineer.
+These results place TathyaTest's main value in constructing a regression-testing baseline directly from a running application. The coverage figures show how much of the observed application that baseline reaches, and the comparison with hand-written suites shows what it costs: more tests and longer runs in exchange for broader scenarios and far shorter authoring time. This pattern is consistent with TathyaTest's position as a provider of a broad regression baseline, not a replacement for manual tests selectively written by a QA engineer.
 
-Both constructs named in the title connect directly to the measured quantities. For regression testing, each seeded fault simulates a functional regression, so the EQ3 detection rate of detectable faults is understood as a regression-detection rate; a low flake rate and a high $kappa$ across $R = 5$ repetitions show the stability required of a regression suite that is run repeatedly. For functional availability, the combination of a #evBladePassRate to #evInertiaPassRate pass rate on a normal build with no active fault, and precisely targeted test failures for every fault, shows that the suite can distinguish available functions from broken ones.
+Both constructs named in the title connect directly to the measured quantities. For regression testing, a low flake rate and a high $kappa$ across $R = 5$ repetitions show the stability that a repeatedly run suite requires. For functional availability, a pass rate between #evBladePassRate and #evInertiaPassRate on a normal build shows that the suite reports a healthy application as healthy, and the two real defects show that it flags behavior that is genuinely broken.
 
 Execution time of #evBladeExecSec for one full cycle (three browsers, two roles) sets a realistic upper bound on check frequency if the suite is used as a post-deployment synthetic functional check.
 
@@ -633,37 +522,37 @@ Execution time of #evBladeExecSec for one full cycle (three browsers, two roles)
 
 Every limitation here traces back to one root cause: TathyaTest only knows what the DOM and the configuration tell it. If a server-side validation rule lives inside a closure or some bespoke business logic that never surfaces in the markup, the crawler simply has no way to see it. Locator quality inherits the same dependency, it is only ever as good as the target application's own markup.
 
-The evaluation side has its own, separate set of caveats. Branch coverage is a control-flow-line-based proxy rather than the real thing, the manual baseline is still modest in size, and the fault catalogue was built to be representative, not exhaustive; its four negative controls make the known blind spots explicit, such as server-only rules and the exact wording of messages.
+The evaluation side has its own, separate set of caveats. Branch coverage is a control-flow-line-based proxy rather than the real thing, and the manual baseline is still modest in size.
 
-Taken together, these limits set the boundary for what this study can claim. There is enough evidence here to judge fault-detection effectiveness, coverage, and efficiency across two rendering mechanisms, but stretching that to every kind of web application would need replication on a wider set of applications and a richer fault catalogue than this study used. TathyaTest is best read, for now, as a prototype with a replicable empirical evaluation behind it, one meant to be built on rather than treated as a final answer.
+Taken together, these limits set the boundary for what this study can claim. There is enough evidence here to judge coverage, quality, and efficiency across two rendering mechanisms, but stretching that to every kind of web application would need replication on a wider set of applications than this study used. TathyaTest is best read, for now, as a prototype with a replicable empirical evaluation behind it, one meant to be built on rather than treated as a final answer.
 
 == Threats to validity
 
 === Internal validity
-A server-side fault registry switches seeded faults on and off deterministically, with no code patching involved, and every test calls the configured state-reset hook before it runs, so results cannot bleed between tests. (The read-only monitoring mode deliberately calls no reset hook and is not part of this measurement.) That said, a real browser is still a real browser, environmental flakiness does not disappear just because the fault injection is clean. $R$ repetitions, flake-rate reporting, and a fixed faker seed are the mitigations here, together ruling out data variation as a confound. One more detail worth stating plainly: restricting fault runs to the manifest's relevant tests does not change what the detection rate actually means, since a fault still only counts as detected when one of those relevant tests fails.
+The main internal threats are leakage between tests and random data variation, and both are controlled. Every test calls the configured state-reset hook before it runs, so results cannot bleed between tests (the read-only monitoring mode deliberately calls no reset hook and is not part of this measurement). A real browser is still a real browser, so environmental flakiness remains possible, which is why $R$ repetitions, flake-rate reporting, and a fixed faker seed are used together to rule out data variation as a confound.
 
 === External validity
-Both internal subjects run on the same framework, Laravel, so the generalization this study can honestly claim is bounded to MVC applications built in a similar style. The generator's classification rules are framework-neutral by design, which lowers that bound without removing it, because no non-Laravel application with a fault endpoint was evaluated. SauceDemo widens that architectural picture, it is an external React SPA, but the widening comes with a cost: EQ2 and EQ3 fall away entirely because its server cannot be instrumented, and `saucedemo.com` being up on any given run is never guaranteed. Its EQ5 baseline also comes from three third-party suites of varying pattern and quality rather than from a controlled source, though that is arguably a feature here: being independent is exactly what lets those suites strengthen the comparison's external validity, even if none of them were built with one-to-one comparable coverage against the generated suite in mind.
+Both internal subjects run on the same framework, Laravel, so the generalization this study can honestly claim is bounded to MVC applications built in a similar style. The generator's classification rules are framework-neutral by design, which lowers that bound without removing it, because no non-Laravel application with server-side instrumentation was evaluated. SauceDemo widens that architectural picture, it is an external React SPA, but the widening comes with a cost: EQ2 falls away entirely because its server cannot be instrumented, and `saucedemo.com` being up on any given run is never guaranteed. Its EQ4 baseline also comes from three third-party suites of varying pattern and quality rather than from a controlled source, though that is arguably a feature here: being independent is exactly what lets those suites strengthen the comparison's external validity, even if none of them were built with one-to-one comparable coverage against the generated suite in mind.
 
 === Construct validity
-What this study calls branch coverage is really a control-flow-line-based proxy, not the genuine article, and every EQ2 claim should be read with that substitution in mind. The model coverage reported for EQ1 carries a similar caveat: it is measured against the crawl model TathyaTest itself constructed, so what it actually certifies is internal completeness, not coverage of the application's full functionality. The seeded-fault detection rate, in turn, is only as good as the fault catalogue behind it. That catalogue covers five common classes of functional regression, validation, authorization, CRUD, pagination, authentication, deliberately, not as an attempt at an exhaustive list, and it was built by the same people who built the generator, activating one fault at a time. Three safeguards limit the resulting bias: fourteen faults were derived from the case-study code (one per validation rule, access check, and controller outcome) rather than from the generator's variant classes, four negative controls that the generator is not designed to find were included and are reported as expected survivors, and two real defects outside the catalogue were found. Even so, the #evBladeDetectable detection rate reads correctly only as a measure of performance against this specific catalogue, not a general claim about detecting arbitrary regressions, and it is not operator-based mutation analysis. The time-savings ratio has its own stated assumption baked in, an assumed manual per-case cost, reported here alongside a sensitivity analysis precisely so it is not mistaken for something empirically measured.
+Two of the measured quantities are proxies and one rests on an assumption, so each needs careful reading. What this study calls branch coverage is really a control-flow-line-based proxy, not the genuine article, so every EQ2 claim should be read with that substitution in mind. The model coverage reported for EQ1 is measured against the crawl model that TathyaTest itself constructed, so it certifies internal completeness and not coverage of the application's full functionality. The time-savings ratio bakes in an assumed manual per-case cost, which is reported alongside a sensitivity analysis so that it is not mistaken for something empirically measured.
 
 === Conclusion validity
 Comparing the generated suite against the baseline leans on the non-parametric Mann--Whitney $U$ test, rank-biserial effect size included, at a significance level of $alpha = 0.05$, with every mean carrying a 95% confidence interval (Student's $t$, $n = R$). The manual baseline being small does cap how much statistical power that test can have, which is exactly why effect size is reported right alongside exact $p$-values, so a reader can weigh magnitude and not just whether a result cleared a significance threshold.
 
 == Reproducibility and artifact availability
 
-The entire evaluation can be replicated with a single evaluation command per subject. Example configurations, including per-case-study variants, are included in the repository; runtime data is generated with a fixed faker seed (42); and the three SauceDemo public baselines are included as git submodules pinned to specific commits with recorded provenance. Both Laravel case studies, the fault catalogue, the metrics module, and the structured evaluation reports are available in the same repository, so the evidence chain from crawl to the numbers in the results tables can be fully traced. The numbers were produced with $R = 5$ repetitions and faker seed 42 on 2026-10-11, one stack at a time, and the generated table of values is rebuilt from the reports by scripts kept with the manuscript. The generator is framework-neutral; the two case-study fixes described under EQ3 (the paginator label and the excluded show route) are part of the case-study applications.
+The entire evaluation can be replicated with a single evaluation command per subject. Example configurations, including per-case-study variants, are included in the repository; runtime data is generated with a fixed faker seed (42); and the three SauceDemo public baselines are included as git submodules pinned to specific commits with recorded provenance. Both Laravel case studies, the metrics module, and the structured evaluation reports are available in the same repository, so the evidence chain from crawl to the numbers in the results tables can be fully traced. The numbers were produced with $R = 5$ repetitions and faker seed 42 on 2026-10-11, one stack at a time, and the generated table of values is rebuilt from the reports by scripts kept with the manuscript. The generator is framework-neutral; the two case-study fixes described in the summary of findings (the paginator label and the excluded show route) are part of the case-study applications.
 
 = Conclusion
 
-This study presents TathyaTest, a crawling-based functional test-case generator for web applications. The pipeline performs authenticated per-role crawling, extracts an element model, forms an RBAC access matrix, and then produces Playwright specifications together with their manifest, using seedable runtime faker data. Its effectiveness is measured through an evaluation module with five metric groups and statistical tests on three subjects: two fully instrumented Laravel case studies and SauceDemo as an external subject.
+This study presents TathyaTest, a crawling-based functional test-case generator for web applications. The pipeline performs authenticated per-role crawling, extracts an element model, forms an RBAC access matrix, and then produces Playwright specifications together with their manifest, using seedable runtime faker data. Its effectiveness is measured through an evaluation module with four metric groups and statistical tests on three subjects: two fully instrumented Laravel case studies and SauceDemo as an external subject.
 
-All three research questions are answered by the data. First, the generated suite covers every observed route, form, field, and access-matrix cell on all three subjects and reaches #evBladeRouteExecCov of application routes with line coverage from #evBladeLineCov up to #evInertiaLineCov. Second, #evBladeDetectable of the detectable seeded faults were detected, the #evBladeControls negative controls survived as designed, and two real defects outside the catalogue were found, with a localization accuracy of #evBladeFaultLoc. Third, the generated suite exceeds the baseline on assertion density and locator robustness, and on brittle-locator ratio against the public SauceDemo suites, with a trade-off of higher per-test duration and slightly higher flake than the concise manual baseline on the Laravel subjects.
+Both research questions are answered by the data. First, the generated suite covers every observed route, form, field, and access-matrix cell on all three subjects and reaches #evBladeRouteExecCov of application routes with line coverage from #evBladeLineCov up to #evInertiaLineCov. Second, the generated suite exceeds the baseline on assertion density and locator robustness, and on brittle-locator ratio against the public SauceDemo suites, with a trade-off of higher per-test duration and slightly higher flake than the concise manual baseline on the Laravel subjects, and it exposed two real defects in the case-study applications.
 
-These results hold within their stated bounds. The coverage figures refer to the surface observed by the crawler, and the detection rate refers to an 18-fault catalogue that includes four negative controls. Within those bounds, this study's contribution is the design of a test-generation pipeline and a replicable evaluation framework, with generalizability strengthened by cross-stack subjects and an independent third-party baseline.
+These results hold within their stated bounds. The coverage figures refer to the surface observed by the crawler. Within those bounds, this study's contribution is the design of a test-generation pipeline and a replicable evaluation framework, with generalizability strengthened by cross-stack subjects and an independent third-party baseline.
 
-Future work is directed at three areas. External validity needs to be extended through replication on production applications and non-Laravel frameworks, together with a richer fault catalogue and manual baseline. Technical directions include operator-based mutation analysis with a mutant generator to complement the seeded faults, full branch coverage in place of the current proxy, support for complex server-side validation rules, and improved locator robustness. Read-only mode already supports status-style monitoring of whole applications; measuring it over time on a production service is left for future work.
+Future work is directed at three areas. External validity needs to be extended through replication on production applications and non-Laravel frameworks, together with a richer manual baseline. Technical directions include measuring fault-detection ability through systematic fault injection (mutation testing), full branch coverage in place of the current proxy, support for complex server-side validation rules, and improved locator robustness. Read-only mode already supports status-style monitoring of whole applications; measuring it over time on a production service is left for future work.
 
 #set heading(numbering: none)
 
@@ -684,7 +573,7 @@ This research was funded by the DIPA (Daftar Isian Pelaksanaan Anggaran) interna
 
 = Data availability
 
-Both Laravel case studies, the fault catalogue, the metrics module, and the structured evaluation reports referenced throughout this paper are available in the project repository; the three SauceDemo baseline suites are included as pinned git submodules with recorded provenance (@tab-baseline-public).
+Both Laravel case studies, the metrics module, and the structured evaluation reports referenced throughout this paper are available in the project repository; the three SauceDemo baseline suites are included as pinned git submodules with recorded provenance (@tab-baseline-public).
 
 = Declaration of generative AI and AI-assisted technologies in the writing process
 
