@@ -14,9 +14,8 @@ Dengan TathyaTest, proses pengujian aplikasi berbasis web dapat dilakukan secara
 
 == Rumusan Masalah <rumusan-masalah>
 
-+ Bagaimana efektivitas TathyaTest dalam menghasilkan test case otomatis untuk pengujian aplikasi berbasis web beserta kemampuannya dalam mendeteksi cacat fungsional, pada aplikasi berarsitektur MVC dan RBAC?
-+ Sejauh mana TathyaTest dapat meningkatkan cakupan pengujian aplikasi berbasis web, diukur dari cakupan model elemen (form, field, navigasi, matriks RBAC) dan cakupan rute yang dihasilkan dari crawling DOM ter-render?
-+ Bagaimana TathyaTest dapat memvalidasi ekspektasi fungsional aplikasi berbasis web -- seperti memastikan login berhasil, data dapat disimpan, dan modul dapat diakses sesuai peran pengguna -- secara konsisten dan andal lintas browser?
++ Sejauh mana test suite yang dihasilkan TathyaTest dari observasi DOM ter-render secara terotentikasi mencakup permukaan fungsional aplikasi berbasis web -- baik pada tingkat model elemen (form, field, navigasi, matriks RBAC) maupun pada tingkat kode sumber aplikasi (system under test, SUT)?
++ Bagaimana kualitas intrinsik, keandalan, dan efisiensi test suite yang dihasilkan TathyaTest dibandingkan dengan test suite tulisan manual dan test suite publik independen?
 
 == Batasan Masalah <batasan-masalah>
 
@@ -32,9 +31,8 @@ Untuk memfokuskan penelitian dan memastikan hasil yang optimal, batasan masalah 
 
 == Tujuan Penelitian <tujuan-penelitian>
 
-+ Mengukur efektivitas TathyaTest dalam menghasilkan test case otomatis dan mendeteksi cacat fungsional (skor mutasi), dengan mengevaluasinya pada aplikasi studi kasus yang memiliki arsitektur MVC dan RBAC.
-+ Menilai seberapa baik TathyaTest dapat meningkatkan cakupan pengujian aplikasi berbasis web, diukur dari cakupan model elemen (form, field, navigasi, matriks RBAC) dan cakupan rute hasil crawling DOM ter-render.
-+ Mengevaluasi apakah TathyaTest dapat memvalidasi ekspektasi fungsional aplikasi berbasis web secara konsisten lintas browser, seperti memastikan login berhasil, data dapat disimpan, dan modul dapat diakses dengan benar sesuai peran pengguna.
++ Mengukur cakupan permukaan fungsional aplikasi berbasis web yang dicapai oleh test suite hasil generate TathyaTest, pada tingkat model elemen hasil crawling DOM ter-render maupun pada tingkat kode sumber aplikasi (SUT).
++ Mengevaluasi kualitas intrinsik (densitas asersi, ketahanan locator), keandalan (flake rate, kesepakatan lintas-browser), dan efisiensi (waktu eksekusi, penghematan waktu) test suite yang dihasilkan TathyaTest dibandingkan dengan baseline manual dan test suite publik independen.
 
 == Manfaat Penelitian <manfaat-penelitian>
 

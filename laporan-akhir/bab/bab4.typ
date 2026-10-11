@@ -25,7 +25,9 @@ Kendala utama yang ditemui adalah penjelajahan aplikasi SPA (Inertia-React) yang
 
 ==== Ekstraksi Elemen HTML <modul-ekstraksi>
 
-Ekstraksi elemen dilakukan langsung pada konteks browser menggunakan skrip evaluasi DOM (`page.evaluate()`) yang dijalankan oleh Playwright, bukan melalui pustaka parser HTML statis seperti Goquery yang diusulkan pada rancangan awal. Pendekatan ini mengidentifikasi form (termasuk klasifikasi operasi CRUD berdasarkan atribut method tersembunyi `_method` pada aplikasi Laravel: PUT/PATCH untuk update, DELETE untuk delete), field input berikut batasan validasinya (required, minlength, maxlength, pattern, dan sejenisnya), tautan, tombol (termasuk elemen dengan peran ARIA seperti `role="button"`), dan tabel. Sebuah proses tambahan menggunakan `ariaSnapshot()` meningkatkan kualitas locator yang lemah (berbasis CSS atau nama elemen) menjadi locator berbasis peran (role locator) yang lebih tahan terhadap perubahan struktur halaman.
+Ekstraksi elemen dilakukan langsung pada konteks browser menggunakan skrip evaluasi DOM (`page.evaluate()`) yang dijalankan oleh Playwright, bukan melalui pustaka parser HTML statis seperti Goquery yang diusulkan pada rancangan awal. Pendekatan ini mengidentifikasi form (termasuk klasifikasi operasi CRUD), field input berikut batasan validasinya (required, minlength, maxlength, pattern, dan sejenisnya), tautan, tombol (termasuk elemen dengan peran ARIA seperti `role="button"`), dan tabel. Sebuah proses tambahan menggunakan `ariaSnapshot()` meningkatkan kualitas locator yang lemah (berbasis CSS atau nama elemen) menjadi locator berbasis peran (role locator) yang lebih tahan terhadap perubahan struktur halaman.
+
+Klasifikasi operasi CRUD pada awalnya hanya mengenali atribut method tersembunyi `_method` khas Laravel (PUT/PATCH untuk update, DELETE untuk delete). Implementasi kemudian digeneralisasi menjadi deteksi berbasis urutan prioritas yang tidak terikat pada satu framework tertentu -- mencakup juga pola method-spoofing pada Rails/Symfony/Spring, verb Turbo/HTMX, serta heuristik kata kunci pada path aksi dan teks tombol submit -- sehingga TathyaTest dapat digunakan pada aplikasi berbasis framework web lain di luar Laravel tanpa perubahan pada logika inti generator.
 
 ==== Generator Test Case <modul-generator>
 
@@ -43,7 +45,7 @@ Locator pada kode yang dihasilkan mengikuti urutan prioritas sebagaimana ditunju
   caption: [Rantai Prioritas Locator: Kecocokan Pertama yang Digunakan],
 ) <fig-locator-chain>
 
-Oracle (penentu hasil uji) memvalidasi kemunculan elemen galat yang sesuai (misalnya `.invalid-feedback` atau `[role=alert]`) tanpa bergantung pada kecocokan teks pesan kesalahan secara persis, agar lebih tahan terhadap perubahan redaksi pesan.
+Oracle (penentu hasil uji) memvalidasi kemunculan elemen galat yang sesuai (misalnya `.invalid-feedback` atau `[role=alert]`) tanpa bergantung pada kecocokan teks pesan kesalahan secara persis, agar lebih tahan terhadap perubahan redaksi pesan. Kode test case yang dihasilkan menggunakan judul deskriptif yang mencerminkan skenario pengujian (misalnya `admin · /todos/create · form "Create" → POST /todos · title menolak nilai kosong`), berbagi satu modul pendukung (`support/tathya.ts`) untuk fungsi login dan fixture per peran/aplikasi, serta disusun dalam tahapan (`test.step`) dan ditandai dengan tag tingkat (`@tier`), kategori (`@category`), dan peran (`@role`) agar lebih mudah dibaca dan dipelihara dibandingkan kode hasil generate pada implementasi awal.
 
 ==== Eksekusi dengan Playwright <modul-eksekusi>
 
@@ -61,8 +63,8 @@ TathyaTest dievaluasi dengan menjalankan `tt eval` sebanyak lima repetisi (_n_ =
     stroke: 0.5pt,
     align: center + horizon,
     table.header([*Aplikasi*], [*Positif*], [*Negatif*], [*Tepi (Edge)*], [*Total*]),
-    table.cell(align: left)[Laravel Blade], [46], [23], [34], [*103*],
-    table.cell(align: left)[Laravel Inertia-React], [46], [23], [34], [*103*],
+    table.cell(align: left)[Laravel Blade], [46], [24], [34], [*104*],
+    table.cell(align: left)[Laravel Inertia-React], [46], [24], [34], [*104*],
     table.cell(align: left)[SauceDemo], [18], [4], [9], [*31*],
   ),
   caption: [Jumlah Test Case yang Dihasilkan per Aplikasi dan Tingkat],
@@ -70,11 +72,11 @@ TathyaTest dievaluasi dengan menjalankan `tt eval` sebanyak lima repetisi (_n_ =
 
 ==== Lingkungan Pengujian <lingkungan-pengujian>
 
-Pengujian dilakukan pada tiga aplikasi studi kasus: (1) aplikasi Laravel berbasis Blade (server-rendered), (2) aplikasi Laravel berbasis Inertia-React (SPA), keduanya merupakan aplikasi todo-list dengan kontrol akses berbasis peran (admin dan user) yang dikembangkan sendiri sebagai subjek uji terinstrumentasi (dilengkapi endpoint pengukuran cakupan kode dan injeksi cacat terkendali), serta (3) SauceDemo, sebuah aplikasi e-commerce eksternal yang digunakan sebagai pembanding (baseline) untuk menilai generalisasi di luar aplikasi yang dikembangkan sendiri oleh tim peneliti. Pengujian dijalankan pada tiga mesin peramban (Chromium, Firefox, WebKit) sebanyak lima repetisi untuk setiap aplikasi.
+Pengujian dilakukan pada tiga aplikasi studi kasus: (1) aplikasi Laravel berbasis Blade (server-rendered), (2) aplikasi Laravel berbasis Inertia-React (SPA), keduanya merupakan aplikasi todo-list dengan kontrol akses berbasis peran (admin dan user) yang dikembangkan sendiri sebagai subjek uji terinstrumentasi (dilengkapi endpoint pengukuran cakupan kode), serta (3) SauceDemo, sebuah aplikasi e-commerce eksternal yang digunakan sebagai pembanding (baseline) untuk menilai generalisasi di luar aplikasi yang dikembangkan sendiri oleh tim peneliti. Pengujian dijalankan pada tiga mesin peramban (Chromium, Firefox, WebKit) sebanyak lima repetisi untuk setiap aplikasi, menggunakan seed faker tetap (42) agar hasil dapat direproduksi.
 
 === Hasil Pengujian <hasil-pengujian>
 
-@tab-cakupan menunjukkan hasil pengukuran cakupan model (persentase elemen, rute, form, field, navigasi, dan matriks RBAC yang berhasil dipetakan dari hasil crawling) dan cakupan kode sumber aplikasi (diukur hanya pada kedua aplikasi Laravel, karena SauceDemo merupakan aplikasi eksternal yang tidak dapat diinstrumentasi).
+@tab-cakupan menunjukkan hasil pengukuran cakupan model (persentase elemen yang berhasil dipetakan dari hasil crawling, terhadap total elemen yang diamati) dan cakupan kode sumber aplikasi (diukur hanya pada kedua aplikasi Laravel, karena SauceDemo merupakan aplikasi eksternal yang tidak dapat diinstrumentasi). Kedua aplikasi Laravel mencatat angka yang identik pada seluruh metrik cakupan, karena keduanya berbagi struktur fitur, peran, dan rute yang sama dan diuji dengan metodologi yang sama persis.
 
 #figure(
   table(
@@ -82,43 +84,62 @@ Pengujian dilakukan pada tiga aplikasi studi kasus: (1) aplikasi Laravel berbasi
     stroke: 0.5pt,
     align: center + horizon,
     table.header([*Aplikasi*], [*Cakupan Model*], [*Baris Kode*], [*Fungsi*], [*Rute*]),
-    table.cell(align: left)[Laravel Blade], [100,0% (44/44)], [21,6% (92/426)], [69,6% (39/56)], [87,5% (7/8)],
-    table.cell(align: left)[Laravel Inertia-React], [100,0% (46/46)], [23,3% (104/446)], [68,4% (39/57)], [87,5% (7/8)],
+    table.cell(align: left)[Laravel Blade], [95,5% (42/44)], [23,6% (104/441)], [71,9% (41/57)], [100,0% (8/8)],
+    table.cell(align: left)[Laravel Inertia-React], [95,5% (42/44)], [23,6% (104/441)], [71,9% (41/57)], [100,0% (8/8)],
     table.cell(align: left)[SauceDemo], [100,0% (20/20)], [--], [--], [--],
   ),
   caption: [Cakupan Model Elemen dan Cakupan Kode Sumber per Aplikasi],
 ) <tab-cakupan>
 
-@tab-deteksi-keandalan menunjukkan hasil pengukuran deteksi cacat (mutation testing dengan sembilan cacat terkendali yang disuntikkan pada lima kategori: validasi, otorisasi, CRUD, paginasi, dan autentikasi) serta keandalan dan efisiensi eksekusi.
+Cakupan model pada @tab-cakupan merangkum elemen, form, field, dan matriks RBAC; dirinci lebih lanjut, cakupan rute pada tingkat model mencapai 100,0% (6/6) dan cakupan navigasi 89,5% (17/19) pada kedua aplikasi Laravel -- dua skenario navigasi dari 19 yang diamati tidak menghasilkan test case, sebuah celah yang belum ditelusuri lebih lanjut penyebabnya. Cakupan rute pada @tab-cakupan sendiri mengacu pada tingkat kode sumber (SUT), yaitu persentase rute aplikasi yang benar-benar dijangkau saat eksekusi, bukan cakupan rute pada tingkat model.
+
+@tab-kualitas menunjukkan hasil pengukuran kualitas intrinsik test suite yang dihasilkan TathyaTest dibandingkan dengan baseline (test suite manual untuk kedua aplikasi Laravel; gabungan tiga test suite publik independen untuk SauceDemo).
 
 #figure(
   table(
-    columns: (1fr, 2.1cm, 1.8cm, 1.6cm, 2.3cm, 1.8cm),
+    columns: (1fr, 2.6cm, 2.6cm, 2.2cm),
     stroke: 0.5pt,
     align: center + horizon,
-    table.header([*Aplikasi*], [*Skor Mutasi*], [*Flake Rate*], [*Pass Rate*], [*Waktu Eksekusi*], [*Penghematan Waktu*]),
-    table.cell(align: left)[Laravel Blade], [100,0% (9/9)], [0,2%], [98,9%], [976 s ± 78 s], [30,6×],
-    table.cell(align: left)[Laravel Inertia-React], [100,0% (9/9)], [0,0%], [100,0%], [1015 s ± 25 s], [29,4×],
-    table.cell(align: left)[SauceDemo], [--], [5,4%], [98,7%], [311 s ± 58 s], [29,4×],
+    table.header([*Aplikasi*], [*Densitas Asersi \ (Generate/Baseline)*], [*Rasio Locator Rapuh \ (Generate/Baseline)*], [*Ketahanan Locator*]),
+    table.cell(align: left)[Laravel Blade], [1,20 / 1,00], [4,7% / 0,0%], [72,4%],
+    table.cell(align: left)[Laravel Inertia-React], [1,20 / 1,00], [4,7% / 0,0%], [72,4%],
+    table.cell(align: left)[SauceDemo], [1,16 / 1,34], [0,0% / 62,5%], [85,7%],
   ),
-  caption: [Deteksi Cacat (Mutation Score), Keandalan, dan Efisiensi Eksekusi per Aplikasi],
-) <tab-deteksi-keandalan>
+  caption: [Kualitas Intrinsik Test Suite: Densitas Asersi, Rasio Locator Rapuh, dan Ketahanan Locator],
+) <tab-kualitas>
 
-Akurasi lokalisasi cacat (kemampuan test case yang gagal untuk menunjuk tepat pada kategori cacat yang disuntikkan) tercatat 100,0% pada kedua aplikasi Laravel. Kesepakatan hasil pengujian antar-browser (diukur dengan Fleiss' kappa) mencapai κ = 1,00 pada Blade dan Inertia-React, menunjukkan hasil yang sangat konsisten lintas Chromium, Firefox, dan WebKit; pada SauceDemo, κ = −0,01, sebuah nilai yang secara teknis rendah namun merupakan artefak dari "paradoks prevalensi" pada statistik kappa ketika hampir seluruh percobaan bernilai sama (pass), bukan indikasi ketidakkonsistenan yang substantif.
+Menariknya, pada kedua aplikasi Laravel rasio locator rapuh test suite hasil generate (4,7%) justru lebih tinggi daripada baseline manual (0,0%) -- baseline manual yang ditulis khusus untuk kedua aplikasi ini secara konsisten memakai locator bernama (`name`) yang stabil, sementara TathyaTest sesekali jatuh ke fallback locator berbasis CSS saat elemen tidak memiliki atribut semantik yang memadai. Pola sebaliknya justru terlihat pada SauceDemo: rasio locator rapuh test suite hasil generate TathyaTest tercatat 0,0%, jauh lebih rendah dibandingkan 62,5% pada gabungan tiga test suite publik independen yang digunakan sebagai pembanding -- menunjukkan bahwa keunggulan locator TathyaTest paling terasa ketika dibandingkan dengan test suite yang ditulis oleh pihak ketiga tanpa akses pada aturan prioritas locator yang sama.
 
-Dari sisi kualitas test suite, rasio locator rapuh (brittle-locator, yaitu locator berbasis CSS atau posisi yang mudah rusak oleh perubahan tata letak) pada test case yang dihasilkan TathyaTest tercatat 2,3--4,7%, dengan ketahanan locator (locator robustness) 68,0--74,3%. Sebagai pembanding, test suite publik eksternal untuk SauceDemo yang digunakan sebagai baseline memiliki rasio locator rapuh sebesar 62,5% -- jauh lebih tinggi dibandingkan 4,0% pada test case yang dihasilkan TathyaTest untuk aplikasi yang sama. Pengujian statistik Mann-Whitney U terhadap durasi eksekusi test case yang dihasilkan dibandingkan baseline manual menunjukkan perbedaan yang signifikan secara statistik pada ketiga aplikasi (p < 0,001).
+@tab-keandalan menunjukkan hasil pengukuran keandalan dan efisiensi eksekusi.
+
+#figure(
+  table(
+    columns: (0.9fr, 1.5cm, 1.5cm, 1.2cm, 2.3cm, 2.3cm),
+    stroke: 0.5pt,
+    align: center + horizon,
+    table.header([*Aplikasi*], [*Flake Rate*], [*Pass Rate*], [κ], [*Waktu Eksekusi*], [*Penghematan Waktu*]),
+    table.cell(align: left)[Laravel Blade], [0,5%], [99,8%], [1,00], [1188 s ± 206 s], [25,5×],
+    table.cell(align: left)[Laravel Inertia-React], [0,2%], [99,9%], [−0,00], [1272 s ± 60 s], [23,9×],
+    table.cell(align: left)[SauceDemo], [0,0%], [96,2%], [1,00], [213 s ± 10 s], [42,6×],
+  ),
+  caption: [Keandalan dan Efisiensi Eksekusi per Aplikasi],
+) <tab-keandalan>
+
+Kesepakatan hasil pengujian antar-browser (diukur dengan Fleiss' kappa) mencapai κ = 1,00 pada Blade dan SauceDemo, menunjukkan hasil yang sangat konsisten lintas Chromium, Firefox, dan WebKit. Pada Inertia-React, κ = −0,00, sebuah nilai yang secara teknis mendekati nol namun merupakan artefak dari "paradoks prevalensi" pada statistik kappa ketika hampir seluruh percobaan bernilai sama (pass, dengan pass rate 99,9%), bukan indikasi ketidakkonsistenan yang substantif. Pengujian statistik Mann-Whitney U terhadap durasi eksekusi test case yang dihasilkan dibandingkan baseline manual menunjukkan perbedaan yang signifikan secara statistik pada ketiga aplikasi (p < 0,001).
+
+*Cacat nyata yang ditemukan.* Selain angka cakupan dan kualitas di atas, pelaksanaan pengujian turut menyingkap dua cacat nyata pada aplikasi studi kasus, menunjukkan bahwa test case yang dihasilkan mampu menemukan masalah yang sungguh-sungguh ada. Pertama, komponen paginator bawaan Laravel (Tailwind) meng-escape tanda panah pada nama aksesibel tautannya ("Next &amp;raquo;"), sehingga label yang tampak berbeda dengan nama aksesibelnya; penjaga visibilitas runtime pada test case yang dihasilkan mengungkap bahwa crawling sebelumnya diam-diam melewatkan skenario "halaman berikutnya" akibat ketidaksesuaian ini. Kedua, deklarasi `Route::resource('todos')` pada kedua aplikasi Laravel ternyata menyertakan rute `show` (`GET /todos/{id}`) tanpa aksi controller di baliknya, sehingga rute tersebut mengembalikan HTTP 500; cacat ini ditemukan melalui pemeriksaan rute tersirat (inferred-route check) pada generator, dan telah diperbaiki dengan mengecualikan rute `show` pada kedua aplikasi -- perbaikan inilah yang turut menaikkan cakupan rute pada @tab-cakupan dari 87,5% menjadi 100,0%.
 
 #todo("Tambahkan tangkapan layar (screenshot) contoh eksekusi Playwright dan contoh kode test case yang dihasilkan, jika diperlukan untuk pelengkap laporan.")
 
 == Pembahasan <pembahasan>
 
-Dibandingkan dengan target yang ditetapkan pada BAB III (Persamaan 3.1 dan 3.2: minimal 80% test coverage dan 85% accuracy rate), hasil evaluasi menunjukkan capaian yang perlu dimaknai secara berlapis karena terdapat dua jenis "cakupan" yang berbeda maknanya. *Cakupan model* -- persentase elemen, rute, form, field, navigasi, dan matriks RBAC yang berhasil diidentifikasi dan dipetakan oleh TathyaTest dari hasil crawling -- mencapai 100,0% pada ketiga aplikasi, jauh melampaui target 80%. Namun demikian, cakupan ini mengukur kelengkapan terhadap model yang dibangun TathyaTest sendiri ("completeness by construction"), bukan cakupan baris kode sumber aplikasi secara keseluruhan. *Cakupan baris kode* (line coverage) yang diukur langsung dari instrumentasi PCOV pada aplikasi Laravel tercatat jauh lebih rendah, yaitu 21,6% (Blade) dan 23,3% (Inertia-React). Hal ini merupakan konsekuensi wajar dari desain TathyaTest yang berfokus pada pengujian fungsional berbasis antarmuka pengguna (UI-level black-box testing) dan hanya menjangkau elemen yang tampak pada DOM -- logika di balik antarmuka yang tidak termanifestasi sebagai elemen DOM yang dapat berinteraksi, seperti validasi kustom pada sisi server, tidak dapat terdeteksi melalui pendekatan ini. Sebagai indikator yang lebih relevan dengan tujuan pengujian fungsional, cakupan rute (route coverage) tercatat 87,5% pada kedua aplikasi Laravel.
+Dibandingkan dengan target yang ditetapkan pada BAB III (Persamaan 3.1: minimal 80% test coverage), hasil evaluasi menunjukkan capaian yang perlu dimaknai secara berlapis karena terdapat dua jenis "cakupan" yang berbeda maknanya. *Cakupan model* -- persentase elemen, rute, form, field, navigasi, dan matriks RBAC yang berhasil diidentifikasi dan dipetakan oleh TathyaTest dari hasil crawling -- mencapai 95,5% (elemen) hingga 100,0% (rute, form, field, matriks RBAC) pada ketiga aplikasi, melampaui target 80%, dengan satu celah pada cakupan navigasi (89,5%, 17 dari 19 skenario) yang belum ditelusuri lebih lanjut penyebabnya. Namun demikian, cakupan ini mengukur kelengkapan terhadap model yang dibangun TathyaTest sendiri ("completeness by construction"), bukan cakupan baris kode sumber aplikasi secara keseluruhan. *Cakupan baris kode* (line coverage) yang diukur langsung dari instrumentasi PCOV pada aplikasi Laravel tercatat jauh lebih rendah, yaitu 23,6% pada kedua aplikasi. Hal ini merupakan konsekuensi wajar dari desain TathyaTest yang berfokus pada pengujian fungsional berbasis antarmuka pengguna (UI-level black-box testing) dan hanya menjangkau elemen yang tampak pada DOM -- logika di balik antarmuka yang tidak termanifestasi sebagai elemen DOM yang dapat berinteraksi, seperti validasi kustom pada sisi server, tidak dapat terdeteksi melalui pendekatan ini. Sebagai indikator yang lebih relevan dengan tujuan pengujian fungsional, cakupan rute pada tingkat kode sumber (SUT) tercatat 100,0% (8/8) pada kedua aplikasi Laravel -- naik dari 87,5% pada evaluasi sebelumnya, setelah cacat rute `show` yang tidak memiliki aksi controller (dibahas di atas) diperbaiki.
 
-Untuk metrik akurasi, skor mutasi (mutation score) -- persentase cacat buatan (mutant) yang berhasil terdeteksi oleh test case yang dihasilkan -- digunakan sebagai proksi accuracy rate yang didefinisikan pada Persamaan 3.2, karena secara langsung mengukur kemampuan test case mendeteksi penyimpangan fungsional. Skor mutasi sebesar 100,0% (9 dari 9 cacat terdeteksi) pada kedua aplikasi Laravel melampaui target 85% yang ditetapkan, dengan akurasi lokalisasi cacat turut mencapai 100,0%. Temuan ini mengonfirmasi jawaban atas rumusan masalah ketiga (BAB I): TathyaTest mampu memvalidasi ekspektasi fungsional aplikasi -- termasuk login, penyimpanan data, dan kontrol akses modul berbasis peran -- dengan tingkat keandalan yang tinggi pada kedua kategori cacat fungsional dan cacat otorisasi.
+Rancangan awal penelitian ini (BAB III, Persamaan 3.2) merencanakan pengukuran accuracy rate melalui injeksi cacat sintetis (mutation testing) dengan katalog cacat buatan sendiri. Selama pelaksanaan, pendekatan ini dipertimbangkan ulang: katalog cacat yang disusun sendiri oleh tim peneliti berisiko menghadirkan efek plafon (ceiling effect, karena test case yang dihasilkan memang dirancang untuk menguji kelas skenario yang sama dengan kelas cacat yang disuntikkan) serta bias katalog, sehingga skor mutasi yang tinggi tidak selalu mencerminkan kemampuan deteksi cacat yang sesungguhnya pada kondisi nyata. Sebagai gantinya, validitas kemampuan TathyaTest dalam menemukan penyimpangan fungsional dibuktikan melalui penemuan dua cacat nyata pada aplikasi studi kasus (dibahas di atas) -- cacat yang ditemukan di luar katalog buatan apa pun, sehingga menjadi bukti yang lebih kredibel atas kemampuan validasi fungsional TathyaTest dibandingkan skor mutasi terhadap cacat buatan sendiri. Pengukuran deteksi cacat secara sistematis melalui mutation testing yang lebih representatif tetap menjadi arah pengembangan lanjutan (lihat BAB V).
 
-Dari sisi efisiensi, waktu eksekusi penuh test suite yang dihasilkan (976 detik untuk Blade, 1015 detik untuk Inertia-React) menghasilkan estimasi penghematan waktu sekitar 29--31 kali dibandingkan estimasi biaya penulisan test case secara manual, dengan signifikansi statistik yang kuat (Mann-Whitney U, p < 0,001 pada ketiga aplikasi). Rasio locator rapuh yang jauh lebih rendah pada test case hasil generate TathyaTest dibandingkan test suite publik pembanding (4,0% berbanding 62,5% pada SauceDemo) juga mengindikasikan bahwa test case yang dihasilkan secara otomatis tidak hanya lebih cepat dibuat, tetapi juga berpotensi lebih tahan terhadap perubahan kecil pada antarmuka aplikasi dibandingkan sebagian test suite tulisan manual.
+Dari sisi efisiensi, waktu eksekusi penuh test suite yang dihasilkan (1188 detik untuk Blade, 1272 detik untuk Inertia-React, 213 detik untuk SauceDemo) menghasilkan estimasi penghematan waktu sekitar 23,9--42,6 kali dibandingkan estimasi biaya penulisan test case secara manual, dengan signifikansi statistik yang kuat (Mann-Whitney U, p < 0,001 pada ketiga aplikasi). Rasio locator rapuh yang jauh lebih rendah pada test case hasil generate TathyaTest dibandingkan test suite publik pembanding (0,0% berbanding 62,5% pada SauceDemo) turut mengindikasikan bahwa test case yang dihasilkan secara otomatis berpotensi lebih tahan terhadap perubahan kecil pada antarmuka aplikasi dibandingkan test suite pihak ketiga yang ditulis tanpa strategi locator yang konsisten.
 
-Beberapa keterbatasan perlu dicatat: evaluasi hanya mencakup elemen yang tampak pada DOM (tidak menjangkau logika tersembunyi seperti aturan validasi kustom pada FormRequest Laravel), cakupan kode menggunakan proksi cabang (branch-proxy) alih-alih instrumentasi cabang penuh, katalog cacat yang diujikan terbatas pada sembilan cacat dalam lima kategori, dan baseline manual pembanding berjumlah relatif kecil (5 test case per aplikasi Laravel). Evaluasi juga belum mencakup aplikasi internal Jurusan Teknologi Informasi (Kompen, Jayanti, Whistleblower) yang menjadi motivasi awal penelitian ini -- perluasan evaluasi pada aplikasi tersebut direncanakan sebagai tahap penelitian lanjutan (lihat BAB V).
+Beberapa keterbatasan perlu dicatat: evaluasi hanya mencakup elemen yang tampak pada DOM (tidak menjangkau logika tersembunyi seperti aturan validasi kustom pada FormRequest Laravel), cakupan kode menggunakan proksi cabang (branch-proxy) alih-alih instrumentasi cabang penuh, evaluasi deteksi cacat secara sistematis (mutation testing) belum dilakukan pada penelitian ini (lihat pembahasan di atas serta BAB V), dan baseline manual pembanding berjumlah relatif kecil (5 test case per aplikasi Laravel). Evaluasi juga belum mencakup aplikasi internal Jurusan Teknologi Informasi (Kompen, Jayanti, Whistleblower) yang menjadi motivasi awal penelitian ini -- perluasan evaluasi pada aplikasi tersebut direncanakan sebagai tahap penelitian lanjutan (lihat BAB V).
 
 == Luaran yang Dicapai <luaran-yang-dicapai>
 

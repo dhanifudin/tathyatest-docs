@@ -45,7 +45,7 @@
     #v(0.2cm)
     Pengujian aplikasi web di Jurusan Teknologi Informasi Politeknik Negeri Malang menghadapi tantangan dalam memastikan kualitas aplikasi akademik seperti Kompen, Jayanti, dan Whistleblower. Alat automation testing seperti Selenium, Cypress, dan Playwright masih memerlukan pembuatan test case manual yang menjadi bottleneck. TathyaTest hadir sebagai test case generator otomatis yang melakukan crawling DOM ter-render (Playwright), membangun model elemen dan matriks akses per peran pengguna (RBAC), lalu menghasilkan dan mengeksekusi test case fungsional secara otomatis. Metode Prototyping digunakan secara iteratif hingga evaluasi pada tiga aplikasi studi kasus (Laravel Blade, Laravel Inertia-React, dan SauceDemo sebagai pembanding).
 
-    Hasil evaluasi: cakupan model elemen 100,0% pada ketiga aplikasi, skor mutasi (deteksi cacat) 100,0% (9/9) dengan kesepakatan lintas-browser κ = 1,00, 103 test case per aplikasi Laravel, dan estimasi penghematan waktu 29--31× dibandingkan penulisan manual (Mann-Whitney U, p < 0,001).
+    Hasil evaluasi: cakupan model elemen 95,5--100,0% dan cakupan rute pada tingkat kode sumber 100,0% pada aplikasi Laravel, dengan kesepakatan lintas-browser κ = 1,00 (Blade dan SauceDemo), 104 test case per aplikasi Laravel, estimasi penghematan waktu 23,9--42,6× dibandingkan penulisan manual (Mann-Whitney U, p < 0,001), dan dua cacat nyata ditemukan pada aplikasi studi kasus.
 
     *Kata kunci:* automation testing, test case generation, web crawling, RBAC, functional testing, Playwright
 
@@ -79,7 +79,7 @@
   [
     #section-header[Hasil Dan Manfaat]
     #v(0.2cm)
-    Evaluasi menunjukkan cakupan model elemen 100,0% dan cakupan rute 87,5% pada aplikasi Laravel, skor mutasi 100,0% (9/9 cacat terdeteksi) dengan akurasi lokalisasi 100,0%, serta estimasi penghematan waktu 29--31× dibandingkan penulisan test case manual. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
+    Evaluasi menunjukkan cakupan model elemen 95,5--100,0% dan cakupan rute pada tingkat kode sumber 100,0% pada aplikasi Laravel, kesepakatan lintas-browser κ = 1,00, serta estimasi penghematan waktu 23,9--42,6× dibandingkan penulisan test case manual. Pelaksanaan pengujian turut menemukan dua cacat nyata pada aplikasi studi kasus. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
 
     #v(0.2cm)
     #box(width: 100%, height: 2.1cm, stroke: 0.5pt + gray, inset: 6pt)[
