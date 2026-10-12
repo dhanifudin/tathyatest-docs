@@ -52,7 +52,13 @@
 #let rule = (bottom: 0.5pt + black)
 #let dotted = (bottom: (paint: black, thickness: 0.5pt, dash: "dotted"))
 #let none-stroke = none
+// docs/form-hki.docx reserves a 914400 x 384810 EMU (2.54 cm x 1.07 cm) text box
+// for "Materai 10.000,-" on both occurrences (Halaman 2 dan 4) -- but that box is
+// sized only for the label text itself, not for a real meterai tempel fisik
+// (~2.3 cm wide). Materai-slot uses that width with a proportionate square
+// height, enough room for a physical stamp without an oversized empty gap.
 #let materai = text(fill: rgb("#FF0000"))[Materai \ 10.000,-]
+#let materai-slot = box(width: 2.3cm, height: 2.3cm, align(center + horizon, materai))
 #let judul-tengah(body, bold: true) = align(center)[
   #underline(if bold { text(weight: "bold", body) } else { body })
 ]
@@ -86,7 +92,7 @@
   columns: (0.95cm, 2.75cm, 0.5cm, 3.4cm, 0.5cm, 1fr),
   stroke: none,
   inset: (x: 0.05cm, y: 0.4em * spacing),
-  align: left + bottom,
+  align: left + top,
   ..rows,
 )
 #let val(body, stroke: rule) = table.cell(stroke: stroke, body)
@@ -180,7 +186,7 @@
   inset: (x: 0.2cm, y: 0.3em),
   [], [], [Malang, #tanggal-surat],
   [Pemegang Hak Cipta], [], [Pencipta],
-  [#v(1.6em)], [], [#v(1.6em) #materai],
+  [#v(1.6em)], [], [#v(1.6em) #materai-slot],
   [#v(1.6em) (#kepala)], [], [#v(1.6em) (#polos(ketua.nama))],
 )
 
@@ -215,7 +221,7 @@ Yang bertanda tangan dibawah ini :
   columns: (0.95cm, 3.6cm, 0.3cm, 10.5cm, 1fr),
   stroke: none,
   inset: (x: 0.05cm, y: 0.45em),
-  align: left + bottom,
+  align: left + top,
   [], [N a m a], [:], dval[Politeknik Negeri Malang], [],
   [], [Kewarganegaraan], [:], dval[Indonesia], [],
   [], [Alamat], [:], dval[Jl. Soekarno Hatta No. 9, Malang -- Jawa Timur], [],
@@ -233,7 +239,7 @@ Dengan ini menyatakan bahwa :
       columns: (0cm, 2.4cm, 0.3cm, 1fr, 2.3cm),
       stroke: none,
       inset: (x: 0.05cm, y: 0.45em),
-      align: left + bottom,
+      align: left + top,
       [], [Berupa], [:], dval[*#jenis-ciptaan*], [],
       table.cell(colspan: 4)[], [],
       [], [Berjudul], [:], table.cell(colspan: 2, stroke: dotted)[*#judul-ciptaan*],
@@ -270,7 +276,7 @@ Dengan ini menyatakan bahwa :
   Malang, #tanggal-surat \
   #h(0.4cm) Yang menyatakan,
   #v(1.2em)
-  #block(width: 5.2cm, align(center, materai))
+  #align(center, materai-slot)
   #v(2.4em)
   (#kepala)
 ]
