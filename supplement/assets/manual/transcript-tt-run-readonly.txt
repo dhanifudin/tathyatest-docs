@@ -1,0 +1,4 @@
+  ✓  1 [admin-chromium] › tests/generated/auth/login.spec.ts:9:3 › admin login › admin logs in with valid credentials @positive @auth @role:admin @read (1.9s)
+  -  2 [admin-chromium] › tests/generated/auth/login.spec.ts:38:3 › user login › user logs in with valid credentials @positive @auth @role:user @read
+  1 skipped
+  1 passed (7.0s)

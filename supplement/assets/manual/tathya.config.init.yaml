@@ -1,0 +1,43 @@
+baseUrl: http://127.0.0.1:8000
+hooks:
+  reset:
+    method: POST
+    path: /__testing/reset
+output:
+  dir: tests/generated
+  language: ts
+coverage: all
+oracle:
+  errorSelector: '[aria-invalid="true"], [role=alert], .invalid-feedback,
+    .is-invalid, .error-message, .field-error, .text-red-600, x-input-error p'
+auth:
+  loginPath: /login
+  roles:
+    - name: admin
+      username: admin@example.com
+      password: password
+    - name: user
+      username: user@example.com
+      password: password
+crawl:
+  maxDepth: 3
+  maxPages: 100
+  include: []
+  exclude: []
+  inferRestRoutes: true
+data:
+  fields:
+    title: Buy groceries
+    body: Milk, eggs, bread
+  defaults:
+    text: Sample
+    email: user@example.com
+    number: "1"
+  unique:
+    - email
+  duplicates: {}
+  requiredFields: []
+  confirmFields: []
+  faker:
+    locale: id
+    seed: 42

@@ -1,0 +1,27 @@
+Usage: tt [options] [command]
+
+TathyaTest — generate and run Playwright functional tests from a crawl of your
+web app
+
+Options:
+  -V, --version                      output the version number
+  -c, --config <path>                path to the tathya config YAML (default:
+                                     "tathya.config.yaml")
+  -h, --help                         display help for command
+
+Commands:
+  init                               create a project directory with a
+                                     tathya.config.yaml
+  crawl                              crawl the app once per role →
+                                     crawl/<role>.json
+  generate [options]                 generate Playwright specs (re-crawls first
+                                     when the crawl is missing or older than
+                                     the config)
+  run [options] [playwrightArgs...]  run the generated specs; extra arguments
+                                     go to `playwright test` (e.g. tt run
+                                     --project admin-chromium --grep @auth)
+  report                             open the HTML report of the last run
+  all [options]                      crawl, generate, and run
+  eval [options]                     metric-based evaluation of this config →
+                                     metrics/report.{json,md} (use --all-stacks
+                                     for the cross-stack study)

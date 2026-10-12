@@ -1,0 +1,48 @@
+┌  TathyaTest init
+│
+◇  Project name
+│  todo-blade-uji
+│
+◇  URL/domain
+│  http://127.0.0.1:8000
+│
+◇  Login path
+│  /login
+│
+◇  Role name
+│  admin
+│
+◇  admin username
+│  admin@example.com
+│
+◇  admin password
+│  ▪▪▪▪▪▪▪▪
+│
+◇  Add another credentials role?
+│  Yes
+│
+◇  Role name
+│  user
+│
+◇  user username
+│  user@example.com
+│
+◇  user password
+│  ▪▪▪▪▪▪▪▪
+│
+◇  Add another credentials role?
+│  No
+│
+◇  Generated Playwright language
+│  TypeScript (.ts)
+│
+◇  Faker locale for generated create data
+│  id
+│
+◇  Faker seed (blank = random each run)
+│  42
+│
+◇  Endpoint that resets the app's test data before each test (blank = none, e.g. /__testing/reset)
+│  /__testing/reset
+│
+└  Wrote todo-blade-uji/tathya.config.yaml

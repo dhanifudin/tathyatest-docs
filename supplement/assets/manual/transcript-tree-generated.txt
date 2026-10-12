@@ -1,0 +1,25 @@
+tests/generated
+├── auth
+│   └── login.spec.ts
+├── forms
+│   ├── todos-create.spec.ts
+│   ├── todos-id-edit.spec.ts
+│   └── todos.spec.ts
+├── interactions
+│   ├── dashboard.spec.ts
+│   └── todos.spec.ts
+├── manifest.json
+├── pagination
+│   └── todos.spec.ts
+├── rbac
+│   ├── admin-users.spec.ts
+│   ├── dashboard.spec.ts
+│   ├── root.spec.ts
+│   ├── todos-create.spec.ts
+│   ├── todos-id-edit.spec.ts
+│   ├── todos-id.spec.ts
+│   └── todos.spec.ts
+└── support
+    └── tathya.ts
+
+7 directories, 16 files
