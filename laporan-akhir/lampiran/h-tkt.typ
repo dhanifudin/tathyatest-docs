@@ -1,4 +1,4 @@
-= PENGUKURAN TINGKAT KESIAPTERAPAN TEKNOLOGI (TKT) <lampiran-h>
+= PENGUKURAN TKT <lampiran-h>
 
 Target penelitian ini adalah TKT 4, yaitu validasi komponen dalam lingkungan laboratorium. Lembar pengukuran TKT (self-assessment) lengkap untuk bidang perangkat lunak (software) ditunjukkan pada halaman berikut.
 

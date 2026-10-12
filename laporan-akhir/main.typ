@@ -56,5 +56,4 @@
 #include "lampiran/g-artikel-bukti-luaran.typ"
 #include "lampiran/h-tkt.typ"
 #include "lampiran/i-kerjasama-mitra.typ"
-#include "lampiran/j-rekomendasi-pusat-riset.typ"
-#include "lampiran/k-prototype.typ"
+#include "lampiran/j-prototype.typ"

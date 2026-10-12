@@ -23,9 +23,13 @@
   }
 }
 
+// True once the Lampiran section starts; lampiran headings stay on one line.
+#let in-lampiran = state("in-lampiran", false)
+
 // Switch heading numbering + reset the chapter counter at the Lampiran boundary.
 #let lampiran-rules(body) = {
   counter(heading).update(0)
+  in-lampiran.update(true)
   set heading(numbering: lampiran-num)
   body
 }
@@ -45,6 +49,21 @@
   *#nama*
   #if nip != none [ \ #id-label #nip ]
 ]
+
+// Sisipkan semua halaman scan hardcopy `scan/<name>.pdf` (jumlah halaman dari
+// scan/pages.json, dibuat `make scan-index`). Pengguna cukup menyalin file scan.
+#let fit-page(path, p) = block(width: 100%, height: 1fr, image(path, page: p, width: 100%, height: 100%, fit: "contain"))
+
+// Halaman pertama muat satu halaman bersama judul lampiran; sisanya halaman penuh.
+#let scan-pages(name) = {
+  let path = "/laporan-akhir/scan/" + name + ".pdf"
+  let n = json("scan/pages.json").at(name)
+  fit-page(path, 1)
+  for p in range(2, n + 1) {
+    pagebreak()
+    fit-page(path, p)
+  }
+}
 
 // A filled Gantt-chart cell for jadwal tables.
 #let g() = table.cell(fill: rgb("#cfe2ff"))[]
@@ -76,7 +95,7 @@
       #set text(size: 14pt, weight: "bold")
       #if it.numbering != none {
         counter(heading).display(it.numbering)
-        linebreak()
+        context if in-lampiran.get() [ ] else { linebreak() }
       }
       #upper(it.body)
     ]

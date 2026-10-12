@@ -2,7 +2,7 @@
 // via pandoc (docx -> html, preserves table structure) + raw XML inspection
 // for shading/font properties pandoc drops: two borderless 2-column tables,
 // an orange (#FFC000) title banner, narrow-left/wide-right team+content split.
-#import "common.typ": laporan, todo, doc
+#import "common.typ": laporan, doc
 
 #show: doc
 // This is meant to be a one-page infographic like the original template —
@@ -45,20 +45,20 @@
     #v(0.2cm)
     Pengujian aplikasi web di Jurusan Teknologi Informasi Politeknik Negeri Malang menghadapi tantangan dalam memastikan kualitas aplikasi akademik seperti Kompen, Jayanti, dan Whistleblower. Alat automation testing seperti Selenium, Cypress, dan Playwright masih memerlukan pembuatan test case manual yang menjadi bottleneck. TathyaTest hadir sebagai test case generator otomatis yang melakukan crawling DOM ter-render (Playwright), membangun model elemen dan matriks akses per peran pengguna (RBAC), lalu menghasilkan dan mengeksekusi test case fungsional secara otomatis. Metode Prototyping digunakan secara iteratif hingga evaluasi pada tiga aplikasi studi kasus (Laravel Blade, Laravel Inertia-React, dan SauceDemo sebagai pembanding).
 
-    Hasil evaluasi: cakupan model elemen 95,5--100,0% dan cakupan rute pada tingkat kode sumber 100,0% pada aplikasi Laravel, dengan kesepakatan lintas-browser κ = 1,00 (Blade dan SauceDemo), 104 test case per aplikasi Laravel, estimasi penghematan waktu 23,9--42,6× dibandingkan penulisan manual (Mann-Whitney U, p < 0,001), dan dua cacat nyata ditemukan pada aplikasi studi kasus.
+    Hasil evaluasi: TathyaTest menghasilkan 104, 106, dan 31 test case untuk ketiga aplikasi. Cakupan model elemen mencapai 95,5% pada Blade dan 100,0% pada Inertia-React, dengan hasil identik di Chrome, Firefox, dan WebKit (κ = 1,00). Dari 14 cacat yang diinjeksi, 100,0% terdeteksi pada Blade dan 85,7% pada Inertia-React (baseline manual 21,4%). Pembuatan test case 30,0--32,7× lebih cepat dibanding penulisan manual (p < 0,001), dan dua cacat nyata ditemukan pada aplikasi studi kasus.
 
     *Kata kunci:* automation testing, test case generation, web crawling, RBAC, functional testing, Playwright
 
     *Luaran Penelitian/PKM:*
     #enum(
-      [Subhi, D.H., Yunianto, D.R., Rismanto, R., Nurhasan, U. "TathyaTest: a generator for functional, regression, and functional-availability testing of web applications." Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). (Manuskrip selesai, #todo("belum disubmit"))],
+      [Subhi, D.H., Yunianto, D.R., Rismanto, R., Nurhasan, U. "TathyaTest: a generator for functional, regression, and functional-availability testing of web applications." Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI).],
       [Prototipe TathyaTest: Test Case Generator Otomatis, TKT 4 (purwarupa)],
-      [Hak Cipta untuk prototipe TathyaTest (status #todo("terdaftar/granted, nomor pencatatan"))],
+      [Hak Cipta untuk prototipe TathyaTest],
     )
   ],
 )
 
-#v(0.5cm)
+#v(0.2cm)
 
 // ---------- Section 2: Latar Belakang + Metode / Hasil dan Manfaat ----------
 
@@ -79,18 +79,26 @@
   [
     #section-header[Hasil Dan Manfaat]
     #v(0.2cm)
-    Evaluasi menunjukkan cakupan model elemen 95,5--100,0% dan cakupan rute pada tingkat kode sumber 100,0% pada aplikasi Laravel, kesepakatan lintas-browser κ = 1,00, serta estimasi penghematan waktu 23,9--42,6× dibandingkan penulisan test case manual. Pelaksanaan pengujian turut menemukan dua cacat nyata pada aplikasi studi kasus. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
+    Evaluasi menunjukkan cakupan model elemen 95,5--100,0%, hasil identik lintas browser (κ = 1,00), deteksi cacat 85,7--100,0% (baseline manual 21,4%), serta pembuatan test case 30,0--32,7× lebih cepat dibanding penulisan manual. Pengujian turut menemukan dua cacat nyata pada aplikasi studi kasus. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
 
     #v(0.2cm)
-    #box(width: 100%, height: 2.1cm, stroke: 0.5pt + gray, inset: 6pt)[
-      #align(center + horizon)[#todo("sisipkan diagram arsitektur TathyaTest")]
-    ]
+    #align(center, image("/paper/diagrams/pipeline-overview.svg", width: 100%))
     Gambar 1. Arsitektur TathyaTest.
 
     #v(0.2cm)
-    #box(width: 100%, height: 2.1cm, stroke: 0.5pt + gray, inset: 6pt)[
-      #align(center + horizon)[#todo("sisipkan grafik hasil pengujian")]
-    ]
-    Gambar 2. Hasil Pengujian TathyaTest.
+    #let bar(label, v, color) = (
+      [#set text(size: 8pt); #label],
+      box(width: v * 1%, height: 0.35cm, fill: color),
+      [#set text(size: 8pt); #str(v).replace(".", ",")%],
+    )
+    #grid(
+      columns: (2.6cm, 1fr, 1cm),
+      row-gutter: 5pt,
+      align: (left + horizon, left + horizon, left + horizon),
+      ..bar("Blade", 100.0, rgb("#2e75b6")),
+      ..bar("Inertia-React", 85.7, rgb("#2e75b6")),
+      ..bar("Baseline manual", 21.4, gray),
+    )
+    Gambar 2. Akurasi deteksi cacat.
   ],
 )

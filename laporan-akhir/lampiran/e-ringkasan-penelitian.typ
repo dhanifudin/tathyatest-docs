@@ -1,5 +1,5 @@
+#import "../template.typ": fit-page
+
 = RINGKASAN PENELITIAN <lampiran-e>
 
-#align(center)[
-  #image("/build/supplement-ringkasan-pkm.pdf", page: 1, width: 100%)
-]
+#fit-page("/build/supplement-ringkasan-pkm.pdf", 1)

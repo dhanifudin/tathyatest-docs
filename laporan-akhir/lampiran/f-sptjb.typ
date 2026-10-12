@@ -1,5 +1,5 @@
+#import "../template.typ": scan-pages
+
 = SURAT PERTANGGUNGJAWABAN BELANJA (SPTJB) <lampiran-f>
 
-#align(center)[
-  #image("/build/supplement-sptjb.pdf", page: 1, width: 100%)
-]
+#scan-pages("f-sptjb")

@@ -79,10 +79,52 @@ $(BUILD_DIR)/supplement-manual-book.pdf: $(wildcard supplement/assets/manual/*)
 .PHONY: form-hki
 form-hki: $(BUILD_DIR)/supplement-form-hki.pdf
 
+# Naskah JUTI (PDF) disematkan di lampiran G laporan akhir; file ini di-gitignore.
+MANUSCRIPT_PDF = supplement/assets/tathyatest-juti-manuscript.pdf
+
+.PHONY: manuscript
+manuscript: $(MANUSCRIPT_PDF)
+
+$(MANUSCRIPT_PDF): $(wildcard paper/juti/*.typ)
+	typst compile --root paper paper/juti/main.typ $@
+
+# Lampiran yang memerlukan scan hardcopy: salin PDF scan ke laporan-akhir/scan/<nama>.pdf.
+# Placeholder dibuat otomatis hanya jika file belum ada; pages.json menyimpan jumlah halaman.
+SCAN_DIR = laporan-akhir/scan
+SCAN_NAMES = d-pernyataan-keaslian f-sptjb i-kerjasama-mitra
+SCAN_PDFS = $(patsubst %,$(SCAN_DIR)/%.pdf,$(SCAN_NAMES))
+
+.PHONY: scan-placeholders scan-index
+scan-placeholders: $(SCAN_PDFS)
+
+$(SCAN_DIR)/%.pdf:
+	typst compile --root . --input label="$*" $(SCAN_DIR)/placeholder.typ $@
+
+# Placeholder lampiran D memakai scan proposal yang sudah ada sampai diganti.
+$(SCAN_DIR)/d-pernyataan-keaslian.pdf:
+	typst compile --root . --input label="d-pernyataan-keaslian" --input image="/images/surat-pernyataan-keaslian.png" $(SCAN_DIR)/placeholder.typ $@
+
+scan-index: scan-placeholders
+	@printf '{' > $(SCAN_DIR)/pages.json; sep=''; \
+	for n in $(SCAN_NAMES); do \
+	  p=$$(pdfinfo $(SCAN_DIR)/$$n.pdf | awk '/^Pages:/{print $$2}'); \
+	  printf '%s"%s": %s' "$$sep" "$$n" "$$p" >> $(SCAN_DIR)/pages.json; sep=', '; \
+	done; printf '}\n' >> $(SCAN_DIR)/pages.json
+
 .PHONY: laporan
-laporan: supplement | $(BUILD_DIR)
+laporan: supplement manuscript scan-index | $(BUILD_DIR)
 	typst compile --root . $(LAPORAN_SRC) $(LAPORAN_PDF)
 	@echo "PDF built successfully: $(LAPORAN_PDF)"
+
+# Build laporan saja (supplement dianggap sudah ada di build/)
+.PHONY: laporan-quick
+laporan-quick: manuscript scan-index | $(BUILD_DIR)
+	typst compile --root . $(LAPORAN_SRC) $(LAPORAN_PDF)
+	@echo "PDF built successfully: $(LAPORAN_PDF)"
+
+.PHONY: laporan-clean
+laporan-clean:
+	rm -f $(LAPORAN_PDF) $(SUPPLEMENT_PDFS)
 
 .PHONY: laporan-watch
 laporan-watch: supplement
@@ -135,6 +177,10 @@ help:
 	@echo "  make cleanall     - Hapus semua file generated proposal termasuk PDF"
 	@echo "  make rebuild      - Clean all dan build ulang proposal"
 	@echo "  make laporan      - Build PDF laporan akhir (Typst), termasuk dokumen supplement"
+	@echo "  make manuscript   - Build PDF naskah JUTI untuk lampiran G laporan akhir"
+	@echo "  make scan-index   - Siapkan placeholder + indeks halaman scan lampiran (laporan-akhir/scan/)"
+	@echo "  make laporan-quick - Build laporan akhir saja (tanpa rebuild supplement)"
+	@echo "  make laporan-clean - Hapus PDF laporan akhir dan supplement"
 	@echo "  make laporan-watch - Continuous build mode laporan akhir"
 	@echo "  make laporan-view - Build dan buka PDF laporan akhir"
 	@echo "  make supplement   - Build dokumen supplement saja (SPTJB, Ringkasan PKM, TKT)"

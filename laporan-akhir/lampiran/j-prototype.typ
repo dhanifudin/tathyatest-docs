@@ -1,6 +1,6 @@
 #import "../template.typ": todo
 
-= DOKUMEN PROTOTYPE <lampiran-k>
+= DOKUMEN PROTOTYPE <lampiran-j>
 
 #todo("Tambahkan tangkapan layar (screenshot) antarmuka/eksekusi TathyaTest, tautan repositori kode sumber, dan ringkasan cara penggunaan prototipe.")
 

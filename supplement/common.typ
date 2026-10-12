@@ -16,7 +16,7 @@
 
 // Official P3M Polinema letterhead (logo + institutional header + rule),
 // matching the header used across the panduan.pdf's official form templates
-// (Surat Pernyataan Keaslian, Surat Rekomendasi Pusat Riset, SPTJB, etc.).
+// (Surat Pernyataan Keaslian, SPTJB, etc.).
 #let letterhead() = {
   grid(
     columns: (2cm, 1fr),
