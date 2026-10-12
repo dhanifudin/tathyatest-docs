@@ -51,7 +51,7 @@
     TKT akhir yang dihasilkan: 4 (validasi komponen dalam lingkungan laboratorium — prototipe TathyaTest telah diuji dan dievaluasi secara menyeluruh terhadap tiga aplikasi studi kasus dengan cakupan model hingga 100% dan tingkat akurasi deteksi cacat hingga 100% pada katalog cacat terkendali, serta terbukti menemukan dua cacat nyata pada aplikasi studi kasus, namun belum divalidasi pada lingkungan operasional aplikasi internal JTI)
   ],
 
-  [Grup Riset: #todo("nama grup riset Polinema yang menaungi penelitian ini, jika ada")],
+  [Grup Riset: Tidak ada],
 
   [Instansi Lain yang Terlibat: Tidak ada],
 
@@ -59,7 +59,7 @@
 
   [Kontribusi Mendasar pada Suatu Bidang Ilmu: Penelitian ini memberikan kontribusi pada bidang Software Testing dan Quality Assurance melalui pengembangan metode otomatis untuk test case generation berbasis crawling DOM ter-render dan pemetaan elemen-ke-test-case lintas peran pengguna. TathyaTest mengotomatisasi proses ini untuk menghasilkan test case fungsional yang relevan dan kontekstual, terbukti memenuhi target akurasi deteksi cacat melalui injeksi cacat terkendali (hingga 100% pada katalog cacat dapat-dideteksi), serta menemukan cacat nyata pada aplikasi studi kasus di luar skenario yang telah diketahui sebelumnya.],
 
-  [Jurnal Ilmiah yang Menjadi Sasaran: Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). Naskah telah selesai disusun (manuskrip lengkap), #todo("status: belum disubmit — perbarui setelah submission")],
+  [Jurnal Ilmiah yang Menjadi Sasaran: Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). Naskah telah selesai disusun dan telah disubmit pada 13 Oktober 2026.],
 
-  [Rencana Luaran HKI, Buku, Purwarupa, atau Luaran Lainnya: Prototipe TathyaTest (purwarupa TKT 4) dan Hak Cipta untuk prototipe TathyaTest. #todo("nomor pencatatan dan status Hak Cipta, tahun perolehan/penyelesaian")],
+  [Rencana Luaran HKI, Buku, Purwarupa, atau Luaran Lainnya: Prototipe TathyaTest (purwarupa TKT 4) dan Hak Cipta untuk prototipe TathyaTest (dalam proses pendaftaran).],
 )

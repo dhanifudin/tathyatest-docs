@@ -31,6 +31,9 @@
   counter(heading).update(0)
   in-lampiran.update(true)
   set heading(numbering: lampiran-num)
+  // Daftar Isi hanya memuat judul lampiran, tanpa sub-bagian di dalamnya.
+  show heading.where(level: 2): set heading(outlined: false)
+  show heading.where(level: 3): set heading(outlined: false)
   body
 }
 

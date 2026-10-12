@@ -155,7 +155,7 @@ Kesepakatan hasil pengujian antar-browser (diukur dengan Fleiss' kappa) mencapai
 
 *Cacat nyata yang ditemukan.* Selain angka cakupan dan kualitas di atas, pelaksanaan pengujian turut menyingkap dua cacat nyata pada aplikasi studi kasus, menunjukkan bahwa test case yang dihasilkan mampu menemukan masalah yang sungguh-sungguh ada. Pertama, komponen paginator bawaan Laravel (Tailwind) meng-escape tanda panah pada nama aksesibel tautannya ("Next &amp;raquo;"), sehingga label yang tampak berbeda dengan nama aksesibelnya; penjaga visibilitas runtime pada test case yang dihasilkan mengungkap bahwa crawling sebelumnya diam-diam melewatkan skenario "halaman berikutnya" akibat ketidaksesuaian ini. Kedua, deklarasi `Route::resource('todos')` pada kedua aplikasi Laravel ternyata menyertakan rute `show` (`GET /todos/{id}`) tanpa aksi controller di baliknya, sehingga rute tersebut mengembalikan HTTP 500; cacat ini ditemukan melalui pemeriksaan rute tersirat (inferred-route check) pada generator, dan telah diperbaiki dengan mengecualikan rute `show` pada kedua aplikasi -- perbaikan inilah yang menaikkan cakupan rute Blade pada @tab-cakupan dari 87,5% menjadi 100,0%. Pada Inertia-React, cakupan rute tetap tercatat 87,5% setelah perbaikan ini, karena rute logout yang berbasis skrip pada stack tersebut tidak pernah dijangkau oleh crawler, sebagaimana dibahas lebih lanjut pada hasil deteksi cacat berikut.
 
-#todo("Tambahkan tangkapan layar (screenshot) contoh eksekusi Playwright dan contoh kode test case yang dihasilkan, jika diperlukan untuk pelengkap laporan.")
+Contoh eksekusi Playwright dan tampilan laporan hasil pengujian ditunjukkan pada Lampiran H.
 
 == Pembahasan <pembahasan>
 
@@ -179,9 +179,9 @@ Status capaian luaran penelitian terhadap target yang ditetapkan pada @tab-luara
     table.header([*No*], [*Jenis Luaran*], [*Status Capaian*]),
     table.cell(colspan: 3, align: left)[*Luaran Wajib*],
     [1], [IPTEKSB berupa _prototipe_ TathyaTest], [Tercapai -- prototipe selesai dibangun dan dievaluasi pada 3 aplikasi studi kasus],
-    [2], [Artikel pada jurnal ilmiah (JUTI)], [Manuskrip selesai disusun, #todo("belum disubmit -- perbarui setelah submission")],
+    [2], [Artikel pada jurnal ilmiah (JUTI)], [Manuskrip telah disubmit (13 Oktober 2026)],
     table.cell(colspan: 3, align: left)[*Luaran Tambahan*],
-    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [#todo("status akhir pendaftaran")],
+    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [Dalam proses pendaftaran],
   ),
   caption: [Status Capaian Luaran Penelitian],
 ) <tab-luaran-dicapai>

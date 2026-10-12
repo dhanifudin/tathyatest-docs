@@ -3,11 +3,13 @@
 #show: laporan-akhir
 
 // ---------- Front matter: penomoran romawi, dimulai dari halaman sampul ----------
-#set page(numbering: "i")
+#set page(numbering: none)
 #counter(page).update(1)
 
 #include "frontmatter/cover.typ"
+// Sampul dihitung halaman i tetapi nomornya tidak ditampilkan.
 #pagebreak()
+#set page(numbering: "i")
 
 #include "frontmatter/pengesahan.typ"
 #pagebreak()

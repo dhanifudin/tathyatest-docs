@@ -1,12 +1,10 @@
-#import "../template.typ": todo
+#import "../template.typ": fit-page
 
 = ARTIKEL ILMIAH DAN BUKTI LUARAN PENELITIAN <lampiran-g>
 
 == Artikel Ilmiah
 
-Naskah artikel ilmiah berjudul "TathyaTest: a generator for functional, regression, and functional-availability testing of web applications" telah selesai disusun untuk target Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI), namun hingga laporan ini disusun belum diajukan (submit). Naskah lengkap ditunjukkan pada halaman berikut.
-
-#todo("Perbarui status pada paragraf di atas dan tautan artikel setelah naskah disubmit/accepted/published.")
+Naskah artikel ilmiah berjudul "TathyaTest: a generator for functional, regression, and functional-availability testing of web applications" telah disusun dan disubmit pada 13 Oktober 2026 ke Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). Naskah lengkap ditunjukkan pada halaman berikut.
 
 #for p in range(1, 19) [
   #pagebreak(weak: true)
@@ -17,4 +15,6 @@ Naskah artikel ilmiah berjudul "TathyaTest: a generator for functional, regressi
 
 == Bukti Luaran Lainnya
 
-#todo("Sisipkan bukti luaran tambahan (jika ada), misalnya sertifikat Hak Cipta atau dokumentasi pendukung lainnya.")
+Hak Cipta untuk prototipe TathyaTest sedang dalam proses pendaftaran. Formulir permohonan pendaftaran ciptaan yang telah disiapkan untuk Sentra KI Polinema ditunjukkan pada halaman berikut.
+
+#fit-page("/build/supplement-form-hki.pdf", 1)

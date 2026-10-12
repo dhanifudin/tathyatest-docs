@@ -5,8 +5,8 @@
   judul: "Desain dan Implementasi TathyaTest: Test Case Generator Otomatis untuk Pengujian Fungsional Aplikasi Web",
   jenis: "Penelitian Reguler Kompetisi",
   dipa-nomor: "139.03.2.693474/2026",
-  tanggal-pengesahan: "xx November 2026", // TODO
-  bulan-tahun-laporan: "November 2026",
+  tanggal-pengesahan: "Oktober 2026",
+  bulan-tahun-laporan: "Oktober 2026",
   lokasi: "Jurusan Teknologi Informasi, Politeknik Negeri Malang",
   waktu: (mulai: "Maret 2026", sampai: "Oktober 2026"),
   program-strategis: "Rekayasa keteknikan",

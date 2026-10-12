@@ -1,5 +1,4 @@
 #import "../config.typ": laporan
-#import "../template.typ": todo
 
 #heading(level: 1, numbering: none, outlined: true)[KATA PENGANTAR]
 
@@ -14,7 +13,7 @@ Kami menyadari bahwa laporan ini masih memiliki keterbatasan. Oleh karena itu, k
 #v(1cm)
 
 #align(right)[
-  Malang, #todo("tanggal penyusunan laporan")
+  Malang, #laporan.bulan-tahun-laporan
 
   #v(0.3cm)
   Tim Peneliti
