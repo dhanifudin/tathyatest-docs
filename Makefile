@@ -177,6 +177,27 @@ paper-juti-numbers:
 	TT_DIR=$(TT_DIR) node scripts/report-to-typst.mjs > paper/juti/eval-numbers.typ
 	$(MAKE) paper-juti
 
+# ---- Presentasi seminar hasil (Marp), tema meniru docs/TEMPLATE SEMINAR HASIL.pptx ----
+# PPTX adalah luaran utama, dibuat dengan --pptx-editable (teks dan kotak dapat disunting
+# di PowerPoint; eksperimental, memakai LibreOffice/soffice sehingga butuh ~1 menit).
+# Gambar di slide harus PNG: SVG ikut dikonversi menjadi bentuk dan teksnya bertumpuk.
+MARP = marp --html --theme presentasi/polinema.css --allow-local-files --browser chrome --browser-path "$$(which chromium)"
+PRESENTASI_DEPS = presentasi/tathyatest.md presentasi/polinema.css presentasi/assets/pipeline-overview.png
+
+.PHONY: presentasi presentasi-pdf
+presentasi: $(BUILD_DIR)/presentasi.pptx
+presentasi-pdf: $(BUILD_DIR)/presentasi.pdf
+
+$(BUILD_DIR)/presentasi.pptx: $(PRESENTASI_DEPS) | $(BUILD_DIR)
+	$(MARP) --pptx --pptx-editable presentasi/tathyatest.md -o $@
+
+$(BUILD_DIR)/presentasi.pdf: $(PRESENTASI_DEPS) | $(BUILD_DIR)
+	$(MARP) presentasi/tathyatest.md -o $@
+
+# Diagram untuk slide dirender ulang dari SVG makalah bila berubah.
+presentasi/assets/pipeline-overview.png: paper/diagrams/pipeline-overview.svg
+	rsvg-convert -w 1800 -b white $< -o $@
+
 # Show help
 .PHONY: help
 help:
@@ -206,4 +227,5 @@ help:
 	@echo "  make paper-ieee-numbers  - Refresh paper/eval-numbers.tex from tt eval reports, then build"
 	@echo "  make paper-juti          - Build paper/juti/tathyatest-juti.pdf with Typst (JUTI template)"
 	@echo "  make paper-juti-numbers  - Refresh paper/juti/eval-numbers.typ from tt eval reports, then build"
+	@echo "  make presentasi   - Build slide seminar hasil (Marp) ke build/presentasi.pptx; presentasi-pdf untuk PDF"
 	@echo "  make help         - Tampilkan help ini"
