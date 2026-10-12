@@ -5,9 +5,8 @@ PDF hasil scan dengan nama berikut (menimpa placeholder), lalu `make laporan`:
 
 | File | Lampiran |
 |------|----------|
-| `d-pernyataan-keaslian.pdf` | D. Surat Pernyataan Keaslian |
-| `f-sptjb.pdf` | F. SPTJB (yang sudah ditandatangani) |
-| `i-kerjasama-mitra.pdf` | I. Surat Kerjasama Mitra |
+| `d-pernyataan-keaslian.pdf` | C. Surat Pernyataan Keaslian |
+| `f-sptjb.pdf` | E. SPTJB (yang sudah ditandatangani) |
 
 File `*.pdf` dan `pages.json` di-gitignore (dokumen pribadi / hasil generate).
 Jumlah halaman dihitung otomatis (`pdfinfo`) oleh `make scan-index`.

@@ -1,7 +1,7 @@
 #import "../config.typ": laporan
-#import "../template.typ": ttd-block, todo
+#import "../template.typ": ttd-block
 
-= BIODATA TIM PENGUSUL <lampiran-c>
+= BIODATA TIM PENELITI <lampiran-c>
 
 #let sect(title) = [*#title*]
 #let pernyataan = [
@@ -122,7 +122,7 @@
 #pernyataan
 #v(0.8cm)
 
-#ttd-block([Malang, 25 Januari 2026 \ Pengusul], "Dian Hanifudin Subhi, S.Kom., M.Kom.", nip: "198806102019031018", ttd: laporan.ketua.ttd)
+#align(right, box(ttd-block([Malang, 25 Januari 2026 \ Ketua Peneliti], "Dian Hanifudin Subhi, S.Kom., M.Kom.", nip: "198806102019031018", ttd: laporan.ketua.ttd)))
 
 #pagebreak(weak: true)
 
@@ -222,7 +222,7 @@
 #pernyataan
 #v(0.8cm)
 
-#ttd-block([Malang, 22 Januari 2026], "Dika Rizky Yunianto, S.Kom., M.Kom.", ttd: laporan.anggota.at(0).ttd)
+#align(right, box(ttd-block([Malang, 22 Januari 2026 \ Anggota Peneliti], "Dika Rizky Yunianto, S.Kom., M.Kom.", ttd: laporan.anggota.at(0).ttd)))
 
 #pagebreak(weak: true)
 
@@ -313,7 +313,7 @@
 #pernyataan
 #v(0.8cm)
 
-#ttd-block([Malang, 25 Januari 2026], "Ridwan Rismanto, S.ST., M.Kom., Ph.D.", nip: "198603182012121001", ttd: laporan.anggota.at(1).ttd)
+#align(right, box(ttd-block([Malang, 25 Januari 2026 \ Anggota Peneliti], "Ridwan Rismanto, S.ST., M.Kom., Ph.D.", nip: "198603182012121001", ttd: laporan.anggota.at(1).ttd)))
 
 #pagebreak(weak: true)
 
@@ -364,10 +364,6 @@
   [4], [2021], [Implementasi Sistem Cerdas Eksperimen Gambar Untuk Analisis Kondisi Adversity Response Profile (ARP)], [DIPA], [8],
 )
 
-#todo(
-  "Riwayat lengkap penelitian/pengabdian/publikasi/HKI Usman Nurhasan (2016-2021, lebih dari 20 entri masing-masing, lihat proposal.tex/lampiran_c.tex) diringkas di sini untuk keterbacaan — lampirkan lembar lengkap sebagai berkas terpisah bila diwajibkan oleh P3M.",
-)
-
 #sect[D. Pengalaman Pengabdian Kepada Masyarakat dalam 5 Tahun Terakhir (ringkasan)]
 
 #table(
@@ -396,7 +392,7 @@
 )
 
 #v(0.4cm)
-Semua data yang saya isikan dan tercantum dalam biodata ini adalah benar dan dapat dipertanggungjawabkan secara hukum. Apabila di kemudian hari ternyata dijumpai ketidaksesuaian dengan kenyataan, saya sanggup menerima risikonya. Demikian biodata ini saya buat dengan sebenarnya untuk memenuhi salah satu persyaratan dalam pengajuan penelitian dan pengabdian.
+Semua data yang saya isikan dan tercantum dalam biodata ini adalah benar dan dapat dipertanggungjawabkan secara hukum. Apabila di kemudian hari ternyata dijumpai ketidaksesuaian dengan kenyataan, saya sanggup menerima risikonya. Demikian biodata ini saya buat dengan sebenarnya untuk memenuhi salah satu persyaratan dalam laporan akhir penelitian dan pengabdian.
 #v(0.8cm)
 
-#ttd-block([Malang, 25 Januari 2026], "Usman Nurhasan, S.Kom., M.T", nip: "198609232015041001", ttd: laporan.anggota.at(2).ttd)
+#align(right, box(ttd-block([Malang, 25 Januari 2026 \ Anggota Peneliti], "Usman Nurhasan, S.Kom., M.T", nip: "198609232015041001", ttd: laporan.anggota.at(2).ttd)))

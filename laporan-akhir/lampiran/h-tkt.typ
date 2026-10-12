@@ -1,10 +1,10 @@
+#import "../template.typ": fit-page
+
 = PENGUKURAN TKT <lampiran-h>
 
-Target penelitian ini adalah TKT 4, yaitu validasi komponen dalam lingkungan laboratorium. Lembar pengukuran TKT (self-assessment) lengkap untuk bidang perangkat lunak (software) ditunjukkan pada halaman berikut.
+Target penelitian ini adalah TKT 4 (validasi komponen dalam lingkungan laboratorium) dan hasil pengukuran (self-assessment) menunjukkan TKT 4 tercapai. Ringkasan hasil pengukuran TKT bidang perangkat lunak (software) ditunjukkan berikut.
 
-#for p in range(1, 5) [
-  #pagebreak(weak: true)
-  #align(center)[
-    #image("/build/supplement-tkt.pdf", page: p, width: 100%)
-  ]
-]
+// Ringkasan Hasil (sheet RINGKASAN) adalah halaman terakhir borang.
+#let tkt = json("/build/tkt-software.json")
+
+#fit-page("/build/tkt-software.pdf", tkt.pages)

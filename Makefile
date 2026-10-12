@@ -58,8 +58,8 @@ LAPORAN_SRC = laporan-akhir/main.typ
 LAPORAN_PDF = $(BUILD_DIR)/laporan-akhir.pdf
 
 # ---- Supplement documents (Typst) -- embedded as PDFs into laporan-akhir's lampiran ----
-SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/tkt.typ supplement/manual-book.typ supplement/form-hki.typ
-SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-tkt.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf
+SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/manual-book.typ supplement/form-hki.typ
+SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf
 
 .PHONY: supplement
 supplement: $(SUPPLEMENT_PDFS)
@@ -79,6 +79,21 @@ $(BUILD_DIR)/supplement-manual-book.pdf: $(wildcard supplement/assets/manual/*)
 .PHONY: form-hki
 form-hki: $(BUILD_DIR)/supplement-form-hki.pdf
 
+# Borang resmi TKT software (xlsx hasil isian, sumber yang dapat disunting) -> PDF.
+# `make tkt-fill` mengisi ulang xlsx dari docs/pengukuran-tkt.zip (menimpa suntingan manual).
+TKT_XLSX = supplement/assets/tkt-software.xlsx
+TKT_PDF = $(BUILD_DIR)/tkt-software.pdf
+
+.PHONY: tkt tkt-fill
+tkt: $(TKT_PDF)
+
+tkt-fill:
+	python3 -I scripts/fill-tkt.py docs/pengukuran-tkt.zip $(TKT_XLSX)
+
+$(TKT_PDF): $(TKT_XLSX) | $(BUILD_DIR)
+	soffice --headless --convert-to pdf --outdir $(BUILD_DIR) $<
+	printf '{"pages": %s}\n' "$$(pdfinfo $@ | awk '/^Pages:/{print $$2}')" > $(BUILD_DIR)/tkt-software.json
+
 # Naskah JUTI (PDF) disematkan di lampiran G laporan akhir; file ini di-gitignore.
 MANUSCRIPT_PDF = supplement/assets/tathyatest-juti-manuscript.pdf
 
@@ -91,7 +106,7 @@ $(MANUSCRIPT_PDF): $(wildcard paper/juti/*.typ)
 # Lampiran yang memerlukan scan hardcopy: salin PDF scan ke laporan-akhir/scan/<nama>.pdf.
 # Placeholder dibuat otomatis hanya jika file belum ada; pages.json menyimpan jumlah halaman.
 SCAN_DIR = laporan-akhir/scan
-SCAN_NAMES = d-pernyataan-keaslian f-sptjb i-kerjasama-mitra
+SCAN_NAMES = d-pernyataan-keaslian f-sptjb
 SCAN_PDFS = $(patsubst %,$(SCAN_DIR)/%.pdf,$(SCAN_NAMES))
 
 .PHONY: scan-placeholders scan-index
@@ -99,10 +114,6 @@ scan-placeholders: $(SCAN_PDFS)
 
 $(SCAN_DIR)/%.pdf:
 	typst compile --root . --input label="$*" $(SCAN_DIR)/placeholder.typ $@
-
-# Placeholder lampiran D memakai scan proposal yang sudah ada sampai diganti.
-$(SCAN_DIR)/d-pernyataan-keaslian.pdf:
-	typst compile --root . --input label="d-pernyataan-keaslian" --input image="/images/surat-pernyataan-keaslian.png" $(SCAN_DIR)/placeholder.typ $@
 
 scan-index: scan-placeholders
 	@printf '{' > $(SCAN_DIR)/pages.json; sep=''; \
@@ -112,13 +123,13 @@ scan-index: scan-placeholders
 	done; printf '}\n' >> $(SCAN_DIR)/pages.json
 
 .PHONY: laporan
-laporan: supplement manuscript scan-index | $(BUILD_DIR)
+laporan: supplement manuscript tkt scan-index | $(BUILD_DIR)
 	typst compile --root . $(LAPORAN_SRC) $(LAPORAN_PDF)
 	@echo "PDF built successfully: $(LAPORAN_PDF)"
 
 # Build laporan saja (supplement dianggap sudah ada di build/)
 .PHONY: laporan-quick
-laporan-quick: manuscript scan-index | $(BUILD_DIR)
+laporan-quick: manuscript tkt scan-index | $(BUILD_DIR)
 	typst compile --root . $(LAPORAN_SRC) $(LAPORAN_PDF)
 	@echo "PDF built successfully: $(LAPORAN_PDF)"
 
@@ -177,6 +188,7 @@ help:
 	@echo "  make cleanall     - Hapus semua file generated proposal termasuk PDF"
 	@echo "  make rebuild      - Clean all dan build ulang proposal"
 	@echo "  make laporan      - Build PDF laporan akhir (Typst), termasuk dokumen supplement"
+	@echo "  make tkt          - Konversi borang TKT (xlsx terisi) ke PDF; make tkt-fill isi ulang xlsx"
 	@echo "  make manuscript   - Build PDF naskah JUTI untuk lampiran G laporan akhir"
 	@echo "  make scan-index   - Siapkan placeholder + indeks halaman scan lampiran (laporan-akhir/scan/)"
 	@echo "  make laporan-quick - Build laporan akhir saja (tanpa rebuild supplement)"

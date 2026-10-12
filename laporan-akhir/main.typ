@@ -55,5 +55,4 @@
 #include "lampiran/f-sptjb.typ"
 #include "lampiran/g-artikel-bukti-luaran.typ"
 #include "lampiran/h-tkt.typ"
-#include "lampiran/i-kerjasama-mitra.typ"
 #include "lampiran/j-prototype.typ"
