@@ -64,7 +64,7 @@ SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ring
 .PHONY: supplement
 supplement: $(SUPPLEMENT_PDFS)
 
-$(BUILD_DIR)/supplement-%.pdf: supplement/%.typ supplement/common.typ | $(BUILD_DIR)
+$(BUILD_DIR)/supplement-%.pdf: supplement/%.typ supplement/common.typ laporan-akhir/config.typ | $(BUILD_DIR)
 	typst compile --root . $< $@
 
 # Buku panduan penggunaan (manual book) TathyaTest untuk pendaftaran Hak Cipta;

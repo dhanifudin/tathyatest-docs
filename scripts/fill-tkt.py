@@ -18,7 +18,7 @@ PROFIL = {  # sheet1: PROFIL PENELITI
     5: "Dian Hanifudin Subhi, S.Kom., M.Kom.",
     6: "PERGURUAN TINGGI",
     7: "Politeknik Negeri Malang",
-    8: "Ketua Peneliti (Asisten Ahli)",
+    8: "Ketua Peneliti (Lektor)",
     9: "198806102019031018",
     10: "0010068807",
     11: "Jurusan Teknologi Informasi, Politeknik Negeri Malang, Jl. Soekarno Hatta No. 9, Jatimulyo, Lowokwaru",

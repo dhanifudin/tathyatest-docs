@@ -19,7 +19,7 @@
   row-gutter: 3pt,
   [1.], [Nama Lengkap], [:], [Dian Hanifudin Subhi, S.Kom., M.Kom.],
   [2.], [Jenis Kelamin], [:], [Laki-laki],
-  [3.], [Jabatan Fungsional], [:], [Asisten Ahli],
+  [3.], [Jabatan Fungsional], [:], [Lektor],
   [4.], [NIP/NIK/Identitas Lainnya], [:], [198806102019031018],
   [5.], [NIDN], [:], [0010068807],
   [6.], [Tempat dan Tanggal Lahir], [:], [Gresik, 10 Juni 1988],

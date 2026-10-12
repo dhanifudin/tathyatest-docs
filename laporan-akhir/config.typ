@@ -17,7 +17,7 @@
     nama: "Dian Hanifudin Subhi, S.Kom., M.Kom.",
     nip: "198806102019031018",
     nidn: "0010068807",
-    jabatan: "Asisten Ahli",
+    jabatan: "Lektor",
     pangkat: "Penata Muda Tingkat I/III/B",
     alamat: "Perum Akhtara Residence B-01",
     hp: "082230743546",
