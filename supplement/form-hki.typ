@@ -24,6 +24,9 @@
 // Alamat rumah per pencipta (kunci: email). Yang belum ada muncul sebagai TODO.
 #let alamat-rumah = (
   "dhanifudin@polinema.ac.id": "Perum Akhtara Residence B-01, 006/002, Tasikmadu, Lowokwaru, Malang, 65143",
+  "dika.rizky@polinema.ac.id": "Taman Sengkaling V/E-36, 002/003, Mulyoagung, Dau, Kabupaten Malang",
+  "rismanto@polinema.ac.id": "Jl. Papa Kuning II/22, 003/015, Tulusrejo, Lowokwaru, Malang",
+  "usmannurhasan@polinema.ac.id": "Perum Permata Hijau E No. 85, 004/009, Tlogomas, Lowokwaru, Malang",
 )
 #let alamat(p) = alamat-rumah.at(p.email, default: todo("alamat rumah " + polos(p.nama)))
 
@@ -32,7 +35,12 @@
 #let hp(p) = hp-form.at(p.email, default: p.hp)
 
 // Pindaian KTP per pencipta (kunci: email); yang belum ada muncul sebagai kotak TODO.
-#let ktp = ("dhanifudin@polinema.ac.id": "/supplement/assets/ktp-dian.jpg")
+#let ktp = (
+  "dhanifudin@polinema.ac.id": "/supplement/assets/ktp-dian.jpg",
+  "dika.rizky@polinema.ac.id": "/supplement/assets/ktp-dika.jpg",
+  "rismanto@polinema.ac.id": "/supplement/assets/ktp-ridwan.jpg",
+  "usmannurhasan@polinema.ac.id": "/supplement/assets/ktp-usman.png",
+)
 
 #let kepala = laporan.pejabat.kepala-p3m.nama
 
