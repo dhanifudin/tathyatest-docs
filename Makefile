@@ -58,8 +58,8 @@ LAPORAN_SRC = laporan-akhir/main.typ
 LAPORAN_PDF = $(BUILD_DIR)/laporan-akhir.pdf
 
 # ---- Supplement documents (Typst) -- embedded as PDFs into laporan-akhir's lampiran ----
-SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/manual-book.typ supplement/form-hki.typ
-SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf
+SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/pernyataan-keaslian.typ supplement/manual-book.typ supplement/form-hki.typ
+SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-pernyataan-keaslian.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf
 
 .PHONY: supplement
 supplement: $(SUPPLEMENT_PDFS)
@@ -76,6 +76,11 @@ $(BUILD_DIR)/supplement-manual-book.pdf: $(wildcard supplement/assets/manual/*)
 
 # Formulir permohonan pendaftaran ciptaan (HKI) Sentra KI Polinema, tata letak
 # disalin dari docs/form-hki.docx; pencipta = dosen tim dari laporan-akhir/config.typ.
+# Draf Surat Pernyataan Keaslian laporan akhir untuk dicetak, ditandatangani, dan dipindai
+# ke laporan-akhir/scan/d-pernyataan-keaslian.pdf (Lampiran C).
+.PHONY: pernyataan
+pernyataan: $(BUILD_DIR)/supplement-pernyataan-keaslian.pdf
+
 .PHONY: form-hki
 form-hki: $(BUILD_DIR)/supplement-form-hki.pdf
 
@@ -184,6 +189,7 @@ help:
 	@echo "  make watch        - Continuous build mode proposal (auto-recompile)"
 	@echo "  make clean        - Hapus file build proposal (kecuali PDF)"
 	@echo "  make manual-book  - Build buku panduan (manual book) TathyaTest untuk HKI"
+	@echo "  make pernyataan   - Build draf Surat Pernyataan Keaslian (untuk dicetak dan dipindai)"
 	@echo "  make form-hki     - Build formulir permohonan pendaftaran ciptaan (HKI)"
 	@echo "  make cleanall     - Hapus semua file generated proposal termasuk PDF"
 	@echo "  make rebuild      - Clean all dan build ulang proposal"
