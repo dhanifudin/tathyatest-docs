@@ -63,7 +63,7 @@
     #v(0.3cm)
     Pengujian aplikasi web di Jurusan Teknologi Informasi Politeknik Negeri Malang menghadapi tantangan dalam memastikan kualitas aplikasi akademik seperti Kompen, Jayanti, dan Whistleblower. Alat automation testing seperti Selenium, Cypress, dan Playwright masih memerlukan pembuatan test case manual yang menjadi bottleneck. TathyaTest hadir sebagai test case generator otomatis yang melakukan crawling DOM ter-render (Playwright), membangun model elemen dan matriks akses per peran pengguna (RBAC), lalu menghasilkan dan mengeksekusi test case fungsional secara otomatis. Metode Prototyping digunakan secara iteratif hingga evaluasi pada tiga aplikasi studi kasus (Laravel Blade, Laravel Inertia-React, dan SauceDemo sebagai pembanding).
 
-    Hasil evaluasi: TathyaTest menghasilkan 104, 106, dan 31 test case untuk ketiga aplikasi. Cakupan model elemen mencapai 95,5% pada Blade dan 100,0% pada Inertia-React, dengan hasil identik di Chrome, Firefox, dan WebKit (κ = 1,00). Dari 14 cacat yang diinjeksi, 100,0% terdeteksi pada Blade dan 85,7% pada Inertia-React (baseline manual 21,4%). Pembuatan test case 30,0--32,7× lebih cepat dibanding penulisan manual (p < 0,001), dan dua cacat nyata ditemukan pada aplikasi studi kasus.
+    Hasil evaluasi: TathyaTest menghasilkan 104, 106, dan 31 test case untuk ketiga aplikasi. Cakupan model elemen mencapai 95,5% pada Blade dan 100,0% pada Inertia-React, dengan hasil identik di Chrome, Firefox, dan WebKit (κ = 1,00). Dari 14 cacat yang diinjeksi, 100,0% terdeteksi pada Blade dan 85,7% pada Inertia-React. Pembuatan test case diperkirakan 30,0--32,7× lebih cepat dibanding penulisan manual (asumsi 5 menit per test case), dan dua cacat nyata ditemukan pada aplikasi studi kasus.
 
     *Kata kunci:* automation testing, test case generation, web crawling, RBAC, functional testing, Playwright
 
@@ -102,7 +102,7 @@
   [
     #pill[Hasil Dan Manfaat]
     #v(0.3cm)
-    Evaluasi menunjukkan cakupan model elemen 95,5--100,0%, hasil identik lintas browser (κ = 1,00), deteksi cacat 85,7--100,0% (baseline manual 21,4%), serta pembuatan test case 30,0--32,7× lebih cepat dibanding penulisan manual. Pengujian turut menemukan dua cacat nyata pada aplikasi studi kasus. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
+    Evaluasi menunjukkan cakupan model elemen 95,5--100,0%, hasil identik lintas browser (κ = 1,00), deteksi cacat 85,7--100,0%, serta perkiraan pembuatan test case 30,0--32,7× lebih cepat dibanding penulisan manual. Pengujian turut menemukan dua cacat nyata pada aplikasi studi kasus. TathyaTest bermanfaat untuk mempercepat dan memperluas cakupan pengujian fungsional aplikasi berbasis web, termasuk aplikasi internal Jurusan Teknologi Informasi pada tahap penelitian lanjutan.
 
     #v(0.3cm)
     #align(center, image("/paper/diagrams/pipeline-overview.svg", width: 100%))
@@ -115,7 +115,6 @@
       align: left + horizon,
       ..bar("Blade", 100.0, blue),
       ..bar("Inertia-React", 85.7, blue),
-      ..bar("Baseline manual", 21.4, gray),
     )
     #align(center)[Gambar 2. Akurasi deteksi cacat.]
   ],
