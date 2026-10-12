@@ -15,24 +15,29 @@
 }
 
 // Official P3M Polinema letterhead (logo + institutional header + rule),
-// matching the header used across the panduan.pdf's official form templates
-// (Surat Pernyataan Keaslian, SPTJB, etc.).
+// matching the kop surat shown in docs/panduan.pdf's own official form
+// templates (e.g. Lampiran 8 Surat Pernyataan Keaslian, Lampiran 21 Surat
+// Rekomendasi Pusat Riset): sans-serif (Calibri, body text stays Times New
+// Roman), a size/weight hierarchy -- "KEMENTERIAN..." largest and regular,
+// "POLITEKNIK NEGERI MALANG" smaller and regular, "PUSAT PENELITIAN..." the
+// only bold line -- and a larger logo than a typical inline letterhead.
 #let letterhead() = {
   grid(
-    columns: (2cm, 1fr),
+    columns: (2.6cm, 1fr),
     column-gutter: 0.4cm,
     align: horizon,
     image("/images/logo.png", width: 100%),
     align(center)[
-      #text(weight: "bold")[KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI] \
-      #text(weight: "bold")[POLITEKNIK NEGERI MALANG] \
-      #text(weight: "bold")[PUSAT PENELITIAN DAN PENGABDIAN KEPADA MASYARAKAT] \
+      #set text(font: ("Calibri", "Carlito", "Liberation Sans"))
+      #text(size: 14pt)[KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI] \
+      #text(size: 12pt)[POLITEKNIK NEGERI MALANG] \
+      #text(size: 12pt, weight: "bold")[PUSAT PENELITIAN DAN PENGABDIAN KEPADA MASYARAKAT] \
       #text(size: 9pt)[Jalan Soekarno Hatta Nomor 9, Jatimulyo, Lowokwaru, Malang 65141] \
       #text(size: 9pt)[Telepon (0341) 404424, 404425, Faksimile (0341) 404420] \
       #text(size: 9pt)[Laman www.polinema.ac.id]
     ],
   )
   v(0.2cm)
-  line(length: 100%, stroke: 1pt)
+  line(length: 100%, stroke: 1.5pt)
   v(0.4cm)
 }
