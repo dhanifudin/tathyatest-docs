@@ -15,6 +15,7 @@ Dengan TathyaTest, proses pengujian aplikasi berbasis web dapat dilakukan secara
 == Rumusan Masalah <rumusan-masalah>
 
 + Sejauh mana test suite yang dihasilkan TathyaTest dari observasi DOM ter-render secara terotentikasi mencakup permukaan fungsional aplikasi berbasis web -- baik pada tingkat model elemen (form, field, navigasi, matriks RBAC) maupun pada tingkat kode sumber aplikasi (system under test, SUT)?
++ Sejauh mana test suite yang dihasilkan TathyaTest mampu mendeteksi penyimpangan fungsional (cacat) yang disuntikkan secara terkendali pada aplikasi studi kasus, sekaligus membedakannya dari perubahan yang seharusnya tidak memengaruhi perilaku aplikasi (cacat kendali negatif)?
 + Bagaimana kualitas intrinsik, keandalan, dan efisiensi test suite yang dihasilkan TathyaTest dibandingkan dengan test suite tulisan manual dan test suite publik independen?
 
 == Batasan Masalah <batasan-masalah>
@@ -32,6 +33,7 @@ Untuk memfokuskan penelitian dan memastikan hasil yang optimal, batasan masalah 
 == Tujuan Penelitian <tujuan-penelitian>
 
 + Mengukur cakupan permukaan fungsional aplikasi berbasis web yang dicapai oleh test suite hasil generate TathyaTest, pada tingkat model elemen hasil crawling DOM ter-render maupun pada tingkat kode sumber aplikasi (SUT).
++ Mengukur kemampuan deteksi cacat (accuracy rate) test suite yang dihasilkan TathyaTest melalui injeksi cacat terkendali pada aplikasi studi kasus, termasuk validitasnya terhadap cacat kendali negatif.
 + Mengevaluasi kualitas intrinsik (densitas asersi, ketahanan locator), keandalan (flake rate, kesepakatan lintas-browser), dan efisiensi (waktu eksekusi, penghematan waktu) test suite yang dihasilkan TathyaTest dibandingkan dengan baseline manual dan test suite publik independen.
 
 == Manfaat Penelitian <manfaat-penelitian>

@@ -121,11 +121,11 @@ Elemen yang dihitung mencakup form input, tombol, link, tabel, dan komponen inte
 
 *Tingkat Akurasi (Accuracy Rate)*
 
-Tingkat akurasi mengukur kemampuan TathyaTest dalam mendeteksi bug atau error yang ada pada aplikasi, dihitung dari persentase test case yang berhasil mendeteksi bug dibandingkan dengan total test case yang dijalankan:
+Tingkat akurasi mengukur kemampuan test suite yang dihasilkan TathyaTest dalam mendeteksi penyimpangan fungsional (cacat), diuji melalui injeksi cacat (fault injection) terkendali pada kode aplikasi studi kasus. Katalog cacat disusun oleh tim peneliti mencakup lima kelas cacat yang dapat dideteksi dari permukaan fungsional (validasi, otorisasi, CRUD, paginasi, autentikasi), ditambah sejumlah cacat kendali negatif (negative control) yang secara sengaja dirancang agar tidak memengaruhi perilaku aplikasi, sebagai penyeimbang terhadap risiko efek plafon (ceiling effect) dan bias katalog yang melekat pada katalog cacat buatan sendiri. Tingkat akurasi dihitung dari persentase cacat yang dapat dideteksi (detectable) yang berhasil terdeteksi oleh test suite:
 
-$ "Accuracy Rate" = ("Test Case yang Mendeteksi Bug") / ("Total Test Case") times 100% $ <eq-accuracy-rate>
+$ "Accuracy Rate" = ("Cacat Dapat-Dideteksi yang Terdeteksi") / ("Total Cacat Dapat-Dideteksi") times 100% $ <eq-accuracy-rate>
 
-Target akurasi minimal adalah 85% untuk memastikan reliabilitas TathyaTest dalam identifikasi masalah.
+Target akurasi minimal adalah 85%. Cacat kendali negatif yang seharusnya tidak terdeteksi (survive) pada seluruh repetisi pengujian menjadi pemeriksaan validitas tambahan terhadap katalog cacat yang digunakan.
 
 *Jumlah dan Kategori Bug*
 

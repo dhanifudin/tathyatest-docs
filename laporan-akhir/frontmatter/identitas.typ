@@ -48,7 +48,7 @@
 
   [
     TKT awal: 2 (bukti konsep fungsi dan/atau karakteristik penting secara analitis dan eksperimental telah dihasilkan) \
-    TKT akhir yang dihasilkan: 4 (validasi komponen dalam lingkungan laboratorium — prototipe TathyaTest telah diuji dan dievaluasi secara menyeluruh terhadap tiga aplikasi studi kasus dengan cakupan model hingga 100% dan terbukti menemukan dua cacat nyata pada aplikasi studi kasus, namun belum divalidasi pada lingkungan operasional aplikasi internal JTI)
+    TKT akhir yang dihasilkan: 4 (validasi komponen dalam lingkungan laboratorium — prototipe TathyaTest telah diuji dan dievaluasi secara menyeluruh terhadap tiga aplikasi studi kasus dengan cakupan model hingga 100% dan tingkat akurasi deteksi cacat hingga 100% pada katalog cacat terkendali, serta terbukti menemukan dua cacat nyata pada aplikasi studi kasus, namun belum divalidasi pada lingkungan operasional aplikasi internal JTI)
   ],
 
   [Grup Riset: #todo("nama grup riset Polinema yang menaungi penelitian ini, jika ada")],
@@ -57,7 +57,7 @@
 
   [Temuan yang Ditargetkan: Metode otomatis test case generation untuk aplikasi web berbasis crawling DOM ter-render (Playwright) dan pemetaan elemen-ke-test-case, diwujudkan dalam bentuk prototipe TathyaTest yang mampu menghasilkan dan mengeksekusi test case fungsional secara otomatis lintas peran pengguna (RBAC) dan lintas browser.],
 
-  [Kontribusi Mendasar pada Suatu Bidang Ilmu: Penelitian ini memberikan kontribusi pada bidang Software Testing dan Quality Assurance melalui pengembangan metode otomatis untuk test case generation berbasis crawling DOM ter-render dan pemetaan elemen-ke-test-case lintas peran pengguna. TathyaTest mengotomatisasi proses ini untuk menghasilkan test case fungsional yang relevan dan kontekstual, serta terbukti menemukan cacat nyata pada aplikasi studi kasus di luar skenario yang telah diketahui sebelumnya.],
+  [Kontribusi Mendasar pada Suatu Bidang Ilmu: Penelitian ini memberikan kontribusi pada bidang Software Testing dan Quality Assurance melalui pengembangan metode otomatis untuk test case generation berbasis crawling DOM ter-render dan pemetaan elemen-ke-test-case lintas peran pengguna. TathyaTest mengotomatisasi proses ini untuk menghasilkan test case fungsional yang relevan dan kontekstual, terbukti memenuhi target akurasi deteksi cacat melalui injeksi cacat terkendali (hingga 100% pada katalog cacat dapat-dideteksi), serta menemukan cacat nyata pada aplikasi studi kasus di luar skenario yang telah diketahui sebelumnya.],
 
   [Jurnal Ilmiah yang Menjadi Sasaran: Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). Naskah telah selesai disusun (manuskrip lengkap), #todo("status: belum disubmit — perbarui setelah submission")],
 
