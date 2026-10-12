@@ -1,6 +1,5 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import fletcher.shapes: diamond, pill
-#import "../template.typ": g
 
 = METODE PENELITIAN <bab-iii-metode-penelitian>
 
@@ -145,32 +144,3 @@ Kedua, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidan
 Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi studi kasus yang lebih kompleks dengan RBAC (Laravel Blade, Laravel Inertia-React) serta satu aplikasi eksternal (SauceDemo) yang berbeda tumpukan teknologi untuk menguji generalisasi di luar aplikasi yang dikembangkan sendiri oleh tim peneliti. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
 
 Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources untuk memvalidasi temuan penelitian. Data dari pengujian pada berbagai aplikasi, dan hasil pengujian ulang dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.
-
-== Realisasi Jadwal Penelitian <realisasi-jadwal>
-
-Penelitian ini dilaksanakan selama 8 bulan dari bulan Maret sampai Oktober 2026. Realisasi jadwal pelaksanaan penelitian ditunjukkan pada @tab-jadwal-penelitian.
-
-#figure(
-  table(
-    columns: (0.5cm, 1fr, 1cm, 1cm, 1cm, 1cm, 1cm, 1cm, 1cm, 1cm),
-    stroke: 0.5pt,
-    align: center + horizon,
-    table.header(
-      table.cell(rowspan: 2)[*No*], table.cell(rowspan: 2)[*Kegiatan*],
-      table.cell(colspan: 8)[*Bulan ke-*],
-      [1], [2], [3], [4], [5], [6], [7], [8],
-    ),
-    [1], table.cell(align: left)[Persiapan dan Studi Literatur], g(), g(), [], [], [], [], [], [],
-    [2], table.cell(align: left)[Desain Sistem TathyaTest], g(), g(), [], [], [], [], [], [],
-    [3], table.cell(align: left)[Pengembangan Prototipe CRUD], [], g(), g(), [], [], [], [], [],
-    [4], table.cell(align: left)[Pengujian Prototipe Awal], [], [], g(), g(), [], [], [], [],
-    [5], table.cell(align: left)[Pengembangan Fitur Lanjutan], [], [], [], g(), g(), [], [], [],
-    [6], table.cell(align: left)[Integrasi Playwright], [], [], [], [], g(), g(), [], [],
-    [7], table.cell(align: left)[Pengujian dengan Dataset Internal], [], [], [], [], [], g(), g(), [],
-    [8], table.cell(align: left)[Analisis Data dan Evaluasi], [], [], [], [], [], [], g(), g(),
-    [9], table.cell(align: left)[Penyusunan Laporan], [], [], [], [], [], [], g(), g(),
-    [10], table.cell(align: left)[Publikasi Artikel], [], [], [], [], [], [], [], g(),
-    [11], table.cell(align: left)[Pendaftaran HKI], [], [], [], [], [], [], [], g(),
-  ),
-  caption: [Realisasi Jadwal Pelaksanaan Penelitian],
-) <tab-jadwal-penelitian>

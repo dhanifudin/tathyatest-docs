@@ -48,7 +48,6 @@
 #metadata("lampiran") <mulai-lampiran>
 #show: lampiran-rules
 
-#include "lampiran/a-realisasi-anggaran.typ"
 #include "lampiran/b-susunan-tim.typ"
 #include "lampiran/c-biodata.typ"
 #include "lampiran/d-pernyataan-keaslian.typ"
