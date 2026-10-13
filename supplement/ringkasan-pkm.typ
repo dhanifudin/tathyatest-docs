@@ -73,7 +73,7 @@
     #enum(
       [Subhi, D.H., Yunianto, D.R., Rismanto, R., Nurhasan, U. "TathyaTest: a generator for functional, regression, and functional-availability testing of web applications." Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI) (telah disubmit).],
       [Prototipe TathyaTest: Test Case Generator Otomatis, TKT 4 (purwarupa)],
-      [Hak Cipta untuk prototipe TathyaTest (dalam proses pendaftaran)],
+      [Hak Cipta untuk prototipe TathyaTest (tercatat, No. 001541438)],
     )
   ],
 )

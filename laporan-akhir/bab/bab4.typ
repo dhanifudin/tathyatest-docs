@@ -181,7 +181,7 @@ Status capaian luaran penelitian terhadap target yang ditetapkan pada @tab-luara
     [1], [IPTEKSB berupa _prototipe_ TathyaTest], [Tercapai -- prototipe selesai dibangun dan dievaluasi pada 3 aplikasi studi kasus],
     [2], [Artikel pada jurnal ilmiah (JUTI)], [Manuskrip telah disubmit (13 Oktober 2026)],
     table.cell(colspan: 3, align: left)[*Luaran Tambahan*],
-    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [Dalam proses pendaftaran],
+    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [Tercatat (Surat Pencatatan Ciptaan No. 001541438)],
   ),
   caption: [Status Capaian Luaran Penelitian],
 ) <tab-luaran-dicapai>

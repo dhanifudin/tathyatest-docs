@@ -227,7 +227,7 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 
 **Luaran tambahan**
 
-3. **Kekayaan Intelektual (KI) berupa Hak Cipta** prototipe TathyaTest: dalam proses pendaftaran
+3. **Kekayaan Intelektual (KI) berupa Hak Cipta** prototipe TathyaTest: **tercatat**, No. pencatatan 001541438
 
 </div>
 </div>
@@ -237,7 +237,33 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 <div class="gloss"><b>Istilah:</b> <b>TKT</b> = Tingkat Kesiapterapan Teknologi, skala 1–9; <b>TKT 4</b> = komponen teknologi sudah teruji di laboratorium</div>
 
 <!--
-Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang masih berstatus draf dan menunggu proses review. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sedang didaftarkan. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
+Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang masih berstatus draf dan menunggu proses review. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sudah tercatat dengan nomor pencatatan 001541438. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
+-->
+
+---
+
+<!-- _class: dense -->
+
+# Bukti Luaran: Hak Cipta
+
+<div class="cols">
+<div class="center">
+<img src="assets/surat-pencatatan-hki.png" style="height: 430px; border: 1px solid #9aa5ad;">
+</div>
+<div class="box">
+
+**Surat Pencatatan Ciptaan**
+- Nomor pencatatan: **001541438**
+- Permohonan: EC002026199066 (13 Oktober 2026)
+- Jenis: **Program Komputer**
+- Pemegang hak: **Politeknik Negeri Malang**
+- Perlindungan: 50 tahun sejak diumumkan (12 Oktober 2026)
+
+</div>
+</div>
+
+<!--
+Bukti luaran tambahan: Surat Pencatatan Ciptaan dari Kementerian Hukum untuk program komputer TathyaTest, nomor pencatatan 001541438, dengan pemegang hak Politeknik Negeri Malang dan masa perlindungan 50 tahun.
 -->
 
 ---

@@ -61,5 +61,5 @@
 
   [Jurnal Ilmiah yang Menjadi Sasaran: Jurnal Teknologi Informasi dan Ilmu Komputer (JUTI). Naskah telah selesai disusun dan telah disubmit pada 13 Oktober 2026.],
 
-  [Rencana Luaran HKI, Buku, Purwarupa, atau Luaran Lainnya: Prototipe TathyaTest (purwarupa TKT 4) dan Hak Cipta untuk prototipe TathyaTest (dalam proses pendaftaran).],
+  [Rencana Luaran HKI, Buku, Purwarupa, atau Luaran Lainnya: Prototipe TathyaTest (purwarupa TKT 4) dan Hak Cipta untuk prototipe TathyaTest (tercatat, Surat Pencatatan Ciptaan No. 001541438).],
 )

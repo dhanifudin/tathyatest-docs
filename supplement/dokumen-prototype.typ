@@ -55,7 +55,7 @@
   [
     #lbl[Judul KI:] #laporan.judul \
     #v(0.2cm)
-    Status : #strike[Belum didaftarkan]/#strike[Terdaftar]/#strike[Granted] (dalam proses pendaftaran) \
+    Status : #strike[Belum didaftarkan]/#strike[Terdaftar]/Granted (No. pencatatan 001541438; permohonan EC002026199066) \
     Jenis : Hak Cipta/#strike[Paten]/#strike[Paten Sederhana]
   ],
 )

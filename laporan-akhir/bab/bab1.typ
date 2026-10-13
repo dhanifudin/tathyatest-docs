@@ -59,7 +59,7 @@ Pada @tab-luaran-penelitian disajikan luaran dari penelitian ini. Luaran tersebu
     [1], [IPTEKSB berupa _prototipe_ atau rancangan model atau teknologi tepat guna atau naskah kebijakan], [Ada -- prototipe TathyaTest telah selesai dibangun dan dievaluasi],
     [2], [Artikel pada jurnal ilmiah (JUTI)], [Manuskrip telah disubmit (13 Oktober 2026)],
     table.cell(colspan: 3, align: left)[*Luaran Tambahan*],
-    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [Dalam proses pendaftaran],
+    [3], [Kekayaan Intelektual (KI) berupa Hak Cipta], [Tercatat (Surat Pencatatan Ciptaan No. 001541438)],
   ),
   caption: [Luaran Penelitian],
 ) <tab-luaran-penelitian>

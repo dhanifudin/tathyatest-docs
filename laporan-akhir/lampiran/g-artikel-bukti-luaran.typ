@@ -1,4 +1,4 @@
-#import "../template.typ": fit-page
+#import "../template.typ": fit-page, scan-pages
 
 = ARTIKEL ILMIAH DAN BUKTI LUARAN PENELITIAN <lampiran-g>
 
@@ -15,6 +15,6 @@ Naskah artikel ilmiah berjudul "TathyaTest: a generator for functional, regressi
 
 == Bukti Luaran Lainnya
 
-Hak Cipta untuk prototipe TathyaTest sedang dalam proses pendaftaran. Formulir permohonan pendaftaran ciptaan yang telah disiapkan untuk Sentra KI Polinema ditunjukkan pada halaman berikut.
+Hak Cipta untuk prototipe TathyaTest telah tercatat melalui Surat Pencatatan Ciptaan Nomor Pencatatan 001541438 (permohonan EC002026199066, 13 Oktober 2026) dengan pemegang hak Politeknik Negeri Malang. Surat pencatatan ditunjukkan pada halaman berikut.
 
-#fit-page("/build/supplement-form-hki.pdf", 1)
+#scan-pages("h-hki")

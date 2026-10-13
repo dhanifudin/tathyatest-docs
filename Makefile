@@ -111,7 +111,7 @@ $(MANUSCRIPT_PDF): $(wildcard paper/juti/*.typ)
 # Lampiran yang memerlukan scan hardcopy: salin PDF scan ke laporan-akhir/scan/<nama>.pdf.
 # Placeholder dibuat otomatis hanya jika file belum ada; pages.json menyimpan jumlah halaman.
 SCAN_DIR = laporan-akhir/scan
-SCAN_NAMES = a-pengesahan d-pernyataan-keaslian f-sptjb
+SCAN_NAMES = a-pengesahan d-pernyataan-keaslian f-sptjb h-hki
 SCAN_PDFS = $(patsubst %,$(SCAN_DIR)/%.pdf,$(SCAN_NAMES))
 
 .PHONY: scan-placeholders scan-index
