@@ -184,12 +184,22 @@ paper-juti-numbers:
 MARP = marp --html --theme presentasi/polinema.css --allow-local-files --browser chrome --browser-path "$$(which chromium)"
 PRESENTASI_DEPS = presentasi/tathyatest.md presentasi/polinema.css presentasi/assets/pipeline-overview.png
 
-.PHONY: presentasi presentasi-pdf
+.PHONY: presentasi presentasi-pdf presentasi-ppt
 presentasi: $(BUILD_DIR)/presentasi.pptx
 presentasi-pdf: $(BUILD_DIR)/presentasi.pdf
 
 $(BUILD_DIR)/presentasi.pptx: $(PRESENTASI_DEPS) | $(BUILD_DIR)
 	$(MARP) --pptx --pptx-editable presentasi/tathyatest.md -o $@
+
+# Format .ppt lama untuk sistem unggah yang menolak .pptx. Memakai PPTX berbasis
+# gambar (tanpa --pptx-editable) karena konversi PPTX editable -> .ppt menghilangkan
+# latar dan kotak judul; slide menjadi gambar dan tidak bisa diedit.
+presentasi-ppt: $(BUILD_DIR)/presentasi.ppt
+
+$(BUILD_DIR)/presentasi.ppt: $(PRESENTASI_DEPS) | $(BUILD_DIR)
+	$(MARP) --pptx presentasi/tathyatest.md -o $(BUILD_DIR)/presentasi-img.pptx
+	soffice --headless --convert-to ppt --outdir $(BUILD_DIR) $(BUILD_DIR)/presentasi-img.pptx
+	mv $(BUILD_DIR)/presentasi-img.ppt $@
 
 $(BUILD_DIR)/presentasi.pdf: $(PRESENTASI_DEPS) | $(BUILD_DIR)
 	$(MARP) presentasi/tathyatest.md -o $@
