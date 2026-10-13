@@ -58,8 +58,8 @@ LAPORAN_SRC = laporan-akhir/main.typ
 LAPORAN_PDF = $(BUILD_DIR)/laporan-akhir.pdf
 
 # ---- Supplement documents (Typst) -- embedded as PDFs into laporan-akhir's lampiran ----
-SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/pernyataan-keaslian.typ supplement/manual-book.typ supplement/form-hki.typ
-SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-pernyataan-keaslian.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf
+SUPPLEMENT_SRCS = supplement/sptjb.typ supplement/ringkasan-pkm.typ supplement/pernyataan-keaslian.typ supplement/manual-book.typ supplement/form-hki.typ supplement/dokumen-prototype.typ
+SUPPLEMENT_PDFS = $(BUILD_DIR)/supplement-sptjb.pdf $(BUILD_DIR)/supplement-ringkasan-pkm.pdf $(BUILD_DIR)/supplement-pernyataan-keaslian.pdf $(BUILD_DIR)/supplement-manual-book.pdf $(BUILD_DIR)/supplement-form-hki.pdf $(BUILD_DIR)/supplement-dokumen-prototype.pdf
 
 .PHONY: supplement
 supplement: $(SUPPLEMENT_PDFS)

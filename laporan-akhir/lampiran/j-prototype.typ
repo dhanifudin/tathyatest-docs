@@ -1,10 +1,18 @@
+#import "../template.typ": fit-page
 #let fig(path, caption, width: 100%) = figure(
   image(path, width: width),
   caption: caption,
   numbering: n => [#numbering("A", counter(heading).get().first()).#n],
 )
 
-= DOKUMEN PROTOTYPE <lampiran-j>
+= DOKUMEN PROTOTYPE (IPTEKSB) <lampiran-j>
+
+#fit-page("/build/supplement-dokumen-prototype.pdf", 1)
+#pagebreak()
+#fit-page("/build/supplement-dokumen-prototype.pdf", 2)
+#pagebreak()
+
+== Ringkasan Prototipe
 
 Prototipe TathyaTest berupa CLI `tt` (TypeScript/Node.js dengan Playwright). Buku panduan penggunaan lengkap disusun sebagai dokumen terpisah (manual book); ringkasannya diberikan di bawah ini.
 
