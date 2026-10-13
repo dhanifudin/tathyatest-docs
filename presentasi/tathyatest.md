@@ -35,8 +35,8 @@ Anggota:<br>
 
 **Masalahnya**
 - Aplikasi kampus (mis. Kompen, Jayanti, Whistleblower) dipakai setiap hari oleh mahasiswa, dosen, dan staf.
-- Server yang "hidup" ibarat toko yang pintunya terbuka: belum tentu kasir, stok, dan penjaganya bekerja benar.
-- Menguji semua fungsi secara manual lambat. Alat uji otomatis pun masih butuh **skenario uji** yang ditulis manusia.
+- Server yang menyala belum menjamin aplikasinya berfungsi: login, hak akses, dan formulir bisa saja rusak tanpa terdeteksi.
+- Menguji semuanya secara manual lambat, dan alat uji otomatis pun masih menunggu **skenario uji** yang ditulis manusia.
 
 </div>
 <div>
@@ -51,7 +51,7 @@ Anggota:<br>
 </div>
 </div>
 
-<div class="gloss"><b>Istilah:</b> <b>skenario uji</b> = satu butir daftar periksa, mis. "login dengan password salah, sistem harus menolak" · <b>RBAC</b> = hak akses berbeda tiap peran (admin, pengguna) · <b>CRUD</b> = tambah, lihat, ubah, hapus data</div>
+<div class="gloss"><b>Istilah:</b> <b>skenario uji</b> = satu butir pengujian, mis. "login dengan password salah harus ditolak" · <b>RBAC</b> = hak akses yang berbeda untuk tiap peran (admin, pengguna) · <b>CRUD</b> = menambah, melihat, mengubah, dan menghapus data</div>
 
 <!--
 Mulai dari masalah sehari-hari: aplikasi kampus dipakai terus, tetapi "server menyala" tidak sama dengan "aplikasi berfungsi benar". Pengujian manual butuh waktu, dan alat otomatis pun masih membutuhkan manusia menulis skenario ujinya. Tiga pertanyaan penelitian: seberapa lengkap, mampukah menemukan kesalahan, dan seberapa hemat waktu.
