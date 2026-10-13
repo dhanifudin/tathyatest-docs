@@ -220,7 +220,7 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 
 **Luaran wajib**
 1. **IPTEKSB berupa prototipe** TathyaTest (**TKT 4**): selesai dibangun dan dievaluasi pada 3 aplikasi studi kasus
-2. **Artikel jurnal ilmiah (JUTI)**: telah disubmit 13 Oktober 2026
+2. **Artikel jurnal ilmiah (JUTI)**: berstatus draf, masih menunggu proses review
 
 </div>
 <div class="box">
@@ -237,7 +237,7 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 <div class="gloss"><b>Istilah:</b> <b>TKT</b> = Tingkat Kesiapterapan Teknologi, skala 1–9; <b>TKT 4</b> = komponen teknologi sudah teruji di laboratorium</div>
 
 <!--
-Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang telah disubmit. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sedang didaftarkan. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
+Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang masih berstatus draf dan menunggu proses review. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sedang didaftarkan. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
 -->
 
 ---
