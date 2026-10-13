@@ -11,7 +11,7 @@
 #pagebreak()
 #set page(numbering: "i")
 
-#include "frontmatter/pengesahan.typ"
+#include "frontmatter/pengesahan-scan.typ"
 #pagebreak()
 
 #include "frontmatter/identitas.typ"
