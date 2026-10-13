@@ -63,15 +63,16 @@ Mulai dari masalah sehari-hari: aplikasi kampus dipakai terus, tetapi "server me
 
 # Metode Penelitian
 
+<div class="metode">
 <div class="center">
-<img src="assets/pipeline-overview.png" style="width: 40%;">
+<img src="assets/pipeline-overview.png">
 </div>
-
-<div class="flow">
-<div><b>1. Masuk</b><br>robot login sebagai tiap peran pengguna</div>
-<div><b>2. Menjelajah</b><br>membuka semua halaman (<i>crawling</i>), mencatat tombol, formulir, dan menu</div>
-<div><b>3. Menyusun</b><br>skenario uji dibuat otomatis dari catatan itu</div>
-<div><b>4. Menjalankan</b><br>diuji di tiga browser (Chrome, Firefox, WebKit)</div>
+<div class="steps">
+<div><b>1. Masuk</b> robot login sebagai tiap peran pengguna</div>
+<div><b>2. Menjelajah</b> membuka semua halaman (<i>crawling</i>), mencatat tombol, formulir, dan menu</div>
+<div><b>3. Menyusun</b> skenario uji dibuat otomatis dari catatan itu</div>
+<div><b>4. Menjalankan</b> diuji di tiga browser (Chrome, Firefox, WebKit)</div>
+</div>
 </div>
 
 <div class="note">
@@ -220,7 +221,7 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 
 **Luaran wajib**
 1. **IPTEKSB berupa prototipe** TathyaTest (**TKT 4**): selesai dibangun dan dievaluasi pada 3 aplikasi studi kasus
-2. **Artikel jurnal ilmiah (JUTI)**: berstatus draf, masih menunggu proses review
+2. **Artikel jurnal ilmiah (JUTI)**: berstatus draf
 
 </div>
 <div class="box">
@@ -237,7 +238,7 @@ Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi 
 <div class="gloss"><b>Istilah:</b> <b>TKT</b> = Tingkat Kesiapterapan Teknologi, skala 1–9; <b>TKT 4</b> = komponen teknologi sudah teruji di laboratorium</div>
 
 <!--
-Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang masih berstatus draf dan menunggu proses review. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sudah tercatat dengan nomor pencatatan 001541438. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
+Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang berstatus draf. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sudah tercatat dengan nomor pencatatan 001541438. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
 -->
 
 ---

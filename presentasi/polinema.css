@@ -108,3 +108,10 @@ section.dense .gloss { margin-top: 14px; }
 .note { font-size: 22px; line-height: 1.3; margin-top: 6px; }
 section.dense .center { margin-top: 8px; }
 section.dense .center img { margin: 0; }
+
+/* Slide Metode: gambar alur besar di kiri, empat langkah di kanan */
+.metode { display: grid; grid-template-columns: 1.75fr 1fr; gap: 22px; align-items: center; margin-top: 8px; }
+.metode .center { margin: 0; }
+.metode img { width: 100%; margin: 0; }
+.metode .steps { display: grid; gap: 8px; font-size: 20px; line-height: 1.25; }
+.metode .steps div { border: 2px solid #92d050; background: #fff; padding: 6px 12px; }
