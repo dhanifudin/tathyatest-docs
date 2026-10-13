@@ -20,7 +20,8 @@ Ketua: Dian Hanifudin Subhi, S.Kom., M.Kom.<br>
 Anggota:<br>
 1. Dika Rizky Yunianto, S.Kom., M.Kom.<br>
 2. Ridwan Rismanto, S.ST., M.Kom., Ph.D.<br>
-3. Usman Nurhasan, S.Kom., M.Kom.
+3. Usman Nurhasan, S.Kom., M.Kom.<br>
+<em>Dana DIPA Polinema, SP DIPA-139.03.2.693474/2026</em>
 </div>
 
 ---
@@ -45,7 +46,7 @@ Anggota:<br>
 2. Mampukah menemukan kesalahan yang sengaja disisipkan?
 3. Seberapa andal dan hemat waktu dibanding menulis manual?
 
-**Tujuan:** mengukur kelengkapan, kemampuan menemukan kesalahan, serta keandalan dan efisiensinya.
+**Tujuan:** mengukur kelengkapan (target ≥ 80%), kemampuan menemukan kesalahan (target ≥ 85%), serta keandalan dan efisiensinya.
 
 </div>
 </div>
@@ -95,13 +96,13 @@ Cara kerja TathyaTest dalam empat langkah: robot masuk sebagai tiap jenis penggu
 <div class="box">
 
 **Seberapa lengkap?**
-Skenario uji dibuat otomatis: **104** (Blade), **106** (Inertia-React), **31** (SauceDemo). Elemen halaman dikenali **95,5%** dan **100,0%**. Hasil sama di tiga browser (κ = **1,00**, sepakat sempurna).
+Skenario uji dibuat otomatis: **104** (Blade), **106** (Inertia-React), **31** (SauceDemo). Elemen halaman dikenali **95,5%** dan **100,0%**. Hasil sama di tiga browser (κ = **1,00**). Kode aplikasi yang dijalankan: **36,1%** (UI-level).
 
 </div>
 <div class="box">
 
 **Bisakah menemukan kesalahan?**
-**14 kesalahan** sengaja disisipkan oleh tim (mis. tombol hapus dibuat tidak menghapus), lalu dihitung berapa yang tertangkap:
+**14 kesalahan** sengaja disisipkan oleh tim (mis. tombol hapus dibuat tidak menghapus), lalu dihitung berapa yang tertangkap (target 85% terpenuhi; tulisan manual hanya **21,4%**):
 
 <div class="mini"><span>Blade</span><i style="width:100%"></i><b>100,0%</b></div>
 <div class="mini"><span>Inertia-React</span><i style="width:85.7%"></i><b>85,7%</b></div>
@@ -110,7 +111,7 @@ Skenario uji dibuat otomatis: **104** (Blade), **106** (Inertia-React), **31** (
 <div class="box">
 
 **Seberapa cepat?**
-Perkiraan **30,0–32,7 kali lebih cepat** daripada menulis skenario uji secara manual, dengan asumsi 5 menit untuk menulis satu skenario uji.
+Perkiraan **30,0–32,7 kali lebih cepat** daripada menulis skenario uji secara manual, (*perkiraan*: 5 menit per skenario; jika ±50%, 15–49 kali).
 
 </div>
 <div class="box">
@@ -123,6 +124,39 @@ Ya, **dua kesalahan nyata** pada aplikasi uji: tombol "halaman berikutnya" salah
 
 <!--
 Empat pertanyaan, empat jawaban. Lengkap: ratusan skenario uji dibuat otomatis dan hampir seluruh elemen halaman dikenali. Kemampuan menemukan kesalahan diukur dengan menyisipkan 14 kesalahan yang dibuat tim: TathyaTest menangkap semuanya di aplikasi Blade dan 85,7% di Inertia-React; dua yang lolos dijelaskan di laporan. Kecepatan adalah perkiraan, dihitung dari asumsi 5 menit untuk menulis satu skenario uji secara manual. Dua kesalahan nyata juga ditemukan.
+-->
+
+---
+
+<!-- _class: dense -->
+
+# Simpulan & Keterbatasan
+
+<div class="cols">
+<div class="box">
+
+**Simpulan**
+1. Cakupan model elemen **95,5%** (Blade) dan **100,0%** (Inertia-React), melampaui target 80%.
+2. Akurasi deteksi cacat **100,0%** dan **85,7%**, memenuhi target 85%; semua cacat pengecoh selamat.
+3. Dua cacat nyata ditemukan pada aplikasi uji.
+4. Andal lintas browser (κ = 1,00), perkiraan **30,0–32,7×** lebih cepat.
+
+</div>
+<div class="box">
+
+**Keterbatasan**
+- Pemeriksa hasil hanya melihat tampilan halaman: tombol *logout* berbasis skrip di Inertia-React tidak terjangkau, sehingga 2 cacat luput (rute 7/8).
+- Kode aplikasi yang dijalankan baru 36,1%.
+- Daftar kesalahan disusun tim sendiri.
+- Aplikasi internal jurusan belum diuji.
+
+</div>
+</div>
+
+<div class="gloss"><b>Istilah:</b> <b>cacat pengecoh</b> = perubahan yang sengaja tidak boleh terdeteksi, untuk memastikan alat tidak asal menandai kesalahan</div>
+
+<!--
+Simpulan mengikuti BAB V laporan: cakupan melampaui target 80%, akurasi deteksi cacat memenuhi target 85%, dua cacat nyata ditemukan, dan keandalan serta efisiensi baik. Keterbatasan: pemeriksa hasil berbasis tampilan halaman tidak melihat kontrol berbasis skrip, sehingga logout di Inertia-React tidak terjangkau dan dua cacat luput; cakupan kode 36,1%; daftar kesalahan buatan tim; aplikasi internal jurusan belum diuji.
 -->
 
 ---
