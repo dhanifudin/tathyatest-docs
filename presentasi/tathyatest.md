@@ -90,6 +90,56 @@ Cara kerja TathyaTest dalam empat langkah: robot masuk sebagai tiap jenis penggu
 
 <!-- _class: dense -->
 
+# Cara Menjelajah Halaman
+
+<div class="center">
+<img src="assets/crawl-pipeline.svg" style="width: 78%;">
+</div>
+
+<div class="flow">
+<div><b>1. Masuk</b><br>robot login satu kali untuk tiap peran</div>
+<div><b>2. Buka &amp; catat</b><br>tiap halaman dibuka, tombol, formulir, dan tabelnya dicatat</div>
+<div><b>3. Cari lagi</b><br>alamat halaman baru dari tautan dan formulir</div>
+<div><b>4. Ulangi</b><br>sampai tidak ada halaman baru</div>
+</div>
+
+<div class="gloss"><b>Istilah:</b> <b>peran</b> = jenis pengguna (admin, pengguna biasa) · <b>hidrasi</b> = halaman selesai dimuat penuh oleh JavaScript</div>
+
+<!--
+Alur rinci robot penjelajah. Untuk tiap peran robot login satu kali, lalu mengulang: ambil alamat dari antrean, buka halaman, catat formulir, tautan, tombol, dan tabel, lalu cari alamat baru sampai antrean habis. Jika login gagal, proses berhenti dengan pesan jelas.
+-->
+
+---
+
+<!-- _class: dense -->
+
+# Cara Menyusun Skenario Uji
+
+<div class="cols">
+<div class="box center">
+
+**Memilih cara menemukan tombol**
+<img src="assets/locator-chain.svg" style="height: 350px;">
+
+</div>
+<div class="box center">
+
+**Aturan isian menjadi skenario uji**
+<img src="assets/constraint-variants.svg" style="height: 350px;">
+
+</div>
+</div>
+
+<div class="gloss"><b>Istilah:</b> <b>locator</b> = cara robot menemukan satu elemen di halaman (urut dari yang paling stabil ke cadangan) · <b>batasan isian</b> = aturan formulir, mis. wajib diisi, panjang maksimum</div>
+
+<!--
+Kiri: robot memilih cara menemukan elemen dari yang paling stabil (id pengujian, peran, label) hingga cadangan CSS; posisi urutan sengaja dihindari. Kanan: tiap aturan isian formulir (wajib, format, pola, panjang, rentang, pilihan) otomatis menjadi skenario benar, salah, atau batas.
+-->
+
+---
+
+<!-- _class: dense -->
+
 # Hasil Penelitian
 
 <div class="grid4">
