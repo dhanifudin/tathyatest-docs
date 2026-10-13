@@ -73,3 +73,33 @@
 )
 
 - *Cara kerja.* Pengguna menyiapkan konfigurasi (URL, jalur login, akun per peran). `tt crawl` login sebagai tiap peran dan menelusuri DOM hasil render menjadi crawl-contract (form, field, tautan, tombol, tabel). `tt generate` menyusun matriks akses RBAC dan memetakan elemen menjadi test case positif, negatif, dan tepi dengan locator berbasis peran/label. `tt run` mengeksekusi test pada tiga browser per peran dan `tt report` menampilkan laporan hasil. `tt eval` menghitung metrik evaluasi (cakupan, deteksi cacat, keandalan, efisiensi).
+
+#pagebreak()
+
+- *Penelusuran halaman.* Untuk tiap peran, crawler login satu kali lalu mengulang: ambil URL dari antrean, buka halaman, ekstrak form/field/tautan/tombol/tabel, perkaya locator, dan temukan URL baru sampai antrean habis.
+
+#figure(
+  image("/supplement/assets/diagrams/crawl-pipeline.svg", width: 100%),
+  caption: [Alur rinci crawler per peran: login lalu perulangan penelusuran.],
+  numbering: none,
+)
+
+- *Pemilihan locator.* Elemen ditemukan dengan urutan prioritas dari yang paling stabil (data-testid) hingga cadangan CSS; locator berbasis posisi dihindari.
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 0.6cm,
+  align: top + center,
+  figure(
+    image("/supplement/assets/diagrams/locator-chain.svg", width: 100%),
+    caption: [Rantai prioritas locator.],
+    numbering: none,
+  ),
+  figure(
+    image("/supplement/assets/diagrams/constraint-variants.svg", height: 10cm),
+    caption: [Batasan field menjadi varian test case.],
+    numbering: none,
+  ),
+)
+
+- *Pembangkitan varian uji.* Setiap batasan field (required, tipe, pola, panjang, rentang, opsi, konfirmasi) menghasilkan varian test case positif, negatif, atau tepi.
