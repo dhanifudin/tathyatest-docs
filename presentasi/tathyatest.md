@@ -135,15 +135,15 @@ Empat pertanyaan, empat jawaban. Lengkap: ratusan skenario uji dibuat otomatis d
 <div class="box">
 
 **Luaran wajib**
-1. Artikel jurnal ilmiah **JUTI** (telah disubmit 13 Oktober 2026)
-2. **Prototipe** TathyaTest tingkat kesiapan **TKT 4**
+1. **IPTEKSB berupa prototipe** TathyaTest (**TKT 4**): selesai dibangun dan dievaluasi pada 3 aplikasi studi kasus
+2. **Artikel jurnal ilmiah (JUTI)**: telah disubmit 13 Oktober 2026
 
 </div>
 <div class="box">
 
 **Luaran tambahan**
-1. **Hak Cipta** prototipe TathyaTest (dalam proses pendaftaran)
-2. **Buku panduan** penggunaan (manual book)
+
+3. **Kekayaan Intelektual (KI) berupa Hak Cipta** prototipe TathyaTest: dalam proses pendaftaran
 
 </div>
 </div>
@@ -153,7 +153,7 @@ Empat pertanyaan, empat jawaban. Lengkap: ratusan skenario uji dibuat otomatis d
 <div class="gloss"><b>Istilah:</b> <b>TKT</b> = Tingkat Kesiapterapan Teknologi, skala 1–9; <b>TKT 4</b> = komponen teknologi sudah teruji di laboratorium</div>
 
 <!--
-Luaran wajib: artikel untuk jurnal JUTI yang telah disubmit, dan prototipe pada tingkat kesiapan teknologi 4, artinya komponennya sudah teruji di laboratorium. Luaran tambahan: Hak Cipta yang sedang didaftarkan dan buku panduan penggunaan. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
+Luaran wajib: prototipe pada tingkat kesiapan teknologi 4 (teruji di laboratorium) yang sudah dievaluasi pada tiga aplikasi studi kasus, dan artikel untuk jurnal JUTI yang telah disubmit. Luaran tambahan: Kekayaan Intelektual berupa Hak Cipta yang sedang didaftarkan. Langkah berikutnya adalah mencoba pada aplikasi internal jurusan.
 -->
 
 ---
