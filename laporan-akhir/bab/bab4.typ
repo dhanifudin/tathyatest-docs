@@ -12,6 +12,13 @@ Arsitektur TathyaTest yang direalisasikan secara umum konsisten dengan rancangan
 
 Implementasi terbagi menjadi sebuah paket command-line interface (CLI) berbasis TypeScript (`tt`) dengan lima subperintah utama yang mencerminkan tahapan alur kerja pada Gambar 3.2: `tt init` (wizard konfigurasi interaktif), `tt crawl` (crawling DOM per peran pengguna), `tt generate` (pemetaan elemen menjadi spesifikasi Playwright), `tt run` (eksekusi test case), dan `tt eval` (orkestrasi evaluasi dan perhitungan metrik). Modul-modul inti meliputi: `config.ts` (validasi konfigurasi YAML), `extract/rendered.ts` (crawler Playwright), `login.ts` (deteksi form login otomatis), `rbac.ts` (penyusunan matriks akses per peran), `fieldgen.ts` dan `faker.ts` (pembangkitan varian data uji), `oracle.ts` (penentuan kondisi keberhasilan/kegagalan), `mapper.ts` (pemetaan model elemen menjadi intent test case), `locator.ts` (penentuan locator Playwright), `emit/ts.ts` (penghasil kode spesifikasi), serta `stats.ts` dan `metrics.ts` (analisis statistik dan perhitungan metrik evaluasi).
 
+Gambaran keseluruhan pipeline implementasi, dari konfigurasi hingga laporan hasil, ditunjukkan pada @fig-pipeline-overview. Setiap tahap menghasilkan artefak yang dapat diperiksa (model crawl, spesifikasi, manifes, dan laporan), sehingga sumber kegagalan dapat ditelusuri ke tahap yang tepat.
+
+#figure(
+  image("/paper/diagrams/pipeline-overview.svg", width: 95%),
+  caption: [Gambaran Pipeline Implementasi TathyaTest],
+) <fig-pipeline-overview>
+
 ==== Modul Crawler (Playwright) <modul-crawler>
 
 Modul crawler menggunakan Playwright untuk membuka sesi browser per peran pengguna (misalnya admin dan user), melakukan login satu kali secara terotentikasi, kemudian menjelajahi seluruh URL satu-origin yang dapat dijangkau secara breadth-first dari DOM yang telah dirender sepenuhnya (menunggu kondisi `domcontentloaded` dan `networkidle` agar aplikasi SPA sempat melakukan hidrasi). Deteksi form login dilakukan secara otomatis melalui penilaian (scoring) atribut elemen, misalnya `type="email"` atau `autocomplete="username"` diberi bobot tinggi sebagai penanda field identitas pengguna. Hasil crawling per peran disimpan sebagai berkas crawl-contract berformat JSON yang memuat seluruh form, field, tautan, tombol, dan tabel yang ditemukan. @fig-crawl-pipeline merinci alur ini pada tingkat implementasi, mulai dari peluncuran sesi dan login hingga perulangan dequeue-ekstraksi-enrich-discover sampai antrean URL habis.
@@ -28,6 +35,28 @@ Kendala utama yang ditemui adalah penjelajahan aplikasi SPA (Inertia-React) yang
 Ekstraksi elemen dilakukan langsung pada konteks browser menggunakan skrip evaluasi DOM (`page.evaluate()`) yang dijalankan oleh Playwright, bukan melalui pustaka parser HTML statis seperti Goquery yang diusulkan pada rancangan awal. Pendekatan ini mengidentifikasi form (termasuk klasifikasi operasi CRUD), field input berikut batasan validasinya (required, minlength, maxlength, pattern, dan sejenisnya), tautan, tombol (termasuk elemen dengan peran ARIA seperti `role="button"`), dan tabel. Sebuah proses tambahan menggunakan `ariaSnapshot()` meningkatkan kualitas locator yang lemah (berbasis CSS atau nama elemen) menjadi locator berbasis peran (role locator) yang lebih tahan terhadap perubahan struktur halaman.
 
 Klasifikasi operasi CRUD pada awalnya hanya mengenali atribut method tersembunyi `_method` khas Laravel (PUT/PATCH untuk update, DELETE untuk delete). Implementasi kemudian digeneralisasi menjadi deteksi berbasis urutan prioritas yang tidak terikat pada satu framework tertentu -- mencakup juga pola method-spoofing pada Rails/Symfony/Spring, verb Turbo/HTMX, serta heuristik kata kunci pada path aksi dan teks tombol submit -- sehingga TathyaTest dapat digunakan pada aplikasi berbasis framework web lain di luar Laravel tanpa perubahan pada logika inti generator.
+
+==== Pemilihan Target Test dan Penanganan RBAC <modul-target-rbac>
+
+Generator tidak mensintesis halaman atau aksi di luar hasil observasi. Generator hanya membaca kontrak crawl per peran, membentuk matriks akses dari selisih hasil crawl antarperan, lalu memilih target test dari elemen yang benar-benar tercatat. Untuk menekan duplikasi, URL dikanonisasi, query yang hanya membedakan data tidak dijadikan test baru, dan form dikelompokkan berdasarkan action, method, operasi CRUD, teks submit, dan bentuk field. Aturan seleksi dirangkum pada @tab-target-test.
+
+#figure(
+  table(
+    columns: (2cm, 3.6cm, 1fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*Target*], [*Sumber pada Crawl*], [*Aturan Seleksi dan Test yang Dihasilkan*]),
+    [Login], [Konfigurasi auth dan DOM halaman login], [Login valid per peran; password salah untuk cakupan negatif],
+    [Rute/RBAC], [URL halaman hasil crawl], [Path unik yang terjangkau menjadi test rute diizinkan; ketidakhadiran pada suatu peran menjadi test rute diblokir],
+    [Form], [Model form], [Form berisi field mendapat submit valid dan variasi validasi; form aksi tanpa field menjadi test aksi],
+    [Varian field], [Constraint field dan petunjuk data], [Nilai required, format, panjang, rentang, opsi, konfirmasi, dan tepi menjadi kasus terfokus],
+    [Interaksi], [Link dan button], [Kontrol non-submit dideduplikasi berdasarkan target kanonis atau label, lalu diperiksa navigasinya],
+    [Paginasi], [Label link/button atau query key], [Kontrol next, previous, first, last, dan nomor halaman menjadi test perilaku paginasi],
+  ),
+  caption: [Penentuan Target Test dari Kontrak Crawl],
+) <tab-target-test>
+
+Pada sisi RBAC, sebuah rute dianggap terjangkau oleh suatu peran jika rute tersebut muncul pada hasil crawl peran itu. Rute yang terlihat bagi admin tetapi tidak bagi user menjadi target test rute diblokir bagi user. Pendekatan ini mengurangi kebutuhan mendeklarasikan seluruh permission secara manual, namun tetap terbatas pada rute yang terlihat melalui DOM atau yang ditambahkan eksplisit oleh penguji. Dalam konteks ketersediaan fungsi (functional availability), test yang dihasilkan menjadi kandidat synthetic check yang lebih dekat dengan pengalaman pengguna daripada pemantauan status HTTP, karena alur login, akses peran, CRUD, validasi form, dan paginasi diperiksa melalui browser nyata.
 
 ==== Generator Test Case <modul-generator>
 
@@ -50,6 +79,59 @@ Oracle (penentu hasil uji) memvalidasi kemunculan elemen galat yang sesuai (misa
 ==== Eksekusi dengan Playwright <modul-eksekusi>
 
 Eksekusi test case dikonfigurasi dengan tiga proyek browser per peran pengguna (Chromium, Firefox, dan WebKit), masing-masing menggunakan sesi login (`storageState`) yang disiapkan satu kali pada tahap global setup agar tidak perlu login berulang pada setiap test case. Konfigurasi menjalankan test secara sekuensial (satu worker) dengan batas waktu 60 detik per test, perekaman trace otomatis pada percobaan ulang pertama, serta pelaporan dalam format daftar (list) dan HTML.
+
+=== Antarmuka Baris Perintah <antarmuka-cli>
+
+TathyaTest dioperasikan melalui perintah `tt`. Alur kerja penguji terdiri atas inisialisasi konfigurasi, crawling, pembangkitan test, dan eksekusi. Perintah `tt init` menjalankan wizard yang menanyakan alamat aplikasi, halaman login, dan kredensial tiap peran, lalu menulis berkas `tathya.config.yaml` (@fig-cli-init). Contoh konfigurasi hasil wizard untuk aplikasi studi kasus ditunjukkan pada @lst-config.
+
+#figure(
+  align(left, block(width: 100%, inset: 6pt, stroke: 0.5pt + luma(150), fill: luma(248), text(size: 8.5pt)[
+    #raw(read("/supplement/assets/manual/tathya.config.init.yaml"), lang: "yaml", block: true)
+  ])),
+  caption: [Konfigurasi `tathya.config.yaml` untuk Aplikasi Studi Kasus],
+  kind: "listing",
+  supplement: [Listing],
+) <lst-config>
+
+#figure(
+  image("/supplement/assets/manual/term-tt-init.png", width: 70%),
+  caption: [Wizard `tt init` Membuat Berkas Konfigurasi],
+) <fig-cli-init>
+
+Perintah `tt crawl` menjelajahi aplikasi per peran dan menyimpan kontrak crawl, sedangkan `tt generate` memetakan kontrak tersebut menjadi spesifikasi Playwright (@fig-cli-crawl dan @fig-cli-generate).
+
+#figure(
+  image("/supplement/assets/manual/term-tt-crawl.png", width: 95%),
+  caption: [Keluaran Perintah `tt crawl`],
+) <fig-cli-crawl>
+
+#figure(
+  image("/supplement/assets/manual/term-tt-generate.png", width: 90%),
+  caption: [Keluaran Perintah `tt generate`],
+) <fig-cli-generate>
+
+Hasil pembangkitan berupa pohon berkas yang dikelompokkan menurut kategori test (@lst-tree). Berkas `manifest.json` mencatat satu entri per test sehingga metrik cakupan dan kualitas dapat dihitung tanpa mem-parsing kode spesifikasi.
+
+#figure(
+  align(left, block(width: 100%, inset: 6pt, stroke: 0.5pt + luma(150), fill: luma(248), text(size: 8.5pt)[
+    #raw(read("/supplement/assets/manual/transcript-tree-generated.txt"), block: true)
+  ])),
+  caption: [Struktur Berkas Test yang Dihasilkan],
+  kind: "listing",
+  supplement: [Listing],
+) <lst-tree>
+
+Terakhir, `tt run` mengeksekusi seluruh spesifikasi pada tiga browser dan menyusun laporan HTML. @fig-cli-run menunjukkan keluaran eksekusi, sedangkan @fig-report-overview menampilkan ringkasan laporan.
+
+#figure(
+  image("/supplement/assets/manual/term-tt-run.png", width: 90%),
+  caption: [Keluaran Perintah `tt run`],
+) <fig-cli-run>
+
+#figure(
+  image("/supplement/assets/manual/report-overview.png", width: 88%),
+  caption: [Ringkasan Laporan Hasil Pengujian],
+) <fig-report-overview>
 
 === Pengujian <pengujian>
 
@@ -166,6 +248,18 @@ Terhadap target akurasi pada BAB III (Persamaan 3.2: minimal 85%, dihitung dari 
 Dari sisi efisiensi, waktu eksekusi penuh test suite yang dihasilkan (919 detik untuk Blade, 948 detik untuk Inertia-React, 291 detik untuk SauceDemo) menghasilkan estimasi penghematan waktu sekitar 30,0--32,7 kali dibandingkan estimasi biaya penulisan test case secara manual. Angka ini merupakan perkiraan, bukan hasil pengukuran langsung: waktu manual diasumsikan 300 detik (5 menit) per test case, sehingga penghematan dihitung sebagai jumlah test case × 300 detik dibagi total waktu crawl, generate, dan eksekusi satu kali jalan. Jika asumsi itu bervariasi ±50% (150--450 detik per test case), rasio penghematan berkisar 15,0--49,0 kali. Rasio locator rapuh yang jauh lebih rendah pada test case hasil generate TathyaTest dibandingkan test suite publik pembanding (0,0% berbanding 62,5% pada SauceDemo) turut mengindikasikan bahwa test case yang dihasilkan secara otomatis berpotensi lebih tahan terhadap perubahan kecil pada antarmuka aplikasi dibandingkan test suite pihak ketiga yang ditulis tanpa strategi locator yang konsisten.
 
 Beberapa keterbatasan perlu dicatat: evaluasi hanya mencakup elemen yang tampak pada DOM (tidak menjangkau logika tersembunyi seperti aturan validasi kustom pada FormRequest Laravel, termasuk kontrol berbasis skrip pada aplikasi SPA sebagaimana terlihat pada dua cacat yang luput terdeteksi di Inertia-React), cakupan kode menggunakan proksi cabang (branch-proxy) alih-alih instrumentasi cabang penuh, katalog cacat untuk pengukuran accuracy rate disusun sendiri oleh tim peneliti alih-alih dihasilkan oleh perangkat mutation testing otomatis sehingga cakupan kelas cacatnya terbatas pada lima kelas yang teridentifikasi dari permukaan fungsional (meskipun telah diseimbangkan dengan cacat kendali negatif), dan baseline manual pembanding berjumlah relatif kecil (5 test case per aplikasi Laravel). Evaluasi juga belum mencakup aplikasi internal Jurusan Teknologi Informasi (Kompen, Jayanti, Whistleblower) yang menjadi motivasi awal penelitian ini -- perluasan evaluasi pada aplikasi tersebut direncanakan sebagai tahap penelitian lanjutan (lihat BAB V).
+
+== Ancaman terhadap Validitas <ancaman-validitas>
+
+Ancaman terhadap validitas hasil dikelompokkan menjadi empat jenis.
+
+*Validitas internal.* Katalog cacat disusun sendiri oleh tim peneliti dan mungkin condong pada cacat yang mudah dideteksi. Risiko ini dikurangi dengan menambahkan cacat kendali negatif yang harus tidak terdeteksi, dan seluruhnya selamat pada kedua aplikasi. Baseline manual untuk aplikasi Laravel ditulis oleh tim yang sama dan berjumlah kecil (5 test case per aplikasi), sehingga perbandingannya bersifat indikatif.
+
+*Validitas eksternal.* Dua dari tiga subjek adalah aplikasi todo-list buatan sendiri dengan fitur identik. SauceDemo menambah variasi stack, tetapi hasil belum tentu berlaku untuk aplikasi dengan alur bisnis yang lebih kompleks, seperti aplikasi internal Jurusan yang menjadi motivasi penelitian ini. Perluasan evaluasi tersebut dijadwalkan sebagai penelitian lanjutan.
+
+*Validitas konstruk.* Cakupan model mengukur kelengkapan terhadap model yang dibangun TathyaTest sendiri, bukan cakupan kode. Karena itu cakupan kode SUT dilaporkan terpisah, dan keduanya tidak boleh dibaca sebagai ukuran yang sama. Penghematan waktu bergantung pada asumsi 5 menit per test case manual dan dilaporkan dengan rentang sensitivitas, bukan sebagai hasil pengukuran langsung.
+
+*Validitas kesimpulan.* Evaluasi memakai lima repetisi per aplikasi dan seed faker tetap. Jumlah repetisi ini cukup untuk menunjukkan konsistensi (flake rate 0,0%, κ = 1,00), tetapi tidak untuk generalisasi statistik yang luas. Replikasi pada aplikasi dan seed lain diperlukan untuk memperkuat kesimpulan.
 
 == Luaran yang Dicapai <luaran-yang-dicapai>
 

@@ -1,5 +1,6 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import fletcher.shapes: diamond, pill
+#import "../template.typ": g
 
 = METODE PENELITIAN <bab-iii-metode-penelitian>
 
@@ -57,6 +58,62 @@ Setelah pengujian CRUD sederhana selesai, TathyaTest diperluas untuk mendukung p
 Data yang digunakan dalam penelitian ini berasal dari dua sumber utama. Pertama, dataset CRUD sederhana yang digunakan untuk pengujian awal, yang mencakup data aplikasi berbasis web dengan operasi CRUD dasar. Data ini digunakan untuk menguji kemampuan awal TathyaTest dalam menghasilkan test case otomatis untuk pengujian fungsi-fungsi dasar aplikasi berbasis web. Kedua, dataset dari aplikasi studi kasus (Laravel Blade, Laravel Inertia-React, dan SauceDemo) digunakan setelah prototipe awal disempurnakan. Dataset ini menyediakan konfigurasi peran pengguna dan kredensial pengujian yang diuji untuk memvalidasi pengujian otomatis yang dilakukan oleh TathyaTest.
 
 Dataset aplikasi studi kasus mencakup konfigurasi peran pengguna (role-based access control), data pengguna dummy yang aman untuk pengujian dan dihasilkan secara acak menggunakan pustaka faker dengan seed tetap agar dapat direproduksi, serta berbagai skenario penggunaan yang umum terjadi pada setiap aplikasi. Dataset ini digunakan untuk memastikan bahwa test case yang dihasilkan oleh TathyaTest relevan dengan konteks penggunaan sebenarnya dan dapat mendeteksi potensi error atau bug yang mungkin terjadi dalam operasional aplikasi.
+
+== Pertanyaan dan Subjek Evaluasi <pertanyaan-subjek-evaluasi>
+
+Evaluasi merinci tiga rumusan masalah (RM) menjadi lima pertanyaan evaluasi (EQ): RM1 dijawab oleh EQ1 dan EQ2, RM2 oleh EQ3, dan RM3 oleh EQ4 dan EQ5. Setiap EQ dipetakan ke satu kelompok metrik seperti pada @tab-eq-metrik. Seluruh metrik dihitung oleh modul evaluasi dan ditulis sebagai laporan terstruktur berformat JSON dan Markdown.
+
+#figure(
+  table(
+    columns: (1cm, 1cm, 3cm, 1fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*EQ*], [*RM*], [*Kelompok Metrik*], [*Makna Operasional*]),
+    [EQ1], [RM1], [Cakupan model], [Cakupan elemen, rute, operasi CRUD, sel matriks RBAC, jenis constraint, dan distribusi tier],
+    [EQ2], [RM1], [Cakupan kode SUT], [Cakupan baris, fungsi, proksi cabang (PCOV), dan rute aplikasi yang dijangkau],
+    [EQ3], [RM2], [Deteksi cacat], [Tingkat akurasi per kelas cacat dan akurasi lokalisasi cacat],
+    [EQ4], [RM3], [Kualitas test suite], [Densitas asersi, distribusi strategi locator, rasio locator rapuh, ketahanan locator],
+    [EQ5], [RM3], [Keandalan dan efisiensi], [Flake rate, kesepakatan lintas-browser (Fleiss' κ), waktu fase, rasio penghematan, perbandingan baseline],
+  ),
+  caption: [Pemetaan Pertanyaan Evaluasi, Rumusan Masalah, dan Kelompok Metrik],
+) <tab-eq-metrik>
+
+Evaluasi menggunakan tiga subjek, dirangkum pada @tab-subjek. Dua subjek pertama, aplikasi Laravel Blade dan Laravel Inertia-React, dikembangkan dengan fitur yang paralel dan diinstrumentasi penuh (PCOV dan endpoint injeksi cacat), sehingga perbandingan lintas-rendering tidak dikaburkan oleh perbedaan domain. Subjek ketiga, SauceDemo, menguji generalisasi pada stack berbeda tanpa kendali atas server; karena bersifat eksternal, EQ2 dan EQ3 tidak berlaku dan subjek ini hanya berkontribusi pada EQ1, EQ4, dan EQ5.
+
+#figure(
+  table(
+    columns: (2.8cm, 3cm, 2.6cm, 1fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*Subjek*], [*Rendering*], [*EQ Berlaku*], [*Alasan Pemilihan*]),
+    [Laravel Blade], [Server-rendered], [EQ1--EQ5], [Aplikasi todo-list ber-RBAC, terinstrumentasi penuh],
+    [Laravel Inertia-React], [SPA], [EQ1--EQ5], [Fitur identik dengan Blade; menguji pengaruh rendering sisi klien],
+    [SauceDemo], [Aplikasi eksternal], [EQ1, EQ4, EQ5], [Pembanding generalisasi; baseline berupa tiga suite publik independen],
+  ),
+  caption: [Subjek Evaluasi],
+) <tab-subjek>
+
+Skenario evaluasi mencerminkan fungsi yang langsung dialami pengguna dan dirangkum pada @tab-skenario. Skenario ini menjadi acuan target fungsional yang diharapkan muncul pada test suite; jika sebuah skenario tidak terwakili, kesenjangan tersebut dapat ditelusuri ke model hasil crawl atau aturan pemetaan.
+
+#figure(
+  table(
+    columns: (1cm, 1fr, 1fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*ID*], [*Skenario*], [*Tujuan*]),
+    [S1], [Login admin dan user], [Memvalidasi alur autentikasi],
+    [S2], [Admin membuka halaman admin], [RBAC positif],
+    [S3], [User membuka halaman admin], [RBAC negatif],
+    [S4], [Create dan update todo], [CRUD positif],
+    [S5], [Submit form tidak valid], [Validasi negatif],
+    [S6], [Input panjang, Unicode, whitespace], [Perilaku tepi],
+    [S7], [Search dan filter todo], [Interaksi form GET],
+    [S8], [Pagination todo], [Navigasi data],
+    [S9], [Toggle selesai/belum], [Aksi perubahan state],
+    [S10], [Hapus todo], [Aksi destruktif],
+  ),
+  caption: [Skenario Evaluasi Fungsional],
+) <tab-skenario>
 
 == Arsitektur dan Alur Kerja TathyaTest <arsitektur-tathyatest>
 
@@ -127,6 +184,23 @@ $ "Accuracy Rate" = ("Cacat Dapat-Dideteksi yang Terdeteksi") / ("Total Cacat Da
 
 Target akurasi minimal adalah 85%. Cacat kendali negatif yang seharusnya tidak terdeteksi (survive) pada seluruh repetisi pengujian menjadi pemeriksaan validitas tambahan terhadap katalog cacat yang digunakan.
 
+Katalog cacat pada @tab-katalog-cacat dapat diaktifkan dan dinonaktifkan kembali secara deterministik melalui registri cacat di sisi server tanpa mengubah kode. Dalam istilah mutation testing @jia2011mutation, setiap cacat aktif berperan sebagai mutan, dan cacat yang terdeteksi dianggap "terbunuh". Untuk tiap cacat, evaluator mengaktifkannya melalui endpoint kontrol khusus evaluasi, menjalankan test yang relevan, dan menyatakan cacat terdeteksi bila minimal satu test relevan gagal. Akurasi lokalisasi mengukur proporsi cacat yang terdeteksi oleh test yang memang menargetkan kelas cacat tersebut, sehingga membedakan deteksi insidental dari deteksi tepat sasaran.
+
+#figure(
+  table(
+    columns: (2.4cm, 1fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*Kelas*], [*Contoh Cacat yang Diaktifkan*]),
+    [Validasi], [Menghapus aturan `required`, `email`, `unique`, `confirmed`, atau `max`],
+    [Otorisasi], [Menonaktifkan middleware peran sehingga rute admin terbuka],
+    [CRUD], [Melewati penyimpanan pada create atau update],
+    [Paginasi], [Menggagalkan permintaan di luar halaman pertama],
+    [Autentikasi], [Menerima sembarang password saat login],
+  ),
+  caption: [Katalog Cacat Terkendali],
+) <tab-katalog-cacat>
+
 *Jumlah dan Kategori Bug*
 
 Analisis dilakukan terhadap jumlah bug yang terdeteksi dan kategorinya (functional bug, UI bug, validation error, dll.). Data ini dikategorikan berdasarkan tingkat severity (critical, major, minor) untuk memahami distribusi jenis masalah yang ditemukan oleh TathyaTest.
@@ -134,6 +208,10 @@ Analisis dilakukan terhadap jumlah bug yang terdeteksi dan kategorinya (function
 *Analisis Statistik*
 
 Semua data kuantitatif dianalisis menggunakan statistik deskriptif (mean, median, standar deviasi) dan disajikan dalam bentuk tabel dan grafik untuk memudahkan interpretasi hasil penelitian. Visualisasi data mencakup diagram batang untuk distribusi kategori bug, grafik persentase untuk test coverage, dan tabel komparasi untuk accuracy rate di berbagai jenis aplikasi yang diuji.
+
+Setiap pengukuran waktu dan flakiness diulang lima kali dan dilaporkan sebagai rerata beserta simpangan baku. Kesepakatan status lulus/gagal antara Chromium, Firefox, dan WebKit diukur dengan Fleiss' kappa @fleiss1971kappa; nilai 1 berarti seluruh verdict identik pada ketiga browser. Suite hasil generate dibandingkan dengan baseline menggunakan uji Mann-Whitney U @mann1947whitney terhadap durasi eksekusi per test. Rasio penghematan waktu dihitung terhadap asumsi biaya penulisan manual per test case yang dinyatakan eksplisit beserta rentang sensitivitasnya, agar asumsi tidak disalahartikan sebagai hasil empiris.
+
+Perbandingan baseline diperkuat dengan analisis kualitas statis atas sumber spesifikasi: jumlah test, densitas asersi, rasio locator rapuh, dan distribusi strategi locator dihitung baik untuk suite hasil generate maupun untuk baseline. Untuk dua aplikasi Laravel, baseline adalah suite Playwright manual yang disertakan dalam repositori. Untuk SauceDemo, baseline adalah tiga suite publik independen berlisensi MIT yang tidak ditulis oleh peneliti, sehingga validitas eksternal perbandingan lebih kuat.
 
 == Validitas dan Keandalan <validitas-dan-keandalan>
 
@@ -144,3 +222,24 @@ Kedua, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidan
 Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi studi kasus yang lebih kompleks dengan RBAC (Laravel Blade, Laravel Inertia-React) serta satu aplikasi eksternal (SauceDemo) yang berbeda tumpukan teknologi untuk menguji generalisasi di luar aplikasi yang dikembangkan sendiri oleh tim peneliti. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
 
 Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources untuk memvalidasi temuan penelitian. Data dari pengujian pada berbagai aplikasi, dan hasil pengujian ulang dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.
+
+== Jadwal Pelaksanaan <jadwal-pelaksanaan>
+
+Penelitian dilaksanakan selama delapan bulan, dari Maret hingga Oktober 2026. Tahapan kegiatan dan alokasi waktunya ditunjukkan pada @tab-jadwal.
+
+#figure(
+  table(
+    columns: (0.7cm, 1fr, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm),
+    stroke: 0.5pt,
+    align: center + horizon,
+    table.header([*No*], [*Kegiatan*], [*Mar*], [*Apr*], [*Mei*], [*Jun*], [*Jul*], [*Agu*], [*Sep*], [*Okt*]),
+    [1], [Studi pustaka dan perancangan], g(), g(), [], [], [], [], [], [],
+    [2], [Pengembangan prototipe TathyaTest], [], g(), g(), g(), [], [], [], [],
+    [3], [Penyiapan subjek dan katalog cacat], [], [], [], g(), g(), [], [], [],
+    [4], [Eksekusi evaluasi], [], [], [], [], g(), g(), [], [],
+    [5], [Analisis data dan pembahasan], [], [], [], [], [], g(), g(), [],
+    [6], [Penulisan artikel dan pengajuan Hak Cipta], [], [], [], [], [], g(), g(), g(),
+    [7], [Penyusunan laporan akhir], [], [], [], [], [], [], g(), g(),
+  ),
+  caption: [Jadwal Pelaksanaan Penelitian Maret--Oktober 2026],
+) <tab-jadwal>

@@ -10,6 +10,8 @@ Automation testing merupakan salah satu pendekatan paling efektif untuk menjaga 
 
 Penelitian ini mengusulkan TathyaTest sebagai solusi atas kesenjangan tersebut. TathyaTest menghasilkan test case otomatis dengan melakukan crawling pada DOM (Document Object Model) aplikasi yang telah dirender oleh browser menggunakan Playwright, sehingga mampu menjangkau aplikasi modern berbasis single-page application (SPA) sekalipun. Dari hasil crawling tersebut, TathyaTest membangun model elemen dan matriks akses per peran pengguna (RBAC) secara otomatis, lalu memetakannya menjadi test case fungsional yang relevan dan kontekstual untuk pengujian yang lebih cepat dan komprehensif. Pendekatan ini konsisten dengan kajian literatur mengenai test case generation yang terbukti mempercepat identifikasi bug dan memperluas cakupan pengujian @setiani2019 @sahoo2021, serta sejalan dengan bukti empiris bahwa automation testing skala industri -- seperti penerapan search-based software engineering pada Sapienz di Facebook -- memberikan nilai praktis yang signifikan dalam lingkungan produksi @alshahwan2018.
 
+Kebutuhan ini terasa nyata pada aplikasi internal Jurusan Teknologi Informasi. Setiap perubahan fitur, pembaruan pustaka, atau penyesuaian hak akses menuntut pengujian ulang terhadap alur yang sama, mulai dari login, navigasi menurut peran, pengisian formulir, hingga operasi tambah, ubah, dan hapus data. Bila dikerjakan manual, pengujian ulang tersebut memakan waktu, bergantung pada ketelitian penguji, dan sering dilewati ketika tenggat pengembangan mendesak. Akibatnya, regresi fungsional -- misalnya tombol yang tidak lagi berfungsi atau menu yang terbuka bagi peran yang salah -- baru diketahui setelah dilaporkan pengguna. Test suite otomatis yang dapat dibangkitkan ulang setiap kali aplikasi berubah memungkinkan pemeriksaan tersebut dilakukan secara konsisten dan murah.
+
 Dengan TathyaTest, proses pengujian aplikasi berbasis web dapat dilakukan secara lebih efisien, mengurangi ketergantungan pada pengujian manual yang memakan waktu dan sering kali tidak lengkap, khususnya pada aplikasi yang digunakan mahasiswa dan dosen di Jurusan Teknologi Informasi. Penelitian ini diharapkan memberikan kontribusi bagi peningkatan kualitas aplikasi berbasis web di perguruan tinggi sekaligus menjadi fondasi pengembangan alat pengujian perangkat lunak otomatis selanjutnya.
 
 == Rumusan Masalah <rumusan-masalah>
@@ -63,3 +65,26 @@ Pada @tab-luaran-penelitian disajikan luaran dari penelitian ini. Luaran tersebu
   ),
   caption: [Luaran Penelitian],
 ) <tab-luaran-penelitian>
+
+== Kontribusi Penelitian <kontribusi-penelitian>
+
+Kontribusi penelitian ini dirumuskan sebagai berikut.
+
++ *Pembangkitan test case dari DOM ter-render.* TathyaTest membangun model aplikasi dari DOM yang telah dirender browser, bukan dari kode sumber atau HTML statis, sehingga berlaku pada aplikasi server-rendered maupun single-page application tanpa akses ke kode sumber.
++ *Model akses per peran.* Crawling dilakukan secara terotentikasi untuk setiap peran pengguna, sehingga TathyaTest memperoleh matriks RBAC dan dapat menghasilkan test case ketersediaan fungsi (functional availability) yang berbeda untuk tiap peran.
++ *Strategi locator yang tahan perubahan.* Elemen target dipilih berdasarkan prioritas atribut semantik sebelum jatuh ke selector CSS, dengan tujuan mengurangi kerapuhan test suite terhadap perubahan tampilan.
++ *Protokol evaluasi terukur.* Penelitian ini menyajikan protokol evaluasi yang terdiri atas cakupan model, cakupan kode SUT, deteksi cacat terkendali dengan cacat kendali negatif, kualitas intrinsik, keandalan lintas-browser, dan efisiensi, sehingga klaim kinerja dapat diperiksa ulang.
+
+== Sistematika Penulisan <sistematika-penulisan>
+
+Laporan ini disusun dalam lima bab dengan sistematika sebagai berikut.
+
+*BAB I Pendahuluan* memuat latar belakang, rumusan masalah, batasan masalah, tujuan, manfaat, luaran, kontribusi, dan sistematika penulisan.
+
+*BAB II Tinjauan Pustaka* membahas penelitian terdahulu, kajian teori mengenai pengujian perangkat lunak, automation testing, crawling, ekstraksi elemen, Playwright, RBAC, strategi locator, dan metrik kualitas test suite, serta roadmap penelitian.
+
+*BAB III Metode Penelitian* menguraikan desain penelitian, pertanyaan dan subjek evaluasi, pengumpulan data, arsitektur dan alur kerja TathyaTest, teknik analisis data, validitas, dan jadwal pelaksanaan.
+
+*BAB IV Hasil dan Pembahasan* memaparkan implementasi sistem, antarmuka baris perintah, skenario dan hasil pengujian, pembahasan menurut pertanyaan evaluasi, ancaman terhadap validitas, dan capaian luaran.
+
+*BAB V Simpulan dan Saran* merangkum jawaban atas rumusan masalah serta saran untuk penelitian lanjutan.

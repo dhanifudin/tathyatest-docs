@@ -10,6 +10,30 @@ Pada aspek ekstraksi, penggunaan selektor CSS dan XPath terbukti efektif untuk m
 
 Secara keseluruhan, kajian terdahulu menunjukkan bahwa perangkat seperti Selenium, Cypress, dan Playwright efektif dalam meningkatkan efisiensi dan efektivitas pengujian perangkat lunak, sedangkan test case generation otomatis dan ekstraksi elemen HTML menjadi dua pilar teknis yang saling melengkapi. TathyaTest memposisikan diri pada persimpangan kedua pilar tersebut, mengintegrasikan crawling DOM ter-render dan ekstraksi elemen HTML untuk menghasilkan test case otomatis yang memperluas cakupan pengujian secara menyeluruh.
 
+Dari sisi penjaminan mutu, generator test perlu dievaluasi sebagai bagian dari proses pengujian dinamis. Standar ISO/IEC/IEEE 29119 mendefinisikan proses dan teknik pengujian, termasuk teknik berbasis spesifikasi yang relevan untuk menguji perilaku fungsional dari sudut pandang pengguna @iso29119. Masalah oracle tetap menjadi rujukan utama: test yang dihasilkan hanya bernilai bila memiliki mekanisme penilaian hasil yang dapat dipercaya @barr2015oracle. Karena itu evaluasi TathyaTest tidak berhenti pada jumlah test case, tetapi menilai apakah test merepresentasikan fungsi penting, memiliki oracle yang dapat dieksekusi, dan mendukung regresi berulang.
+
+Penelitian tentang regresi web menekankan keseimbangan antara otomasi dan kemudahan pemeliharaan. Abadeh mengusulkan kerangka evolusioner untuk auto-regression testing aplikasi web @abadeh2021webregression, sedangkan studi kematangan test automation menunjukkan bahwa keberhasilan otomasi dipengaruhi oleh kualitas skrip, stabilitas test, dan lingkungan eksekusi @wang2022maturity. Analisis empiris terhadap flaky test pada UI juga menunjukkan bahwa locator dan penantian elemen merupakan sumber ketidakstabilan yang penting @romano2021uiflaky. Temuan ini mendasari pemilihan indikator kualitas artefak pada penelitian ini, yaitu densitas asersi, rasio locator rapuh, dan flake rate.
+
+Dalam kelompok perkakas pembangkit uji berbasis GUI, TathyaTest paling dekat dengan kategori crawler-based generation. Crawljax mengeksplorasi aplikasi Ajax melalui analisis dinamis perubahan state antarmuka dan membangun state-flow graph @mesbah2012crawljax, sedangkan TESTAR menghasilkan aksi uji scriptless dari GUI saat eksekusi tanpa artefak test yang dipelihara @vos2015testar. @tab-banding-perkakas membandingkan kapabilitas yang relevan.
+
+#figure(
+  table(
+    columns: (1.5fr, 1.2fr, 1.2fr, 1.5fr),
+    stroke: 0.5pt,
+    align: left + horizon,
+    table.header([*Kapabilitas*], [*Crawljax*], [*TESTAR*], [*TathyaTest*]),
+    [Sumber model], [Graf transisi state UI], [Eksplorasi GUI saat eksekusi], [DOM terotentikasi per peran],
+    [Multi-peran / RBAC], [Tidak], [Tidak], [Ya (matriks akses)],
+    [Tier negatif/tepi dari constraint], [Tidak], [Tidak], [Ya],
+    [Oracle], [Invarian umum halaman], [Hanya crash atau hang], [Status validasi form dan indikator error DOM],
+    [Artefak yang dipelihara], [Model hasil crawl], [Tidak ada], [Spesifikasi Playwright dan manifes],
+    [Data uji], [Manual atau plugin], [Aksi acak], [Faker saat runtime (seedable)],
+  ),
+  caption: [Perbandingan Kapabilitas dengan Perkakas Pembangkit Uji GUI],
+) <tab-banding-perkakas>
+
+Posisi penelitian ini terletak pada integrasi pipeline, bukan klaim bahwa satu teknik baru menyelesaikan seluruh masalah pembangkitan test. TathyaTest menggabungkan observasi UI, crawling per peran, pembangkitan variasi data, dan penulisan spesifikasi Playwright dalam satu alur. Efektivitasnya dievaluasi secara empiris pada tiga subjek; generalisasi yang lebih luas memerlukan replikasi lanjutan.
+
 == Kajian Teori <kajian-teori>
 
 Bagian ini menguraikan landasan teori yang mendasari penelitian ini, mencakup pengujian perangkat lunak otomatis, teknik pendukung, serta perangkat yang digunakan, masing-masing dijelaskan dalam kaitannya dengan penerapannya pada TathyaTest.
@@ -43,6 +67,34 @@ Ekstraksi elemen HTML memungkinkan TathyaTest mengidentifikasi elemen yang dapat
 Playwright adalah alat pengujian otomatis berbasis JavaScript yang dirancang untuk pengujian aplikasi web end-to-end. Studi komparatif terkini menunjukkan bahwa Playwright unggul dalam performa dibandingkan Cypress dan Selenium, khususnya pada waktu eksekusi, penggunaan CPU, dan konsumsi RAM @mon2025. Keunggulan lainnya adalah kemampuan cross-browser testing yang memungkinkan pengujian dilakukan secara konsisten pada Chrome, Firefox, dan WebKit.
 
 Penelitian ini memanfaatkan Playwright pada dua tahap: sebagai mesin crawling untuk menjelajahi DOM ter-render aplikasi secara terotentikasi per peran pengguna, dan untuk mengeksekusi test case otomatis yang dihasilkan TathyaTest, mengadopsi pendekatan pada @sahoo2021. Kemampuan Playwright mengontrol browser secara langsung memungkinkan interaksi dengan elemen aplikasi dan verifikasi fungsionalitasnya secara menyeluruh dengan akurasi tinggi.
+
+=== Black-Box Testing dan Teknik Desain Test Case <black-box-testing>
+
+Black-box testing menguji perilaku aplikasi dari sudut pandang pengguna tanpa merujuk struktur kode internal. Teknik desain test case yang lazim pada pendekatan ini adalah equivalence partitioning, yang membagi domain input menjadi kelas yang diperkirakan diperlakukan sama oleh aplikasi, dan boundary value analysis, yang menguji nilai di sekitar batas kelas karena kesalahan cenderung terjadi di sana @iso29119. Kedua teknik ini menjadi dasar pembagian test case TathyaTest ke dalam tiga tingkat: positif (nilai valid), negatif (nilai yang harus ditolak, misalnya kolom wajib kosong atau format salah), dan tepi (nilai pada batas panjang atau rentang).
+
+Karena TathyaTest hanya mengamati DOM, pengujian yang dihasilkan bersifat black-box tingkat antarmuka. Konsekuensinya, aturan bisnis yang tidak termanifestasi pada DOM tidak terjangkau; hal ini dibahas sebagai keterbatasan pada BAB IV.
+
+=== Strategi Locator dan Ketahanan Test <strategi-locator>
+
+Locator adalah ekspresi yang digunakan test untuk menemukan elemen pada halaman. Locator yang bergantung pada struktur DOM atau kelas CSS mudah rusak ketika tampilan berubah, sedangkan locator yang bertumpu pada atribut semantik, seperti peran ARIA, label, atau atribut `name`, lebih stabil. Ketidakstabilan locator termasuk penyebab utama flaky test pada pengujian UI @romano2021uiflaky, dan pemeliharaan test yang rusak akibat perubahan antarmuka menjadi biaya besar pada automation testing @stocco2018.
+
+TathyaTest menerapkan rantai prioritas locator: atribut semantik terlebih dahulu, kemudian atribut identitas elemen, dan selector CSS hanya sebagai cadangan terakhir. Locator yang jatuh ke cadangan CSS dihitung sebagai locator rapuh, dan proporsinya dilaporkan sebagai rasio locator rapuh.
+
+=== Role-Based Access Control (RBAC) <rbac-teori>
+
+RBAC menempatkan peran sebagai perantara antara pengguna dan hak akses (permission), sehingga pengelolaan hak tidak melekat langsung pada individu @ferraiolo1992rbac @sandhu1996rbac. Pada aplikasi web, RBAC tampak sebagai perbedaan menu, rute, dan aksi yang tersedia bagi tiap peran. Pengujian RBAC karenanya harus mengamati aplikasi dari beberapa peran dan membandingkan hasilnya: rute yang terlihat bagi admin tetapi tidak bagi user menjadi kandidat uji bahwa user memang tidak dapat mengaksesnya.
+
+Prinsip ini mendasari crawling per peran pada TathyaTest. Matriks akses diturunkan dari selisih hasil crawl antarperan, sehingga tester tidak perlu mendeklarasikan seluruh permission secara manual.
+
+=== Metrik Kualitas Test Suite <metrik-kualitas>
+
+Kualitas test suite dinilai melalui beberapa kelompok metrik. _Cakupan_ menunjukkan seberapa besar permukaan aplikasi yang dijangkau, baik terhadap model elemen maupun terhadap kode sumber. _Kemampuan deteksi cacat_ diukur melalui injeksi cacat terkendali, mengikuti gagasan mutation testing @jia2011mutation, yaitu menyuntikkan perubahan kecil dan memeriksa apakah test gagal. _Densitas asersi_ adalah rerata jumlah asersi per test case, sedangkan _rasio locator rapuh_ adalah proporsi locator yang bertumpu pada selector CSS cadangan. _Flake rate_ adalah proporsi test yang hasilnya berubah pada eksekusi ulang tanpa perubahan aplikasi.
+
+Kesepakatan hasil antarbrowser diukur dengan Fleiss' kappa (κ) @fleiss1971kappa, di mana κ = 1 berarti kesepakatan penuh. Perbedaan durasi eksekusi diuji dengan uji Mann-Whitney U @mann1947whitney, uji nonparametrik yang tidak mensyaratkan distribusi normal.
+
+=== Kerangka Konsep <kerangka-konsep>
+
+Kajian di atas dirangkum dalam kerangka konsep berikut. Crawling berbasis rendering browser menghasilkan model DOM per peran; model tersebut diturunkan menjadi test case bertingkat (positif, negatif, tepi) melalui teknik desain black-box; test dieksekusi pada tiga mesin browser dengan Playwright; dan kualitas hasilnya dinilai dengan metrik cakupan, deteksi cacat, kualitas intrinsik, keandalan, dan efisiensi. Setiap tahap kerangka ini memiliki padanan pada rancangan metode di BAB III dan pada hasil evaluasi di BAB IV.
 
 == Roadmap Penelitian <roadmap-penelitian>
 
