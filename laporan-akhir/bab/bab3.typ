@@ -1,6 +1,5 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import fletcher.shapes: diamond, pill
-#import "../template.typ": g
 
 = METODE PENELITIAN <bab-iii-metode-penelitian>
 
@@ -222,24 +221,3 @@ Kedua, validasi ahli (expert validation) dilakukan dengan meminta pakar di bidan
 Ketiga, pengujian cross-validation dilakukan dengan menguji TathyaTest pada berbagai jenis aplikasi web dengan kompleksitas yang berbeda. Aplikasi yang diuji mencakup aplikasi CRUD sederhana hingga aplikasi studi kasus yang lebih kompleks dengan RBAC (Laravel Blade, Laravel Inertia-React) serta satu aplikasi eksternal (SauceDemo) yang berbeda tumpukan teknologi untuk menguji generalisasi di luar aplikasi yang dikembangkan sendiri oleh tim peneliti. Pendekatan ini memastikan bahwa hasil penelitian dapat digeneralisasi dan TathyaTest dapat bekerja dengan baik pada berbagai konteks aplikasi.
 
 Keempat, triangulasi data dilakukan dengan menggunakan multiple data sources untuk memvalidasi temuan penelitian. Data dari pengujian pada berbagai aplikasi, dan hasil pengujian ulang dibandingkan dan dianalisis untuk memastikan validitas hasil penelitian. Dengan pendekatan multi-metode ini, penelitian menghasilkan kesimpulan yang lebih robust dan dapat dipercaya.
-
-== Jadwal Pelaksanaan <jadwal-pelaksanaan>
-
-Penelitian dilaksanakan selama delapan bulan, dari Maret hingga Oktober 2026. Tahapan kegiatan dan alokasi waktunya ditunjukkan pada @tab-jadwal.
-
-#figure(
-  table(
-    columns: (0.7cm, 1fr, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm, 0.8cm),
-    stroke: 0.5pt,
-    align: center + horizon,
-    table.header([*No*], [*Kegiatan*], [*Mar*], [*Apr*], [*Mei*], [*Jun*], [*Jul*], [*Agu*], [*Sep*], [*Okt*]),
-    [1], [Studi pustaka dan perancangan], g(), g(), [], [], [], [], [], [],
-    [2], [Pengembangan prototipe TathyaTest], [], g(), g(), g(), [], [], [], [],
-    [3], [Penyiapan subjek dan katalog cacat], [], [], [], g(), g(), [], [], [],
-    [4], [Eksekusi evaluasi], [], [], [], [], g(), g(), [], [],
-    [5], [Analisis data dan pembahasan], [], [], [], [], [], g(), g(), [],
-    [6], [Penulisan artikel dan pengajuan Hak Cipta], [], [], [], [], [], g(), g(), g(),
-    [7], [Penyusunan laporan akhir], [], [], [], [], [], [], g(), g(),
-  ),
-  caption: [Jadwal Pelaksanaan Penelitian Maret--Oktober 2026],
-) <tab-jadwal>

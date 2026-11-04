@@ -83,7 +83,7 @@ Laporan ini disusun dalam lima bab dengan sistematika sebagai berikut.
 
 *BAB II Tinjauan Pustaka* membahas penelitian terdahulu, kajian teori mengenai pengujian perangkat lunak, automation testing, crawling, ekstraksi elemen, Playwright, RBAC, strategi locator, dan metrik kualitas test suite, serta roadmap penelitian.
 
-*BAB III Metode Penelitian* menguraikan desain penelitian, pertanyaan dan subjek evaluasi, pengumpulan data, arsitektur dan alur kerja TathyaTest, teknik analisis data, validitas, dan jadwal pelaksanaan.
+*BAB III Metode Penelitian* menguraikan desain penelitian, pertanyaan dan subjek evaluasi, pengumpulan data, arsitektur dan alur kerja TathyaTest, teknik analisis data, serta validitas dan keandalan.
 
 *BAB IV Hasil dan Pembahasan* memaparkan implementasi sistem, antarmuka baris perintah, skenario dan hasil pengujian, pembahasan menurut pertanyaan evaluasi, ancaman terhadap validitas, dan capaian luaran.
 
